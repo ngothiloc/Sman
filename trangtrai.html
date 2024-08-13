@@ -469,17 +469,28 @@
                             </ul>
                             <div class="tab-content pt-2" id="myTabjustifiedContent">
                                 <div class="tab-pane fade show active" id="qlyao-justified" role="tabpanel" aria-labelledby="qlyao-tab">
+                                    <!-- botton -->
+                                    <div class="row align-items-center">
+                                        <div class="col">
+                                            <h5 class="card-title mb-0"></h5>
+                                        </div>
+                                        <div class="col-auto" style="padding: 0 23px 10px 0;">
+                                            <button id="add-row-btn" class="btn btn-success">Thêm Hàng Mới</button>
+                                        </div>
+                                    </div>
+                                    
                                     <!-- Table with stripped rows -->
                                     <table class="table datatable table-striped">
+                                    
                                         <thead>
+                                    
                                             <tr>
-                                                <th>
-                                                    <b>N</b>ame
-                                                </th>
-                                                <th>Ext.</th>
-                                                <th>City</th>
-                                                <th data-type="date" data-format="YYYY/DD/MM">Start Date</th>
-                                                <th>Completion</th>
+                                                <th>Tên</th>
+                                                <th>Số máy lẻ</th>
+                                                <th>Thành phố</th>
+                                                <th>Ngày bắt đầu</th>
+                                                <th>Hoàn thành</th>
+                                                <th>Trạng thái</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -489,6 +500,11 @@
                                                 <td>Curicó</td>
                                                 <td>2005/02/11</td>
                                                 <td>37%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Theodore Duran</td>
@@ -496,6 +512,11 @@
                                                 <td>Dhanbad</td>
                                                 <td>1999/04/07</td>
                                                 <td>97%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Kylie Bishop</td>
@@ -503,6 +524,11 @@
                                                 <td>Norman</td>
                                                 <td>2005/09/08</td>
                                                 <td>63%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Willow Gilliam</td>
@@ -510,6 +536,11 @@
                                                 <td>Amqui</td>
                                                 <td>2009/29/11</td>
                                                 <td>30%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Blossom Dickerson</td>
@@ -517,6 +548,11 @@
                                                 <td>Kempten</td>
                                                 <td>2006/11/09</td>
                                                 <td>17%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Elliott Snyder</td>
@@ -524,6 +560,11 @@
                                                 <td>Enines</td>
                                                 <td>2006/03/08</td>
                                                 <td>57%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Castor Pugh</td>
@@ -531,6 +572,11 @@
                                                 <td>Neath</td>
                                                 <td>2014/23/12</td>
                                                 <td>93%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Pearl Carlson</td>
@@ -538,6 +584,11 @@
                                                 <td>Cobourg</td>
                                                 <td>2014/31/08</td>
                                                 <td>100%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Deirdre Bridges</td>
@@ -545,6 +596,11 @@
                                                 <td>Eberswalde-Finow</td>
                                                 <td>2014/26/08</td>
                                                 <td>44%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Daniel Baldwin</td>
@@ -552,6 +608,11 @@
                                                 <td>Moircy</td>
                                                 <td>2000/11/01</td>
                                                 <td>33%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Phelan Kane</td>
@@ -559,6 +620,11 @@
                                                 <td>Germersheim</td>
                                                 <td>1999/16/04</td>
                                                 <td>77%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Quentin Salas</td>
@@ -566,6 +632,11 @@
                                                 <td>Los Andes</td>
                                                 <td>2011/26/01</td>
                                                 <td>49%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Armand Suarez</td>
@@ -573,6 +644,11 @@
                                                 <td>Funtua</td>
                                                 <td>1999/06/11</td>
                                                 <td>9%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Gretchen Rogers</td>
@@ -580,6 +656,11 @@
                                                 <td>Moxhe</td>
                                                 <td>1998/26/10</td>
                                                 <td>24%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Harding Thompson</td>
@@ -587,6 +668,11 @@
                                                 <td>Abeokuta</td>
                                                 <td>2008/06/08</td>
                                                 <td>10%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Mira Rocha</td>
@@ -594,6 +680,11 @@
                                                 <td>Port Harcourt</td>
                                                 <td>2002/04/10</td>
                                                 <td>14%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Drew Phillips</td>
@@ -601,6 +692,11 @@
                                                 <td>Goes</td>
                                                 <td>2011/18/10</td>
                                                 <td>58%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Emerald Warner</td>
@@ -608,6 +704,11 @@
                                                 <td>Chiavari</td>
                                                 <td>2002/08/04</td>
                                                 <td>58%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Colin Burch</td>
@@ -615,6 +716,11 @@
                                                 <td>Anamur</td>
                                                 <td>2004/02/01</td>
                                                 <td>34%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Russell Haynes</td>
@@ -622,6 +728,11 @@
                                                 <td>Frascati</td>
                                                 <td>2015/28/04</td>
                                                 <td>18%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Brennan Brooks</td>
@@ -629,6 +740,11 @@
                                                 <td>Olmué</td>
                                                 <td>2000/18/04</td>
                                                 <td>2%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Kane Anthony</td>
@@ -636,6 +752,11 @@
                                                 <td>LaSalle</td>
                                                 <td>2006/21/05</td>
                                                 <td>93%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Scarlett Hurst</td>
@@ -643,6 +764,11 @@
                                                 <td>Brampton</td>
                                                 <td>2015/07/01</td>
                                                 <td>94%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>James Scott</td>
@@ -650,6 +776,11 @@
                                                 <td>Meux</td>
                                                 <td>2007/30/05</td>
                                                 <td>55%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Desiree Ferguson</td>
@@ -657,6 +788,11 @@
                                                 <td>Gojra</td>
                                                 <td>2009/15/02</td>
                                                 <td>81%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Elaine Bishop</td>
@@ -664,6 +800,11 @@
                                                 <td>Petrópolis</td>
                                                 <td>2008/23/12</td>
                                                 <td>48%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Hilda Nelson</td>
@@ -671,6 +812,11 @@
                                                 <td>Posina</td>
                                                 <td>2004/23/05</td>
                                                 <td>76%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Evangeline Beasley</td>
@@ -678,6 +824,11 @@
                                                 <td>Caplan</td>
                                                 <td>2009/12/03</td>
                                                 <td>62%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Wyatt Riley</td>
@@ -685,6 +836,11 @@
                                                 <td>Cavaion Veronese</td>
                                                 <td>2012/19/02</td>
                                                 <td>67%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Wyatt Mccarthy</td>
@@ -692,6 +848,11 @@
                                                 <td>Patan</td>
                                                 <td>2014/23/06</td>
                                                 <td>9%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Cairo Rice</td>
@@ -699,6 +860,11 @@
                                                 <td>Ostra Vetere</td>
                                                 <td>2016/27/02</td>
                                                 <td>13%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Sylvia Peters</td>
@@ -706,6 +872,11 @@
                                                 <td>Arrah</td>
                                                 <td>2015/03/02</td>
                                                 <td>13%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Kasper Craig</td>
@@ -713,6 +884,11 @@
                                                 <td>Firenze</td>
                                                 <td>2015/26/04</td>
                                                 <td>56%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Leigh Ruiz</td>
@@ -720,6 +896,11 @@
                                                 <td>Lac Ste. Anne</td>
                                                 <td>2001/09/02</td>
                                                 <td>28%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Athena Aguirre</td>
@@ -727,6 +908,11 @@
                                                 <td>Romeral</td>
                                                 <td>2010/24/03</td>
                                                 <td>15%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Riley Nunez</td>
@@ -734,6 +920,11 @@
                                                 <td>Sart-Eustache</td>
                                                 <td>2003/26/02</td>
                                                 <td>30%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Lois Talley</td>
@@ -741,6 +932,11 @@
                                                 <td>Dorchester</td>
                                                 <td>2014/05/01</td>
                                                 <td>51%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Hop Bass</td>
@@ -748,6 +944,11 @@
                                                 <td>Westerlo</td>
                                                 <td>2012/25/09</td>
                                                 <td>85%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Kalia Diaz</td>
@@ -755,6 +956,11 @@
                                                 <td>Ichalkaranji</td>
                                                 <td>2013/26/06</td>
                                                 <td>92%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Maia Pate</td>
@@ -762,6 +968,11 @@
                                                 <td>Louvain-la-Neuve</td>
                                                 <td>2011/23/04</td>
                                                 <td>50%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Macaulay Pruitt</td>
@@ -769,6 +980,11 @@
                                                 <td>Fraser-Fort George</td>
                                                 <td>2015/03/08</td>
                                                 <td>92%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Danielle Oconnor</td>
@@ -776,6 +992,11 @@
                                                 <td>Neuwied</td>
                                                 <td>2001/05/10</td>
                                                 <td>17%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Kato Carr</td>
@@ -783,6 +1004,11 @@
                                                 <td>Faridabad</td>
                                                 <td>2012/11/05</td>
                                                 <td>96%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Malachi Mejia</td>
@@ -790,6 +1016,11 @@
                                                 <td>Vorst</td>
                                                 <td>2007/25/04</td>
                                                 <td>26%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Dominic Carver</td>
@@ -797,6 +1028,11 @@
                                                 <td>Pointe-aux-Trembles</td>
                                                 <td>2014/14/03</td>
                                                 <td>71%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Paki Santos</td>
@@ -804,6 +1040,11 @@
                                                 <td>Cache Creek</td>
                                                 <td>2001/18/11</td>
                                                 <td>82%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Ross Hodges</td>
@@ -811,6 +1052,11 @@
                                                 <td>Trazegnies</td>
                                                 <td>2010/19/09</td>
                                                 <td>87%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Hilda Whitley</td>
@@ -818,6 +1064,11 @@
                                                 <td>New Sarepta</td>
                                                 <td>2011/05/07</td>
                                                 <td>94%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Roth Cherry</td>
@@ -825,6 +1076,11 @@
                                                 <td>Flin Flon</td>
                                                 <td>2008/02/09</td>
                                                 <td>8%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Lareina Jones</td>
@@ -832,6 +1088,11 @@
                                                 <td>East Linton</td>
                                                 <td>2009/07/08</td>
                                                 <td>21%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Joshua Weiss</td>
@@ -839,6 +1100,11 @@
                                                 <td>Saint-Léonard</td>
                                                 <td>2010/15/01</td>
                                                 <td>52%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Kiona Lowery</td>
@@ -846,6 +1112,11 @@
                                                 <td>Inuvik</td>
                                                 <td>2002/17/12</td>
                                                 <td>72%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Nina Rush</td>
@@ -853,6 +1124,11 @@
                                                 <td>Bo‘lhe</td>
                                                 <td>2008/27/01</td>
                                                 <td>6%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Palmer Parker</td>
@@ -860,6 +1136,11 @@
                                                 <td>Stade</td>
                                                 <td>2012/24/07</td>
                                                 <td>58%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Vielka Olsen</td>
@@ -867,6 +1148,11 @@
                                                 <td>Vrasene</td>
                                                 <td>2016/08/01</td>
                                                 <td>70%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Meghan Cunningham</td>
@@ -874,6 +1160,11 @@
                                                 <td>Söke</td>
                                                 <td>2007/16/02</td>
                                                 <td>59%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Iola Shaw</td>
@@ -881,6 +1172,11 @@
                                                 <td>Albany</td>
                                                 <td>2014/05/03</td>
                                                 <td>88%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Imelda Cole</td>
@@ -888,6 +1184,11 @@
                                                 <td>Haasdonk</td>
                                                 <td>2007/16/11</td>
                                                 <td>79%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Jerry Beach</td>
@@ -895,6 +1196,11 @@
                                                 <td>Gattatico</td>
                                                 <td>1999/07/07</td>
                                                 <td>36%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Garrett Rocha</td>
@@ -902,6 +1208,11 @@
                                                 <td>Gavorrano</td>
                                                 <td>2000/06/08</td>
                                                 <td>71%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Derek Kerr</td>
@@ -909,6 +1220,11 @@
                                                 <td>Gualdo Cattaneo</td>
                                                 <td>2014/21/01</td>
                                                 <td>89%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Shad Hudson</td>
@@ -916,6 +1232,11 @@
                                                 <td>Salamanca</td>
                                                 <td>2014/10/12</td>
                                                 <td>98%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Daryl Ayers</td>
@@ -923,6 +1244,11 @@
                                                 <td>Barchi</td>
                                                 <td>2012/12/11</td>
                                                 <td>88%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Caleb Livingston</td>
@@ -930,6 +1256,11 @@
                                                 <td>Fatehpur</td>
                                                 <td>2014/13/02</td>
                                                 <td>8%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Sydney Meyer</td>
@@ -937,6 +1268,11 @@
                                                 <td>Neubrandenburg</td>
                                                 <td>2015/06/02</td>
                                                 <td>22%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Lani Lawrence</td>
@@ -944,6 +1280,11 @@
                                                 <td>Turnhout</td>
                                                 <td>2008/07/05</td>
                                                 <td>16%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Allegra Shepherd</td>
@@ -951,6 +1292,11 @@
                                                 <td>Meeuwen-Gruitrode</td>
                                                 <td>2004/19/04</td>
                                                 <td>41%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Fallon Reyes</td>
@@ -958,6 +1304,11 @@
                                                 <td>Monceau-sur-Sambre</td>
                                                 <td>2005/15/02</td>
                                                 <td>16%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Karen Whitley</td>
@@ -965,6 +1316,11 @@
                                                 <td>Sluis</td>
                                                 <td>2003/02/05</td>
                                                 <td>23%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Stewart Stephenson</td>
@@ -972,6 +1328,11 @@
                                                 <td>Villa Faraldi</td>
                                                 <td>2003/05/07</td>
                                                 <td>65%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Ursula Reynolds</td>
@@ -979,6 +1340,11 @@
                                                 <td>Southampton</td>
                                                 <td>1999/16/12</td>
                                                 <td>61%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Adrienne Winters</td>
@@ -986,6 +1352,11 @@
                                                 <td>Laguna Blanca</td>
                                                 <td>2014/15/09</td>
                                                 <td>24%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Francesca Brock</td>
@@ -993,6 +1364,11 @@
                                                 <td>Oban</td>
                                                 <td>2000/12/06</td>
                                                 <td>90%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Ursa Davenport</td>
@@ -1000,6 +1376,11 @@
                                                 <td>New Plymouth</td>
                                                 <td>2013/27/06</td>
                                                 <td>37%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Mark Brock</td>
@@ -1007,6 +1388,11 @@
                                                 <td>Veenendaal</td>
                                                 <td>2006/08/09</td>
                                                 <td>41%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Dale Rush</td>
@@ -1014,6 +1400,11 @@
                                                 <td>Chicoutimi</td>
                                                 <td>2000/27/03</td>
                                                 <td>2%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Shellie Murphy</td>
@@ -1021,6 +1412,11 @@
                                                 <td>Marlborough</td>
                                                 <td>2013/13/11</td>
                                                 <td>72%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Porter Nicholson</td>
@@ -1028,6 +1424,11 @@
                                                 <td>Bismil</td>
                                                 <td>2012/22/10</td>
                                                 <td>23%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Oliver Huber</td>
@@ -1035,6 +1436,11 @@
                                                 <td>Hannche</td>
                                                 <td>2002/11/01</td>
                                                 <td>94%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Calista Maynard</td>
@@ -1042,6 +1448,11 @@
                                                 <td>Pozzuolo del Friuli</td>
                                                 <td>2006/23/03</td>
                                                 <td>5%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Lois Vargas</td>
@@ -1049,6 +1460,11 @@
                                                 <td>Cumberland</td>
                                                 <td>1999/25/04</td>
                                                 <td>50%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Hermione Dickson</td>
@@ -1056,6 +1472,11 @@
                                                 <td>Woodstock</td>
                                                 <td>2001/22/03</td>
                                                 <td>2%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Dalton Jennings</td>
@@ -1063,6 +1484,11 @@
                                                 <td>Dudzele</td>
                                                 <td>2015/09/02</td>
                                                 <td>74%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Cathleen Kramer</td>
@@ -1070,6 +1496,11 @@
                                                 <td>Crowsnest Pass</td>
                                                 <td>2012/27/07</td>
                                                 <td>53%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Zachery Morgan</td>
@@ -1077,6 +1508,11 @@
                                                 <td>Collines-de-l'Outaouais</td>
                                                 <td>2006/04/09</td>
                                                 <td>51%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Yoko Freeman</td>
@@ -1084,6 +1520,11 @@
                                                 <td>Lidköping</td>
                                                 <td>2002/27/12</td>
                                                 <td>48%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Chaim Waller</td>
@@ -1091,6 +1532,11 @@
                                                 <td>North Shore</td>
                                                 <td>2010/25/07</td>
                                                 <td>25%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Berk Johnston</td>
@@ -1098,6 +1544,11 @@
                                                 <td>Vergnies</td>
                                                 <td>2016/23/02</td>
                                                 <td>93%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Tad Munoz</td>
@@ -1105,6 +1556,11 @@
                                                 <td>Saint-Nazaire</td>
                                                 <td>2010/09/05</td>
                                                 <td>65%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Vivien Dominguez</td>
@@ -1112,6 +1568,11 @@
                                                 <td>Bargagli</td>
                                                 <td>2001/09/01</td>
                                                 <td>86%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Carissa Lara</td>
@@ -1119,6 +1580,11 @@
                                                 <td>Sherborne</td>
                                                 <td>2015/07/12</td>
                                                 <td>72%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Hammett Gordon</td>
@@ -1126,6 +1592,11 @@
                                                 <td>Wah</td>
                                                 <td>1998/06/09</td>
                                                 <td>20%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Walker Nixon</td>
@@ -1133,6 +1604,11 @@
                                                 <td>Metz</td>
                                                 <td>2011/12/11</td>
                                                 <td>41%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Nathan Espinoza</td>
@@ -1140,6 +1616,11 @@
                                                 <td>Strathcona County</td>
                                                 <td>2002/25/01</td>
                                                 <td>47%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Kelly Cameron</td>
@@ -1147,6 +1628,11 @@
                                                 <td>Fontaine-Valmont</td>
                                                 <td>1999/02/07</td>
                                                 <td>24%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Kyra Moses</td>
@@ -1154,6 +1640,11 @@
                                                 <td>Quenast</td>
                                                 <td>1998/07/07</td>
                                                 <td>68%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Grace Bishop</td>
@@ -1161,6 +1652,11 @@
                                                 <td>Rodez</td>
                                                 <td>2012/02/10</td>
                                                 <td>4%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Haviva Hernandez</td>
@@ -1168,6 +1664,11 @@
                                                 <td>Suwałki</td>
                                                 <td>2000/30/01</td>
                                                 <td>16%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Alisa Horn</td>
@@ -1175,6 +1676,11 @@
                                                 <td>Ucluelet</td>
                                                 <td>2007/01/11</td>
                                                 <td>39%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Zelenia Roman</td>
@@ -1182,6 +1688,11 @@
                                                 <td>Redwater</td>
                                                 <td>2012/03/03</td>
                                                 <td>31%</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                    <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                    
+                                                </td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -1189,16 +1700,28 @@
                                 </div>
                                 <div class="tab-pane fade" id="qlytom-justified" role="tabpanel" aria-labelledby="qlytom-tab">
                                 <!-- Table with stripped rows -->
+                                <!-- botton -->
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <h5 class="card-title mb-0"></h5>
+                                    </div>
+                                    <div class="col-auto" style="padding: 0 23px 10px 0;">
+                                        <button id="add-row-btn" class="btn btn-success">Thêm Hàng Mới</button>
+                                    </div>
+                                </div>
+                                
+                                <!-- Table with stripped rows -->
                                 <table class="table datatable table-striped">
+                                
                                     <thead>
+                                
                                         <tr>
-                                            <th>
-                                                <b>N</b>ame
-                                            </th>
-                                            <th>Ext.</th>
-                                            <th>City</th>
-                                            <th data-type="date" data-format="YYYY/DD/MM">Start Date</th>
-                                            <th>Completion</th>
+                                            <th>Tên</th>
+                                            <th>Số máy lẻ</th>
+                                            <th>Thành phố</th>
+                                            <th>Ngày bắt đầu</th>
+                                            <th>Hoàn thành</th>
+                                            <th>Hành Động</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -1208,6 +1731,11 @@
                                             <td>Curicó</td>
                                             <td>2005/02/11</td>
                                             <td>37%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Theodore Duran</td>
@@ -1215,6 +1743,11 @@
                                             <td>Dhanbad</td>
                                             <td>1999/04/07</td>
                                             <td>97%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Kylie Bishop</td>
@@ -1222,6 +1755,11 @@
                                             <td>Norman</td>
                                             <td>2005/09/08</td>
                                             <td>63%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Willow Gilliam</td>
@@ -1229,6 +1767,11 @@
                                             <td>Amqui</td>
                                             <td>2009/29/11</td>
                                             <td>30%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Blossom Dickerson</td>
@@ -1236,6 +1779,11 @@
                                             <td>Kempten</td>
                                             <td>2006/11/09</td>
                                             <td>17%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Elliott Snyder</td>
@@ -1243,6 +1791,11 @@
                                             <td>Enines</td>
                                             <td>2006/03/08</td>
                                             <td>57%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Castor Pugh</td>
@@ -1250,6 +1803,11 @@
                                             <td>Neath</td>
                                             <td>2014/23/12</td>
                                             <td>93%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Pearl Carlson</td>
@@ -1257,6 +1815,11 @@
                                             <td>Cobourg</td>
                                             <td>2014/31/08</td>
                                             <td>100%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Deirdre Bridges</td>
@@ -1264,6 +1827,11 @@
                                             <td>Eberswalde-Finow</td>
                                             <td>2014/26/08</td>
                                             <td>44%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Daniel Baldwin</td>
@@ -1271,6 +1839,11 @@
                                             <td>Moircy</td>
                                             <td>2000/11/01</td>
                                             <td>33%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Phelan Kane</td>
@@ -1278,6 +1851,11 @@
                                             <td>Germersheim</td>
                                             <td>1999/16/04</td>
                                             <td>77%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Quentin Salas</td>
@@ -1285,6 +1863,11 @@
                                             <td>Los Andes</td>
                                             <td>2011/26/01</td>
                                             <td>49%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Armand Suarez</td>
@@ -1292,6 +1875,11 @@
                                             <td>Funtua</td>
                                             <td>1999/06/11</td>
                                             <td>9%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Gretchen Rogers</td>
@@ -1299,6 +1887,11 @@
                                             <td>Moxhe</td>
                                             <td>1998/26/10</td>
                                             <td>24%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Harding Thompson</td>
@@ -1306,6 +1899,11 @@
                                             <td>Abeokuta</td>
                                             <td>2008/06/08</td>
                                             <td>10%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Mira Rocha</td>
@@ -1313,6 +1911,11 @@
                                             <td>Port Harcourt</td>
                                             <td>2002/04/10</td>
                                             <td>14%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Drew Phillips</td>
@@ -1320,6 +1923,11 @@
                                             <td>Goes</td>
                                             <td>2011/18/10</td>
                                             <td>58%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Emerald Warner</td>
@@ -1327,6 +1935,11 @@
                                             <td>Chiavari</td>
                                             <td>2002/08/04</td>
                                             <td>58%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Colin Burch</td>
@@ -1334,6 +1947,11 @@
                                             <td>Anamur</td>
                                             <td>2004/02/01</td>
                                             <td>34%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Russell Haynes</td>
@@ -1341,6 +1959,11 @@
                                             <td>Frascati</td>
                                             <td>2015/28/04</td>
                                             <td>18%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Brennan Brooks</td>
@@ -1348,6 +1971,11 @@
                                             <td>Olmué</td>
                                             <td>2000/18/04</td>
                                             <td>2%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Kane Anthony</td>
@@ -1355,6 +1983,11 @@
                                             <td>LaSalle</td>
                                             <td>2006/21/05</td>
                                             <td>93%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Scarlett Hurst</td>
@@ -1362,6 +1995,11 @@
                                             <td>Brampton</td>
                                             <td>2015/07/01</td>
                                             <td>94%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>James Scott</td>
@@ -1369,6 +2007,11 @@
                                             <td>Meux</td>
                                             <td>2007/30/05</td>
                                             <td>55%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Desiree Ferguson</td>
@@ -1376,6 +2019,11 @@
                                             <td>Gojra</td>
                                             <td>2009/15/02</td>
                                             <td>81%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Elaine Bishop</td>
@@ -1383,6 +2031,11 @@
                                             <td>Petrópolis</td>
                                             <td>2008/23/12</td>
                                             <td>48%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Hilda Nelson</td>
@@ -1390,6 +2043,11 @@
                                             <td>Posina</td>
                                             <td>2004/23/05</td>
                                             <td>76%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Evangeline Beasley</td>
@@ -1397,6 +2055,11 @@
                                             <td>Caplan</td>
                                             <td>2009/12/03</td>
                                             <td>62%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Wyatt Riley</td>
@@ -1404,6 +2067,11 @@
                                             <td>Cavaion Veronese</td>
                                             <td>2012/19/02</td>
                                             <td>67%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Wyatt Mccarthy</td>
@@ -1411,6 +2079,11 @@
                                             <td>Patan</td>
                                             <td>2014/23/06</td>
                                             <td>9%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Cairo Rice</td>
@@ -1418,6 +2091,11 @@
                                             <td>Ostra Vetere</td>
                                             <td>2016/27/02</td>
                                             <td>13%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Sylvia Peters</td>
@@ -1425,6 +2103,11 @@
                                             <td>Arrah</td>
                                             <td>2015/03/02</td>
                                             <td>13%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Kasper Craig</td>
@@ -1432,6 +2115,11 @@
                                             <td>Firenze</td>
                                             <td>2015/26/04</td>
                                             <td>56%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Leigh Ruiz</td>
@@ -1439,6 +2127,11 @@
                                             <td>Lac Ste. Anne</td>
                                             <td>2001/09/02</td>
                                             <td>28%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Athena Aguirre</td>
@@ -1446,6 +2139,11 @@
                                             <td>Romeral</td>
                                             <td>2010/24/03</td>
                                             <td>15%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Riley Nunez</td>
@@ -1453,6 +2151,11 @@
                                             <td>Sart-Eustache</td>
                                             <td>2003/26/02</td>
                                             <td>30%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Lois Talley</td>
@@ -1460,6 +2163,11 @@
                                             <td>Dorchester</td>
                                             <td>2014/05/01</td>
                                             <td>51%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Hop Bass</td>
@@ -1467,6 +2175,11 @@
                                             <td>Westerlo</td>
                                             <td>2012/25/09</td>
                                             <td>85%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Kalia Diaz</td>
@@ -1474,6 +2187,11 @@
                                             <td>Ichalkaranji</td>
                                             <td>2013/26/06</td>
                                             <td>92%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Maia Pate</td>
@@ -1481,6 +2199,11 @@
                                             <td>Louvain-la-Neuve</td>
                                             <td>2011/23/04</td>
                                             <td>50%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Macaulay Pruitt</td>
@@ -1488,6 +2211,11 @@
                                             <td>Fraser-Fort George</td>
                                             <td>2015/03/08</td>
                                             <td>92%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Danielle Oconnor</td>
@@ -1495,6 +2223,11 @@
                                             <td>Neuwied</td>
                                             <td>2001/05/10</td>
                                             <td>17%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Kato Carr</td>
@@ -1502,6 +2235,11 @@
                                             <td>Faridabad</td>
                                             <td>2012/11/05</td>
                                             <td>96%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Malachi Mejia</td>
@@ -1509,6 +2247,11 @@
                                             <td>Vorst</td>
                                             <td>2007/25/04</td>
                                             <td>26%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Dominic Carver</td>
@@ -1516,6 +2259,11 @@
                                             <td>Pointe-aux-Trembles</td>
                                             <td>2014/14/03</td>
                                             <td>71%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Paki Santos</td>
@@ -1523,6 +2271,11 @@
                                             <td>Cache Creek</td>
                                             <td>2001/18/11</td>
                                             <td>82%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Ross Hodges</td>
@@ -1530,6 +2283,11 @@
                                             <td>Trazegnies</td>
                                             <td>2010/19/09</td>
                                             <td>87%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Hilda Whitley</td>
@@ -1537,6 +2295,11 @@
                                             <td>New Sarepta</td>
                                             <td>2011/05/07</td>
                                             <td>94%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Roth Cherry</td>
@@ -1544,6 +2307,11 @@
                                             <td>Flin Flon</td>
                                             <td>2008/02/09</td>
                                             <td>8%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Lareina Jones</td>
@@ -1551,6 +2319,11 @@
                                             <td>East Linton</td>
                                             <td>2009/07/08</td>
                                             <td>21%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Joshua Weiss</td>
@@ -1558,6 +2331,11 @@
                                             <td>Saint-Léonard</td>
                                             <td>2010/15/01</td>
                                             <td>52%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Kiona Lowery</td>
@@ -1565,6 +2343,11 @@
                                             <td>Inuvik</td>
                                             <td>2002/17/12</td>
                                             <td>72%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Nina Rush</td>
@@ -1572,6 +2355,11 @@
                                             <td>Bo‘lhe</td>
                                             <td>2008/27/01</td>
                                             <td>6%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Palmer Parker</td>
@@ -1579,6 +2367,11 @@
                                             <td>Stade</td>
                                             <td>2012/24/07</td>
                                             <td>58%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Vielka Olsen</td>
@@ -1586,6 +2379,11 @@
                                             <td>Vrasene</td>
                                             <td>2016/08/01</td>
                                             <td>70%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Meghan Cunningham</td>
@@ -1593,6 +2391,11 @@
                                             <td>Söke</td>
                                             <td>2007/16/02</td>
                                             <td>59%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Iola Shaw</td>
@@ -1600,6 +2403,11 @@
                                             <td>Albany</td>
                                             <td>2014/05/03</td>
                                             <td>88%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Imelda Cole</td>
@@ -1607,6 +2415,11 @@
                                             <td>Haasdonk</td>
                                             <td>2007/16/11</td>
                                             <td>79%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Jerry Beach</td>
@@ -1614,6 +2427,11 @@
                                             <td>Gattatico</td>
                                             <td>1999/07/07</td>
                                             <td>36%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Garrett Rocha</td>
@@ -1621,6 +2439,11 @@
                                             <td>Gavorrano</td>
                                             <td>2000/06/08</td>
                                             <td>71%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Derek Kerr</td>
@@ -1628,6 +2451,11 @@
                                             <td>Gualdo Cattaneo</td>
                                             <td>2014/21/01</td>
                                             <td>89%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Shad Hudson</td>
@@ -1635,6 +2463,11 @@
                                             <td>Salamanca</td>
                                             <td>2014/10/12</td>
                                             <td>98%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Daryl Ayers</td>
@@ -1642,6 +2475,11 @@
                                             <td>Barchi</td>
                                             <td>2012/12/11</td>
                                             <td>88%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Caleb Livingston</td>
@@ -1649,6 +2487,11 @@
                                             <td>Fatehpur</td>
                                             <td>2014/13/02</td>
                                             <td>8%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Sydney Meyer</td>
@@ -1656,6 +2499,11 @@
                                             <td>Neubrandenburg</td>
                                             <td>2015/06/02</td>
                                             <td>22%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Lani Lawrence</td>
@@ -1663,6 +2511,11 @@
                                             <td>Turnhout</td>
                                             <td>2008/07/05</td>
                                             <td>16%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Allegra Shepherd</td>
@@ -1670,6 +2523,11 @@
                                             <td>Meeuwen-Gruitrode</td>
                                             <td>2004/19/04</td>
                                             <td>41%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Fallon Reyes</td>
@@ -1677,6 +2535,11 @@
                                             <td>Monceau-sur-Sambre</td>
                                             <td>2005/15/02</td>
                                             <td>16%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Karen Whitley</td>
@@ -1684,6 +2547,11 @@
                                             <td>Sluis</td>
                                             <td>2003/02/05</td>
                                             <td>23%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Stewart Stephenson</td>
@@ -1691,6 +2559,11 @@
                                             <td>Villa Faraldi</td>
                                             <td>2003/05/07</td>
                                             <td>65%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Ursula Reynolds</td>
@@ -1698,6 +2571,11 @@
                                             <td>Southampton</td>
                                             <td>1999/16/12</td>
                                             <td>61%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Adrienne Winters</td>
@@ -1705,6 +2583,11 @@
                                             <td>Laguna Blanca</td>
                                             <td>2014/15/09</td>
                                             <td>24%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Francesca Brock</td>
@@ -1712,6 +2595,11 @@
                                             <td>Oban</td>
                                             <td>2000/12/06</td>
                                             <td>90%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Ursa Davenport</td>
@@ -1719,6 +2607,11 @@
                                             <td>New Plymouth</td>
                                             <td>2013/27/06</td>
                                             <td>37%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Mark Brock</td>
@@ -1726,6 +2619,11 @@
                                             <td>Veenendaal</td>
                                             <td>2006/08/09</td>
                                             <td>41%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Dale Rush</td>
@@ -1733,6 +2631,11 @@
                                             <td>Chicoutimi</td>
                                             <td>2000/27/03</td>
                                             <td>2%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Shellie Murphy</td>
@@ -1740,6 +2643,11 @@
                                             <td>Marlborough</td>
                                             <td>2013/13/11</td>
                                             <td>72%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Porter Nicholson</td>
@@ -1747,6 +2655,11 @@
                                             <td>Bismil</td>
                                             <td>2012/22/10</td>
                                             <td>23%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Oliver Huber</td>
@@ -1754,6 +2667,11 @@
                                             <td>Hannche</td>
                                             <td>2002/11/01</td>
                                             <td>94%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Calista Maynard</td>
@@ -1761,6 +2679,11 @@
                                             <td>Pozzuolo del Friuli</td>
                                             <td>2006/23/03</td>
                                             <td>5%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Lois Vargas</td>
@@ -1768,6 +2691,11 @@
                                             <td>Cumberland</td>
                                             <td>1999/25/04</td>
                                             <td>50%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Hermione Dickson</td>
@@ -1775,6 +2703,11 @@
                                             <td>Woodstock</td>
                                             <td>2001/22/03</td>
                                             <td>2%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Dalton Jennings</td>
@@ -1782,6 +2715,11 @@
                                             <td>Dudzele</td>
                                             <td>2015/09/02</td>
                                             <td>74%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Cathleen Kramer</td>
@@ -1789,6 +2727,11 @@
                                             <td>Crowsnest Pass</td>
                                             <td>2012/27/07</td>
                                             <td>53%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Zachery Morgan</td>
@@ -1796,6 +2739,11 @@
                                             <td>Collines-de-l'Outaouais</td>
                                             <td>2006/04/09</td>
                                             <td>51%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Yoko Freeman</td>
@@ -1803,6 +2751,11 @@
                                             <td>Lidköping</td>
                                             <td>2002/27/12</td>
                                             <td>48%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Chaim Waller</td>
@@ -1810,6 +2763,11 @@
                                             <td>North Shore</td>
                                             <td>2010/25/07</td>
                                             <td>25%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Berk Johnston</td>
@@ -1817,6 +2775,11 @@
                                             <td>Vergnies</td>
                                             <td>2016/23/02</td>
                                             <td>93%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Tad Munoz</td>
@@ -1824,6 +2787,11 @@
                                             <td>Saint-Nazaire</td>
                                             <td>2010/09/05</td>
                                             <td>65%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Vivien Dominguez</td>
@@ -1831,6 +2799,11 @@
                                             <td>Bargagli</td>
                                             <td>2001/09/01</td>
                                             <td>86%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Carissa Lara</td>
@@ -1838,6 +2811,11 @@
                                             <td>Sherborne</td>
                                             <td>2015/07/12</td>
                                             <td>72%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Hammett Gordon</td>
@@ -1845,6 +2823,11 @@
                                             <td>Wah</td>
                                             <td>1998/06/09</td>
                                             <td>20%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Walker Nixon</td>
@@ -1852,6 +2835,11 @@
                                             <td>Metz</td>
                                             <td>2011/12/11</td>
                                             <td>41%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Nathan Espinoza</td>
@@ -1859,6 +2847,11 @@
                                             <td>Strathcona County</td>
                                             <td>2002/25/01</td>
                                             <td>47%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Kelly Cameron</td>
@@ -1866,6 +2859,11 @@
                                             <td>Fontaine-Valmont</td>
                                             <td>1999/02/07</td>
                                             <td>24%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Kyra Moses</td>
@@ -1873,6 +2871,11 @@
                                             <td>Quenast</td>
                                             <td>1998/07/07</td>
                                             <td>68%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Grace Bishop</td>
@@ -1880,6 +2883,11 @@
                                             <td>Rodez</td>
                                             <td>2012/02/10</td>
                                             <td>4%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Haviva Hernandez</td>
@@ -1887,6 +2895,11 @@
                                             <td>Suwałki</td>
                                             <td>2000/30/01</td>
                                             <td>16%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Alisa Horn</td>
@@ -1894,6 +2907,11 @@
                                             <td>Ucluelet</td>
                                             <td>2007/01/11</td>
                                             <td>39%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Zelenia Roman</td>
@@ -1901,6 +2919,11 @@
                                             <td>Redwater</td>
                                             <td>2012/03/03</td>
                                             <td>31%</td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary edit-btn">Sửa</button>
+                                                <button class="btn btn-sm btn-danger delete-btn">Xóa</button>
+                                
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -2637,7 +3660,7 @@
                                                 <th>City</th>
                                                 <th>Completion</th>
                                                 <th data-type="date" data-format="YYYY/DD/MM">Start Date</th>
-                                                <th>Completion</th>
+
                                                 
                                             </tr>
                                         </thead>
