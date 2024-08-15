@@ -1,6 +1,4 @@
 $(document).ready(function() {
-    
-    // THanh thêm sửa xoá 
     // Thêm hàng mới
     $('#add-row-btn').click(function() {
         let newRow = `

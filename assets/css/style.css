@@ -1072,6 +1072,17 @@ h6 {
 #scrolling-container {
   white-space: nowrap;
 }
+
+.news-page {
+  display: none;
+  /* Ẩn tất cả các trang mặc định */
+}
+
+.news-page.active {
+  display: block;
+  /* Hiển thị trang hiện tại */
+}
+
 /*--------------------------------------------------------------
 # F.A.Q Page
 --------------------------------------------------------------*/
