@@ -1,4 +1,6 @@
 $(document).ready(function() {
+    
+    // THanh thêm sửa xoá 
     // Thêm hàng mới
     $('#add-row-btn').click(function() {
         let newRow = `
@@ -48,6 +50,8 @@ $(document).ready(function() {
     });
 });
 
+//Thanh hiện modal
+
 $(document).ready(function() {
     $('#detailsModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget); // Nút được nhấn
@@ -67,4 +71,119 @@ $(document).ready(function() {
         modal.find('#modal-wind-direction').text(windDirection);
         modal.find('#modal-solar-radiation').text(solarRadiation);
     });
+});
+
+
+//thanh chuyển nội dung
+document.getElementById('scroll-left').addEventListener('click', function() {
+    document.getElementById('scrolling-container').scrollBy({
+        left: -100,
+        behavior: 'smooth'
+    });
+});
+
+document.getElementById('scroll-right').addEventListener('click', function() {
+    document.getElementById('scrolling-container').scrollBy({
+        left: 100,
+        behavior: 'smooth'
+    });
+});
+
+
+//Thanh trượt
+document.addEventListener('DOMContentLoaded', function () {
+    let currentPage = 1;
+    const totalPages = document.querySelectorAll('.news-page').length; // Number of pages
+    const maxVisiblePages = 3; // Number of visible page buttons
+
+    // Function to update the pagination display
+    function updatePagination() {
+        // Hide all news pages
+        document.querySelectorAll('.news-page').forEach(page => {
+            page.style.display = 'none';
+        });
+
+        // Show the current news page
+        const newsPages = document.querySelectorAll('.news-page');
+        newsPages.forEach((page, index) => {
+            if (index === currentPage - 1) {
+                page.style.display = 'block';
+            }
+        });
+
+        // Update pagination buttons
+        const pageNumbers = document.querySelectorAll('.page-number');
+        pageNumbers.forEach(page => {
+            const pageNum = parseInt(page.getAttribute('data-page'));
+
+            // Calculate range of pages to display
+            let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+            let endPage = Math.min(totalPages, currentPage + Math.floor(maxVisiblePages / 2));
+
+            // Adjust start and end pages if the range is smaller than maxVisiblePages
+            if (endPage - startPage + 1 < maxVisiblePages) {
+                if (startPage === 1) {
+                    endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+                } else if (endPage === totalPages) {
+                    startPage = Math.max(1, endPage - maxVisiblePages + 1);
+                }
+            }
+
+            // Show pages around the current page
+            if (pageNum >= startPage && pageNum <= endPage) {
+                page.style.display = '';
+            } else {
+                page.style.display = 'none';
+            }
+        });
+
+        // Set active class on current page
+        pageNumbers.forEach(page => {
+            const pageNum = parseInt(page.getAttribute('data-page'));
+            if (pageNum === currentPage) {
+                page.classList.add('active');
+            } else {
+                page.classList.remove('active');
+            }
+        });
+
+        // Disable Previous button if on the first page
+        document.getElementById('prev-page').parentElement.classList.toggle('disabled', currentPage === 1);
+
+        // Disable Next button if on the last page
+        document.getElementById('next-page').parentElement.classList.toggle('disabled', currentPage === totalPages);
+    }
+
+    // Function to handle page changes
+    function handlePageChange(pageNumber) {
+        currentPage = pageNumber;
+        updatePagination();
+    }
+
+    // Event listener for Next button
+    document.getElementById('next-page').addEventListener('click', function(e) {
+        e.preventDefault();
+        if (currentPage < totalPages) {
+            handlePageChange(currentPage + 1);
+        }
+    });
+
+    // Event listener for Previous button
+    document.getElementById('prev-page').addEventListener('click', function(e) {
+        e.preventDefault();
+        if (currentPage > 1) {
+            handlePageChange(currentPage - 1);
+        }
+    });
+
+    // Event listeners for page number buttons
+    document.querySelectorAll('.page-number a').forEach(page => {
+        page.addEventListener('click', function(e) {
+            e.preventDefault();
+            handlePageChange(parseInt(this.parentElement.getAttribute('data-page')));
+        });
+    });
+
+    // Initialize pagination
+    updatePagination();
 });
