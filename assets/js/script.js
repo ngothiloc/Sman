@@ -186,3 +186,41 @@ document.addEventListener('DOMContentLoaded', function () {
     updatePagination();
 });
 
+//thêm bệnh tôm
+
+document.addEventListener('DOMContentLoaded', () => {
+    const addDiseaseModal = document.getElementById('addDiseaseModal');
+    const diseaseForm = document.getElementById('diseaseForm');
+
+    if (diseaseForm) {
+        diseaseForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const diseaseName = document.getElementById('diseaseName').value;
+            const symptoms = document.getElementById('symptoms').value;
+            const age = document.getElementById('age').value;
+            const temperature = document.getElementById('temperature').value;
+
+            const diseaseTable = document.querySelector('#diseaseTable');
+            const rowCount = diseaseTable.rows.length + 1;
+            const newRow = diseaseTable.insertRow();
+            newRow.innerHTML = `
+                <td>${rowCount}</td>
+                <td>${diseaseName}</td>
+                <td>${symptoms}</td>
+                <td>${age}</td>
+                <td>${temperature}</td>
+                <td>
+                    <button class="btn btn-warning btn-sm edit-btn">Sửa</button>
+                    <button class="btn btn-danger btn-sm delete-btn">Xóa</button>
+                </td>
+            `;
+
+            // Reset form
+            diseaseForm.reset();
+
+            // Hide the modal
+            $('#addDiseaseModal').modal('hide');
+        });
+    }
+});
