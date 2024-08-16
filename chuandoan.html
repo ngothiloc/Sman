@@ -7,8 +7,6 @@
     <title>Sman</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" rel="stylesheet">
-
 
     <!-- Favicons -->
     <link href="assets/img/favicon.png" rel="icon">
@@ -276,6 +274,7 @@
 
 
     </header><!-- End Header -->
+
     <!-- ======= Sidebar ======= -->
     <aside id="sidebar" class="sidebar">
 
@@ -288,10 +287,9 @@
                 </a>
             </li><!-- End Trang chủ Nav -->
 
-
             <li class="nav-item">
-                <a class="nav-link" href="gioithieu.html">
-                <i class="bi bi-person-lines-fill"></i>
+                <a class="nav-link collapsed" href="gioithieu.html">
+                    <i class="bi bi-person-lines-fill"></i>
                     <span>Giới thiệu</span>
                 </a>
             </li><!-- End Trang chủ Nav -->
@@ -325,18 +323,18 @@
             </li><!-- End Kết quả nghiên cứu Nav -->
 
             <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#benh-nav" data-bs-toggle="collapse" href="#">
+                <a class="nav-link " data-bs-target="#benh-nav" data-bs-toggle="collapse" href="#">
                     <i class="fa-solid fa-virus"></i></i><span>Bệnh thuỷ sản</span><i
                         class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="benh-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <ul id="benh-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
                     <li>
                         <a href="danhsach-benh.html">
                             <i class="bi bi-circle"></i><span>Danh sách bệnh</span>
                         </a>
                     </li>
                     <li>
-                        <a href="chuandoan.html">
+                        <a href="chuandoan.html" class="active">
                             <i class="bi bi-circle"></i><span>Chuẩn đoán bệnh</span>
                         </a>
                     </li>
@@ -348,7 +346,7 @@
                     <i class="fa-solid fa-database"></i><span>Cơ sở dữ liệu</span><i
                         class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="csdl-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <ul id="csdl-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
                     <li>
                         <a href="dulieu-nuoc.html">
                             <i class="bi bi-circle"></i><span>Dữ liệu chất lượng nước</span>
@@ -378,7 +376,6 @@
                     <span>Trang trại</span>
                 </a>
             </li><!-- End trang trại Nav -->
-
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#ungdung-nav" data-bs-toggle="collapse" href="#">
                     <i class="fa-solid fa-microchip"></i><span>Ứng dụng AI</span><i
@@ -433,222 +430,102 @@
 
     <!-- ======= Main ======= -->
 
-    <main id="main" class="main">
+<main id="main" class="main">
 
-        <div class="pagetitle">
-            <h1>Giới thiệu</h1>
-            <nav>
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item">Giới thiệu</li>
-                    <li class="breadcrumb-item"></li>
-                </ol>
-            </nav>
-        </div><!-- End Page Title -->
+    <div class="pagetitle">
+        <h1>Chuẩn đoán bệnh tôm</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">Bệnh thuỷ sản</li>
+                <li class="breadcrumb-item">Chuẩn đoán bệnh tôm</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
 
-        <!-- Main Image Section -->
-        <section class="container my-4">
-        <img src="assets/img/slide-1.jpg" alt="Shrimp" class="img-fluid"
-            style="display: block; margin-left: auto; margin-right: auto;">
-        </section>
-        
-        <!-- Company Info Section -->
-        <section class="container mb-5">
-            <div class="card p-5 border-0" style="gap:10px;">
-                <h2 class="text-uppercase fw-bold" style="text-align: center;">Sman - Công nghệ Ai trong phát hiện tôm bệnh</h2>
-                <p class="text-muted" style="line-height: 2;">
-                    Nghiên cứu phát triển mô hình trí tuệ nhân tạo (AI) nhằm phát hiện và cảnh báo sớm các bệnh nguy hiểm trong nuôi tôm thẻ
-                    chân trắng (TTCT) vùng Đồng bằng sông Cửu Long (ĐBSCL) là rất cần thiết do môi trường nuôi tôm tại ĐBSCL chịu ảnh hưởng
-                    lớn từ biến đổi khí hậu và ô nhiễm, làm tăng nguy cơ dịch bệnh, gây thiệt hại khoảng 1,5 tỷ USD hàng năm (FAO, 2022).
-                    Các biện pháp phòng chống hiện tại chủ yếu dựa trên phân tích bệnh học tại phòng thí nghiệm, đòi hỏi thời gian và chi
-                    phí cao. Việc phát triển mô hình AI giúp phát hiện và cảnh báo sớm các bệnh nguy hiểm, giảm thiểu rủi ro, nâng cao hiệu
-                    quả quản lý và phát triển bền vững ngành nuôi tôm (Browdy và c.s., 2001; FAO, 2022; Lightner, 2011).
-                </p>
-                <p class="text-muted">
-                    3 nhóm hoạt động trọng tâm của Tập đoàn bao gồm:
-                </p>
-                <ul class="text-muted" style="line-height: 2;">
-                    <li>Công nghệ - Công nghiệp</li>
-                    <li>Thương mại Dịch vụ</li>
-                    <li>Thiện nguyện Xã hội</li>
-                </ul>
-                <p class="text-muted" style="line-height: 2;">
-                    Với mong muốn đem đến cho thị trường những sản phẩm - dịch vụ theo tiêu chuẩn quốc tế và những trải nghiệm hoàn
-                    toàn mới về phong cách sống hiện đại, đẳng cấp, tất cả các lĩnh vực nào cũng chứng tỏ vai trò tiên
-                    phong, dẫn dắt sự thay đổi xu hướng tiêu dùng.
-                </p>
-            </div>
-        </section>
-        
-        <!-- Cards Section -->
-        <section class="container mb-5">
-            <div class="row">
-                <div class="col-md-4 gy-3">
-                    <div class="card custom-card p-3 border-0">
-                        <div class="card-body">
-                            <h5 class="card-title">Quản lý trang trại hiệu quả</h5>
-                            <p class="card-text" style="line-height: 2;">
-                                Sử dụng AI nhận diện, theo dõi, giám sát và lưu trữ hồ sơ toàn bộ thông tin về quy mô chuồng trại và diễn biến sức khỏe
-                                của từng cá thể lợn trong trang trại.
-                            </p>
-                            <a href="trangtrai.html" class="text-decoration-none">Xem chi tiết <span>&rarr;</span></a>
-                        </div>
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+
+                <!-- Bảng Hiển Thị Dữ Liệu -->
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title" style="display: flex; justify-content: space-between; align-items: center;">
+                            Bảng chuẩn đoán bệnh tôm
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addDiseaseModal">
+                               
+                                Thêm bệnh tôm
+                            </button>
+                        </h5>
+                        <table class="table datatable table-striped">
+                            <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Tên bệnh</th>
+                                    <th>Triệu trứng</th>
+                                    <th>Độ tuổi</th>
+                                    <th>Nhiệt độ</th>
+                                    <th>Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody id="diseaseTable">
+                                <!-- Table data will be added here -->
+
+                                <tr>
+                                    <td>16</td>
+                                    <td>2024-08-20 08:00</td>
+                                    <td>70%</td>
+                                    <td>27°C</td>
+                                    <td>5.3 m/s</td>
+                                    <td>Tây Bắc</td>
+                                    
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!-- End Table with stripped rows -->
                     </div>
                 </div>
-                <div class="col-md-4 gy-3">
-                    <div class="card custom-card p-3 border-0">
-                        <div class="card-body">
-                            <h5 class="card-title">Phòng ngữa dịch bệnh</h5>
-                            <p class="card-text" style="line-height: 2;">
-                                AI nhận diện, theo dõi, giám sát và cảnh báo các bất thường của từng cá thể nhằm phát hiện sớm các bất thường về sức
-                                khỏe hoặc các dịch bệnh có thể xảy ra, giảm nhẹ rủi ro về kinh tế cho người chăn nuôi.
-                            </p>
-                            <a href="danhsach-benh.html" class="text-decoration-none">Xem chi tiết <span>&rarr;</span></a>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal -->
+    <div class="modal fade" id="addDiseaseModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Thêm bệnh tôm</h5>
+                   
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="diseaseForm">
+                        <div class="form-group">
+                            <label for="diseaseName">Tên bệnh</label>
+                            <input type="text" class="form-control" id="diseaseName" required>
                         </div>
-                    </div>
-                </div>
-                <div class="col-md-4 gy-3">
-                    <div class="card custom-card p-3 border-0">
-                        <div class="card-body">
-                            <h5 class="card-title">Công cụ chuẩn đoán bệnh tôm</h5>
-                            <p class="card-text" style="line-height: 2;">
-                                Sman cung cấp sổ tay các bệnh thường gặp ở tôm thẻ và một công cụ chẩn đoán hữu ích đơn giản nhằm dự đoán bệnh tôm thẻ chính
-                                xác trong thời gian ngắn.
-                            </p>
-                            <a href="chuandoan.html" class="text-decoration-none">Xem chi tiết <span>&rarr;</span></a>
+                        <div class="form-group">
+                            <label for="symptoms">Triệu chứng</label>
+                            <input type="text" class="form-control" id="symptoms" required>
                         </div>
-                    </div>
+                        <div class="form-group">
+                            <label for="age">Độ tuổi</label>
+                            <input type="number" class="form-control" id="age" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="temperature">Nhiệt độ</label>
+                            <input type="number" class="form-control" id="temperature" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Lưu</button>
+                    </form>
                 </div>
             </div>
-        </section>
+        </div>
+    </div>
 
-        <!--our team-->
-        
-
-        <section class="container py-7">
-            <h2 class="text-uppercase text-letter-spacing-xs my-0 text-dark font-weight-bold">
-                Đội ngũ nghiên cứu <i class="ion-ios-body pl-1 text-primary op-8 z-index-1"></i>
-            </h2>
-            <hr class="hr-primary w-15 hr-xl ml-0 mb-5">
-            <div class="row mb-5">
-                <div class="col-md-6 order-md-2">
-                    <img src="assets/img/logo.png" alt="Personal Trainer 1"
-                        class="img-fluid border-white border-w-5 w-50 w-md-80 w-lg-60 rounded-circle">
-                </div>
-                <div class="col-md-6 flex-valign text-md-right">
-                    <h3 class="text-uppercase text-letter-spacing-xs mt-0 mb-1 text-dark font-weight-bold">
-                        Nguyễn Văn A
-                    </h3>
-                    <h5 class="my-0 font-weight-normal">
-                        <em>Nghiên cứu viên</em>
-                    </h5>
-                    <hr class="hr-primary w-70 ml-0 ml-md-auto mr-md-0 mb-3">
-                    <p>Aptent dolore enim facilisi humo magna melior nisl occuro. Ad os sed utinam. Accumsan autem brevitas esse
-                        exerci ludus ratis.</p>
-                    <p>Adipiscing nimis sed tego turpis. Abico genitus quadrum qui singularis te.</p>
-                    <a href="#join" data-toggle="scroll-link" class="text-sm font-weight-bold"><i
-                            class="fa fa-chevron-right text-xs text-pink"></i> Xem chi tiết</a>
-                </div>
-            </div>
-            <div class="row mb-5">
-                <div class="col-md-6 text-md-right">
-                    <img src="assets/img/logo.png" alt="Personal Trainer 2"
-                        class="img-fluid border-white border-w-5 w-50 w-md-80 w-lg-60 rounded-circle">
-                </div>
-                <div class="col-md-6 flex-valign">
-                    <h3 class="text-uppercase text-letter-spacing-xs mt-0 mb-1 text-dark font-weight-bold">
-                        Nguyễn Văn B
-                    </h3>
-                    <h5 class="my-0 font-weight-normal">
-                        <em>Nghiên cứu viên</em>
-                    </h5>
-                    <hr class="hr-primary w-70 ml-0 mb-3">
-                    <p>Commoveo gilvus iaceo nutus pagus tincidunt. Eligo nutus proprius saluto vulputate. Brevitas eligo et
-                        fere quadrum quae ratis.</p>
-                    <p>Eum pecus quis. Accumsan genitus humo inhibeo ut vel. Augue bene enim gemino ideo ille luptatum os veniam
-                        venio.</p>
-                    <a href="#join" data-toggle="scroll-link" class="text-sm font-weight-bold"><i
-                            class="fa fa-chevron-right text-xs text-pink"></i> Xem chi tiết</a>
-                </div>
-            </div>
-            <div class="row mb-5">
-                <div class="col-md-6 order-md-2">
-                    <img src="assets/img/logo.png" alt="Personal Trainer 3"
-                        class="img-fluid border-white border-w-5 w-50 w-md-80 w-lg-60 rounded-circle">
-                </div>
-                <div class="col-md-6 flex-valign text-md-right">
-                    <h3 class="text-uppercase text-letter-spacing-xs mt-0 mb-1 text-dark font-weight-bold">
-                        Nguyễn Văn C
-                    </h3>
-                    <h5 class="my-0 font-weight-normal">
-                        <em>Nghiên cứu viên</em>
-                    </h5>
-                    <hr class="hr-primary w-70 ml-0 ml-md-auto mr-md-0 mb-3">
-                    <p>Causa dolor et immitto typicus. Gilvus minim nunc pala suscipere tation usitas volutpat. Abbas abdo meus.
-                    </p>
-                    <p>Amet incassum mos quidem refoveo tation usitas vicis vulpes. Abigo accumsan acsi adipiscing esca
-                        hendrerit interdico occuro suscipere torqueo.</p>
-                    <a href="#join" data-toggle="scroll-link" class="text-sm font-weight-bold"><i
-                            class="fa fa-chevron-right text-xs text-pink"></i> Xem chi tiết</a>
-                </div>
-            </div>
-            <div class="row mb-5">
-                <div class="col-md-6 text-md-right">
-                    <img src="assets/img/logo.png" alt="Personal Trainer 4"
-                        class="img-fluid border-white border-w-5 w-50 w-md-80 w-lg-60 rounded-circle">
-                </div>
-                <div class="col-md-6 flex-valign">
-                    <h3 class="text-uppercase text-letter-spacing-xs mt-0 mb-1 text-dark font-weight-bold">
-                        Nguyễn Văn D
-                    </h3>
-                    <h5 class="my-0 font-weight-normal">
-                        <em>Nghiên cứu viên</em>
-                    </h5>
-                    <hr class="hr-primary w-70 ml-0 mb-3">
-                    <p>Abico diam scisco. Amet conventio ex ille iriure metuo olim probo. Conventio esca incassum metuo
-                        ulciscor.</p>
-                    <p>Abdo appellatio decet jus mauris neque plaga sino wisi ymo.</p>
-                    <a href="#join" data-toggle="scroll-link" class="text-sm font-weight-bold"><i
-                            class="fa fa-chevron-right text-xs text-pink"></i> Xem chi tiết</a>
-                </div>
-            </div>
-        </section>
-
-        
-        <!-- Brands Section -->
-        <section class="container text-center mb-5">
-        <h2 class="text-uppercase text-letter-spacing-xs my-0 text-dark font-weight-bold" style="text-align: left; padding-top: 70px;">
-            Đối tác tài trợ <i class="ion-ios-body pl-1 text-primary op-8 z-index-1"></i>
-        </h2>
-        <hr class="hr-primary w-15 hr-xl ml-0 mb-5">
-            <p class="text-muted">
-                Với mong muốn đem đến cho thị trường những sản phẩm - dịch vụ theo tiêu chuẩn quốc tế và những trải nghiệm hoàn
-                toàn mới về công nghệ.
-            </p>
-            <div class="row justify-content-center">
-                <div class="col-4 col-md-2">
-                    <img src="assets/img/logo.png" alt="Sman" class="img-fluid">
-                </div>
-                <div class="col-4 col-md-2">
-                    <img src="assets/img/logo.png" alt="Sman" class="img-fluid">
-                </div>
-                <div class="col-4 col-md-2">
-                    <img src="assets/img/logo.png" alt="Sman" class="img-fluid">
-                </div>
-                <div class="col-4 col-md-2">
-                    <img src="assets/img/logo.png" alt="Sman" class="img-fluid">
-                </div>
-                <div class="col-4 col-md-2">
-                    <img src="assets/img/logo.png" alt="Sman" class="img-fluid">
-                </div>
-                <div class="col-4 col-md-2">
-                    <img src="assets/img/logo.png" alt="Sman" class="img-fluid">
-                </div>
-            </div>
-        </section>
-
-
-
-    </main><!-- End #main -->
+</main><!-- End #main -->
 
     <!-- ======= Footer ======= -->
     <footer id="footer" class="footer">
@@ -695,8 +572,6 @@
     </footer>
     <!-- End Footer -->
 
-
-    <!-- ======= JS ======= -->
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
             class="bi bi-arrow-up-short"></i></a>
 
@@ -709,7 +584,6 @@
     <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
     <script src="assets/vendor/tinymce/tinymce.min.js"></script>
     <script src="assets/vendor/php-email-form/validate.js"></script>
-    
 
     <!-- Template Main JS File -->
     <script src="assets/js/main.js"></script>
@@ -718,6 +592,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="assets/js/script.js"></script>
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
 </body>
 
 </html>

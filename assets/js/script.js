@@ -185,3 +185,4 @@ document.addEventListener('DOMContentLoaded', function () {
     // Initialize pagination
     updatePagination();
 });
+
