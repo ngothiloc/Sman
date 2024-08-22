@@ -9,12 +9,19 @@
 </head>
 
 <body>
+    <a class="nav-link collapsed" href="tintuc.html">
+        <p style="text-align: center; font-size: large; padding: 30px;">Xem tin tức cập nhật</p>
+    </a>
     <div class="container mt-5">
         <h2>Đăng Tin Tức Mới</h2>
         <form id="newsForm">
             <div class="mb-3">
                 <label for="newsTitle" class="form-label">Tiêu đề tin tức</label>
                 <input type="text" class="form-control" id="newsTitle" required>
+            </div>
+            <div class="mb-3">
+                <label for="newsLink" class="form-label">Đường link</label>
+                <input type="url" class="form-control" id="newsLink" required>
             </div>
             <div class="mb-3">
                 <label for="newsImage" class="form-label">Tải ảnh từ máy tính</label>
@@ -24,6 +31,10 @@
             <div class="mb-3">
                 <label for="newsContent" class="form-label">Nội dung tóm gọn</label>
                 <textarea class="form-control" id="newsContent" rows="3" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="newsDate" class="form-label">Ngày đăng</label>
+                <input type="date" class="form-control" id="newsDate" required>
             </div>
             <button type="submit" class="btn btn-primary">Đăng Tin Tức</button>
         </form>
@@ -51,12 +62,21 @@
             event.preventDefault();
 
             let title = document.getElementById('newsTitle').value;
+            let link = document.getElementById('newsLink').value;
             let image = document.getElementById('imagePreview').src;
             let content = document.getElementById('newsContent').value;
+            let date = document.getElementById('newsDate').value;
 
-            let newsItem = { title, image, content };
+            let newsItem = { title, link, image, content, date };
             let newsList = JSON.parse(localStorage.getItem('newsList')) || [];
+
+            // Thêm tin tức mới vào danh sách
             newsList.push(newsItem);
+
+            // Nếu số lượng tin tức lớn hơn 6, xóa tin tức cũ nhất
+            if (newsList.length > 6) {
+                newsList.shift();
+            }
 
             localStorage.setItem('newsList', JSON.stringify(newsList));
 
@@ -82,8 +102,9 @@
                         </div>
                         <div class="col-md-8">
                             <div class="card-body">
-                                <h5 class="card-title">${newsItem.title}</h5>
+                                <h5 class="card-title"><a href="${newsItem.link}" target="_blank">${newsItem.title}</a></h5>
                                 <p class="card-text">${newsItem.content}</p>
+                                <p class="card-text"><small class="text-muted">Ngày đăng: ${new Date(newsItem.date).toLocaleDateString()}</small></p>
                                 <button class="btn btn-danger" onclick="deleteNews(${index})">Xóa</button>
                             </div>
                         </div>

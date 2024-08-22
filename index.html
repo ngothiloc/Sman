@@ -592,7 +592,7 @@
                         </div>
                     </div><!-- End Recent Activity -->
     
-    
+                    <!--News & Updates-->
                     <div class="card">
                         <div class="filter">
                             <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
@@ -600,51 +600,45 @@
                                 <li class="dropdown-header text-start">
                                     <h6>Bộ lọc</h6>
                                 </li>
-    
                                 <li><a class="dropdown-item" href="#">Hôm nay</a></li>
                                 <li><a class="dropdown-item" href="#">Tháng này</a></li>
                                 <li><a class="dropdown-item" href="#">Năm này</a></li>
                             </ul>
                         </div>
-    
+                    
                         <div class="card-body pb-0" style="margin: 10px 0 20px 0">
                             <h5 class="card-title">Tin tức &amp; Cập nhật <span>| Hôm nay</span></h5>
-    
-                            <div class="news">
-                                <div class="post-item clearfix">
-                                    <img src="assets/img/news-1.jpg" alt="">
-                                    <h4><a href="#">Công nghệ AI phát hiện bệnh tôm</a></h4>
-                                    <p>Thông tin tóm gọn về tin tức mới sẽ hiện ở đây...</p>
-                                </div>
-    
-                                <div class="post-item clearfix">
-                                    <img src="assets/img/news-2.jpg" alt="">
-                                    <h4><a href="#">Công nghệ AI phát hiện bệnh tôm</a></h4>
-                                    <p>Thông tin tóm gọn về tin tức mới sẽ hiện ở đây....</p>
-                                </div>
-    
-                                <div class="post-item clearfix">
-                                    <img src="assets/img/news-3.jpg" alt="">
-                                    <h4><a href="#">Công nghệ AI phát hiện bệnh tôm</a></h4>
-                                    <p>Thông tin tóm gọn về tin tức mới sẽ hiện ở đây...</p>
-                                </div>
-    
-                                <div class="post-item clearfix">
-                                    <img src="assets/img/news-4.jpg" alt="">
-                                    <h4><a href="#">Công nghệ AI phát hiện bệnh tôm</a></h4>
-                                    <p>Thông tin tóm gọn về tin tức mới sẽ hiện ở đây...</p>
-                                </div>
-    
-                                <div class="post-item clearfix">
-                                    <img src="assets/img/news-5.jpg" alt="">
-                                    <h4><a href="#">Công nghệ AI phát hiện bệnh tôm</a></h4>
-                                    <p>Thông tin tóm gọn về tin tức mới sẽ hiện ở đây...</p>
-                                </div>
-    
-                            </div><!-- End sidebar recent posts-->
-    
+                    
+                            <div id="newsContainer" class="news"></div>
+                    
                         </div>
-                    </div><!-- End News & Updates -->
+                    </div>
+                    
+                    <script>
+                        function loadNews() {
+                            let newsList = JSON.parse(localStorage.getItem('newsList')) || [];
+                            let newsContainer = document.getElementById('newsContainer');
+                            newsContainer.innerHTML = ''; // Xóa nội dung cũ trước khi thêm tin mới
+
+                            // Đảo ngược danh sách tin tức
+                            newsList.reverse().forEach(function (newsItem) {
+                                let postItem = document.createElement('div');
+                                postItem.className = 'post-item clearfix';
+
+                                postItem.innerHTML = `
+                                    <a href="${newsItem.link}" target="_blank" class="news-link">
+                                        <img src="${newsItem.image}" alt="">
+                                        <h4>${newsItem.title}</h4>
+                                        <p>${newsItem.content}</p>
+                                    </a>
+                                `;
+
+                                newsContainer.appendChild(postItem);
+                            });
+                        }
+
+                        document.addEventListener('DOMContentLoaded', loadNews);
+                    </script><!-- End News & Updates -->
     
     
                 </div>

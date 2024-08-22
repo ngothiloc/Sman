@@ -1,114 +1,474 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lọc Trang Trại</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Sman</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
+    <!-- Favicons -->
+    <link href="assets/img/favicon.png" rel="icon">
+    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
-        th,
-        td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link
+        href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+        rel="stylesheet">
 
-        th {
-            background-color: #f2f2f2;
-        }
+    <!-- Vendor CSS Files -->
+    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
+    <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+    <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+    <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
 
-        select {
-            padding: 5px;
-            margin-top: 10px;
-        }
-    </style>
+    <!-- Template Main CSS File -->
+    <link href="assets/css/style.css" rel="stylesheet">
+
+    <!-- =======================================================
+  * Template Name: NiceAdmin
+  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
+  * Updated: Apr 20 2024 with Bootstrap v5.3.3
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
 </head>
 
 <body>
+    <main id="main" class="main">
+    
+        <div class="pagetitle">
+            <h1>Tin tức</h1>
+            <nav>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">Tin tức</li>
+                    <li class="breadcrumb-item"></li>
+                </ol>
+            </nav>
+        </div><!-- End Page Title -->
+    
+        <section class="section dashboard">
+            <div class="row align-items-top">
+                <div class="col-lg-8">
+                    <!-- Card with an image on left -->
+                    <div class="card mb-3">
+                        <div class="card-header">Tin tức nổi bật</div>
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="assets/img/new 1.jpg" class="img-fluid rounded-start" alt="...">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">Công nghệ AI trong xử lý bệnh tôm</h5>
+                                    <p class="card-text">Thông chi tiết về tin tức trên sẽ hiển thị ở đoạn này. Thông chi
+                                        tiết
+                                        về tin tức trên sẽ hiển thị ở đoạn này.</p>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <i class="fa-solid fa-clock"></i> 10 - 8 - 2024
+                            </div>
+                        </div>
+                    </div><!-- End Card with an image on left -->
+    
+                    <!-- Default Card -->
+                    <div class="card">
+                        <div class="card-body" style="padding-bottom: 0;">
+                            <!-- Guide Section -->
+                            <div class="d-flex justify-content-between align-items-center mt-4">
+                                <h3>Tin tức</h3>
+                                <div>
+                                    <button class="btn btn-primary" id="scroll-left">‹</button>
+                                    <button class="btn btn-primary" id="scroll-right">›</button>
+                                </div>
+                            </div>
+    
+                            <div class="position-relative">
+                                <div id="scrolling-container" class="d-flex flex-nowrap overflow-hidden mb-3">
+                                    <a href="#" class="btn btn-outline-primary m-1 flex-shrink-0">Ngành nuôi tôm</a>
+                                    <a href="#" class="btn btn-outline-primary m-1 flex-shrink-0">Công nghệ trí tuệ nhân tạo
+                                        AI trong thuỷ sản</a>
+                                    <a href="#" class="btn btn-outline-primary m-1 flex-shrink-0">Giá tôm</a>
+                                    <a href="#" class="btn btn-outline-primary m-1 flex-shrink-0">Bệnh tôm</a>
+                                    <a href="#" class="btn btn-outline-primary m-1 flex-shrink-0">Cách phòng ngừa bệnh ở
+                                        tôm</a>
+                                </div>
+                            </div>
+    
+                            <!-- News Cards -->
+                            <div id="news-container">
+                                <!-- Page 1 -->
+                                <div class="news-page">
+                                    <div class="row" style="margin-bottom: 10px;">
+                                        <div class="col-md-4">
+                                            <img src="assets/img/card.jpg" class="img-fluid rounded-start" alt="...">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Card with an image on left</h5>
+                                                <p class="card-text">This is a wider card with supporting text below as a
+                                                    natural lead-in to additional content. This content is a little bit
+                                                    longer.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr> <!-- Dòng kẻ ngang -->
+    
+                                    <div class="row" style="margin-bottom: 10px;">
+                                        <div class="col-md-4">
+                                            <img src="assets/img/card.jpg" class="img-fluid rounded-start" alt="...">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Card with an image on left</h5>
+                                                <p class="card-text">This is a wider card with supporting text below as a
+                                                    natural lead-in to additional content. This content is a little bit
+                                                    longer.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr> <!-- Dòng kẻ ngang -->
+    
+                                    <div class="row" style="margin-bottom: 10px;">
+                                        <div class="col-md-4">
+                                            <img src="assets/img/card.jpg" class="img-fluid rounded-start" alt="...">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Card with an image on left</h5>
+                                                <p class="card-text">This is a wider card with supporting text below as a
+                                                    natural lead-in to additional content. This content is a little bit
+                                                    longer.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr> <!-- Dòng kẻ ngang -->
+    
+                                    <div class="row" style="margin-bottom: 10px;">
+                                        <div class="col-md-4">
+                                            <img src="assets/img/card.jpg" class="img-fluid rounded-start" alt="...">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Card with an image on left</h5>
+                                                <p class="card-text">Thông tin tin tức mới.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                    <!-- More cards for page 1 -->
+                                </div>
+    
+                                <!--page 2-->
+                                <div class="news-page">
+                                    <div class="row" style="margin-bottom: 10px;">
+                                        <div class="col-md-4">
+                                            <img src="assets/img/card.jpg" class="img-fluid rounded-start" alt="...">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Card with an image on left</h5>
+                                                <p class="card-text">This is a wider card with supporting text below as a
+                                                    natural lead-in to additional content. This content is a little bit
+                                                    longer.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr> <!-- Dòng kẻ ngang -->
+    
+                                    <div class="row" style="margin-bottom: 10px;">
+                                        <div class="col-md-4">
+                                            <img src="assets/img/card.jpg" class="img-fluid rounded-start" alt="...">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Card with an image on left</h5>
+                                                <p class="card-text">lala.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr> <!-- Dòng kẻ ngang -->
+    
+                                    <div class="row" style="margin-bottom: 10px;">
+                                        <div class="col-md-4">
+                                            <img src="assets/img/card.jpg" class="img-fluid rounded-start" alt="...">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Card with an image on left</h5>
+                                                <p class="card-text">lala.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr> <!-- Dòng kẻ ngang -->
+    
+                                    <div class="row" style="margin-bottom: 10px;">
+                                        <div class="col-md-4">
+                                            <img src="assets/img/card.jpg" class="img-fluid rounded-start" alt="...">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Card with an image on left</h5>
+                                                <p class="card-text">Thông tin tin tức mới.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- More cards for page 2 -->
+                                </div>
+    
+                                <!--page 3-->
+                                <div class="news-page">
+                                    <div class="row" style="margin-bottom: 10px;">
+                                        <div class="col-md-4">
+                                            <img src="assets/img/card.jpg" class="img-fluid rounded-start" alt="...">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Card with an image on left</h5>
+                                                <p class="card-text">This is a wider card with supporting text below as a
+                                                    natural lead-in to additional content. This content is a little bit
+                                                    longer.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr> <!-- Dòng kẻ ngang -->
+    
+                                    <div class="row" style="margin-bottom: 10px;">
+                                        <div class="col-md-4">
+                                            <img src="assets/img/card.jpg" class="img-fluid rounded-start" alt="...">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Card with an image on left</h5>
+                                                <p class="card-text">lala.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr> <!-- Dòng kẻ ngang -->
+    
+                                    <div class="row" style="margin-bottom: 10px;">
+                                        <div class="col-md-4">
+                                            <img src="assets/img/card.jpg" class="img-fluid rounded-start" alt="...">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Card with an image on left</h5>
+                                                <p class="card-text">Thông tin tin tức mới.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr> <!-- Dòng kẻ ngang -->
+    
+                                    <div class="row" style="margin-bottom: 10px;">
+                                        <div class="col-md-4">
+                                            <img src="assets/img/card.jpg" class="img-fluid rounded-start" alt="...">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Card with an image on left</h5>
+                                                <p class="card-text">Thông tin tin tức mới.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- More cards for page 3 -->
+                                </div>
+    
+                                <!-- Centered Pagination -->
+                                <nav aria-label="Page navigation example" style="margin-top: 50px;">
+                                    <ul class="pagination justify-content-center" id="pagination">
+                                        <li class="page-item">
+                                            <a class="page-link" href="#" id="prev-page" aria-disabled="true">Previous</a>
+                                        </li>
+                                        <li class="page-item page-number" data-page="1"><a class="page-link" href="#">1</a>
+                                        </li>
+                                        <li class="page-item page-number" data-page="2"><a class="page-link" href="#">2</a>
+                                        </li>
+                                        <li class="page-item page-number" data-page="3"><a class="page-link" href="#">3</a>
+                                        </li>
+                                        <li class="page-item page-number" data-page="4"><a class="page-link" href="#">4</a>
+                                        </li>
+                                        <li class="page-item page-number" data-page="5"><a class="page-link" href="#">5</a>
+                                        </li>
+                                        <li class="page-item page-number" data-page="6"><a class="page-link" href="#">6</a>
+                                        </li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#" id="next-page">Next</a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                                <!-- End Centered Pagination -->
+                            </div>
+                        </div><!-- End Default Card -->
+                    </div>
+                </div>
+    
+    
+                <div class="col-lg-4">
+                    <!-- Giá tôm -->
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Giá tôm <span>/Hôm nay</span></h5>
+    
+                            <!-- Line Chart -->
+                            <div id="reportsChart"></div>
+    
+                            <script>
+                                document.addEventListener("DOMContentLoaded", () => {
+                                    new ApexCharts(document.querySelector("#reportsChart"), {
+                                        series: [{
+                                            name: 'Tôm nhỏ',
+                                            data: [15, 11, 32, 18, 9, 24, 11]
+                                        }, {
+                                            name: 'Tôm nhỡ',
+                                            data: [11, 32, 45, 32, 34, 52, 41]
+                                        }, {
+                                            name: 'Tôm to',
+                                            data: [31, 40, 28, 51, 42, 82, 56]
 
-    <h1>Danh Sách Trang Trại</h1>
+                                        }],
+                                        chart: {
+                                            height: 350,
+                                            type: 'area',
+                                            toolbar: {
+                                                show: false
+                                            },
+                                        },
+                                        markers: {
+                                            size: 4
+                                        },
+                                        colors: ['#4154f1', '#2eca6a', '#ff771d'],
+                                        fill: {
+                                            type: "gradient",
+                                            gradient: {
+                                                shadeIntensity: 1,
+                                                opacityFrom: 0.3,
+                                                opacityTo: 0.4,
+                                                stops: [0, 90, 100]
+                                            }
+                                        },
+                                        dataLabels: {
+                                            enabled: false
+                                        },
+                                        stroke: {
+                                            curve: 'smooth',
+                                            width: 2
+                                        },
+                                        xaxis: {
+                                            type: 'datetime',
+                                            categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
+                                        },
+                                        tooltip: {
+                                            x: {
+                                                format: 'dd/MM/yy HH:mm'
+                                            },
+                                        }
+                                    }).render();
+                                });
+                            </script>
+                            <!-- End Line Chart -->
+                        </div>
+                    </div><!-- End Giá tôm -->
+    
+                    <!--thời tiết-->
+                    <div class="card" style="height: 300px;">
+                        <iframe width="100%" height="100%" src="https://thoitiet.app/widget/embed/" id="widgeturl"
+                            scrolling="no" frameborder="0" allowtransparency="true" style="border:none; overflow:hidden;">
+                        </iframe>
+                    </div>
+    
+                    <!-- News & Updates Traffic -->
+                    <div class="card">
+                        <div class="filter">
+                            <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                <li class="dropdown-header text-start">
+                                    <h6>Bộ lọc</h6>
+                                </li>
+    
+                                <li><a class="dropdown-item" href="#">Hôm nay</a></li>
+                                <li><a class="dropdown-item" href="#">Tháng này</a></li>
+                                <li><a class="dropdown-item" href="#">Năm này</a></li>
+                            </ul>
+                        </div>
+    
+                        <div class="card-body pb-0" style="margin: 10px 0 20px 0">
+                            <h5 class="card-title">Tin tức &amp; Cập nhật <span>| Hôm nay</span></h5>
+    
+                            <div class="news">
+                                <div class="post-item clearfix">
+                                    <img src="assets/img/news-1.jpg" alt="">
+                                    <h4><a href="#">Công nghệ AI phát hiện bệnh tôm</a></h4>
+                                    <p>Thông tin tóm gọn về tin tức mới sẽ hiện ở đây...</p>
+                                </div>
+    
+                                <div class="post-item clearfix">
+                                    <img src="assets/img/news-2.jpg" alt="">
+                                    <h4><a href="#">Công nghệ AI phát hiện bệnh tôm</a></h4>
+                                    <p>Thông tin tóm gọn về tin tức mới sẽ hiện ở đây....</p>
+                                </div>
+    
+                                <div class="post-item clearfix">
+                                    <img src="assets/img/news-3.jpg" alt="">
+                                    <h4><a href="#">Công nghệ AI phát hiện bệnh tôm</a></h4>
+                                    <p>Thông tin tóm gọn về tin tức mới sẽ hiện ở đây...</p>
+                                </div>
+    
+                                <div class="post-item clearfix">
+                                    <img src="assets/img/news-4.jpg" alt="">
+                                    <h4><a href="#">Công nghệ AI phát hiện bệnh tôm</a></h4>
+                                    <p>Thông tin tóm gọn về tin tức mới sẽ hiện ở đây...</p>
+                                </div>
+    
+                                <div class="post-item clearfix">
+                                    <img src="assets/img/news-5.jpg" alt="">
+                                    <h4><a href="#">Công nghệ AI phát hiện bệnh tôm</a></h4>
+                                    <p>Thông tin tóm gọn về tin tức mới sẽ hiện ở đây...</p>
+                                </div>
+    
+                            </div><!-- End sidebar recent posts-->
+    
+                        </div>
+                    </div><!-- End News & Updates -->
+    
+    
+                </div>
+    
+    
+    </main><!-- End #main -->
 
-    <label for="farm-select">Chọn Trang Trại:</label>
-    <select id="farm-select" onchange="filterData()">
-        <option value="">Tất cả</option>
-        <!-- Các tùy chọn sẽ được tạo tự động bằng JavaScript -->
-    </select>
-
-    <table>
-        <thead>
-            <tr>
-                <th>STT</th>
-                <th>Tên Trang Trại</th>
-                <th>Tên Chuồng</th>
-                <th>Thời Gian</th>
-            </tr>
-        </thead>
-        <tbody id="data-table-body">
-            <!-- Dữ liệu sẽ được điền bằng JavaScript -->
-        </tbody>
-    </table>
-
-    <script>
-        // Bước 2: Dữ liệu mô phỏng
-        const data = [
-            { id: 1, farm_name: 'Trang trại A', barn_name: 'Chuồng 1', timestamp: '2024-08-16 10:00:00' },
-            { id: 2, farm_name: 'Trang trại B', barn_name: 'Chuồng 2', timestamp: '2024-08-16 11:00:00' },
-            { id: 3, farm_name: 'Trang trại A', barn_name: 'Chuồng 3', timestamp: '2024-08-16 12:00:00' },
-            { id: 4, farm_name: 'Trang trại C', barn_name: 'Chuồng 1', timestamp: '2024-08-16 13:00:00' },
-            { id: 5, farm_name: 'Trang trại B', barn_name: 'Chuồng 2', timestamp: '2024-08-16 14:00:00' },
-        ];
-
-        // Bước 3: Tạo dropdown từ dữ liệu
-        function populateDropdown() {
-            const select = document.getElementById('farm-select');
-            const farmNames = [...new Set(data.map(item => item.farm_name))]; // Lấy danh sách các tên trang trại không trùng lặp
-            farmNames.forEach(name => {
-                const option = document.createElement('option');
-                option.value = name;
-                option.textContent = name;
-                select.appendChild(option);
-            });
-        }
-
-        // Bước 4: Hiển thị dữ liệu trong bảng
-        function populateTable(filteredData) {
-            const tbody = document.getElementById('data-table-body');
-            tbody.innerHTML = ''; // Xóa bảng trước khi thêm dữ liệu mới
-
-            filteredData.forEach((item, index) => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${index + 1}</td>
-                    <td>${item.farm_name}</td>
-                    <td>${item.barn_name}</td>
-                    <td>${item.timestamp}</td>
-                `;
-                tbody.appendChild(row);
-            });
-        }
-
-        // Bước 5: Lọc dữ liệu khi chọn trang trại
-        function filterData() {
-            const selectedFarm = document.getElementById('farm-select').value;
-            const filteredData = selectedFarm ? data.filter(item => item.farm_name === selectedFarm) : data;
-            populateTable(filteredData);
-        }
-
-        // Bước 6: Khởi tạo dropdown và bảng khi trang được tải
-        populateDropdown();
-        populateTable(data);
-    </script>
+    <!-- ======= JS ======= -->
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+            class="bi bi-arrow-up-short"></i></a>
+    
+    <!-- Vendor JS Files -->
+    <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/chart.js/chart.umd.js"></script>
+    <script src="assets/vendor/echarts/echarts.min.js"></script>
+    <script src="assets/vendor/quill/quill.js"></script>
+    <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+    <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+    <script src="assets/vendor/php-email-form/validate.js"></script>
+    
+    <!-- Template Main JS File -->
+    <script src="assets/js/main.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="assets/js/script.js"></script>
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    
 </body>
-
+    
 </html>

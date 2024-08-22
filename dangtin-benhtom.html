@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Tin Bệnh Tôm</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <a class="nav-link collapsed" href="danhsach-benh.html">   
+        <p style="text-align: center; font-size: large; padding: 30px;">Xem tin tức bệnh tôm</p>
+    </a>
+    <div class="container mt-5">
+        <h2>Đăng Tin Bệnh Tôm</h2>
+        <form id="diseaseNewsForm">
+            <div class="mb-3">
+                <label for="diseaseTitle" class="form-label">Tiêu đề tin tức</label>
+                <input type="text" class="form-control" id="diseaseTitle" required>
+            </div>
+            <div class="mb-3">
+                <label for="diseaseLink" class="form-label">Đường link</label>
+                <input type="url" class="form-control" id="diseaseLink" required>
+            </div>
+            <div class="mb-3">
+                <label for="diseaseImage" class="form-label">Tải ảnh từ máy tính</label>
+                <input type="file" class="form-control" id="diseaseImage" accept="image/*" required>
+                <img id="diseaseImagePreview" style="max-width: 100%; margin-top: 10px; display: none;" />
+            </div>
+            <div class="mb-3">
+                <label for="diseaseContent" class="form-label">Nội dung tóm gọn</label>
+                <textarea class="form-control" id="diseaseContent" rows="3" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="diseaseDate" class="form-label">Ngày đăng</label>
+                <input type="date" class="form-control" id="diseaseDate" required>
+            </div>
+            <div class="mb-3">
+                <label for="diseaseType" class="form-label">Loại bệnh</label>
+                <select class="form-select" id="diseaseType" required>
+                    <option value="" disabled selected>Chọn loại bệnh</option>
+                    <option value="white-spot-disease">Bệnh đốm trắng (White Spot Disease)</option>
+                    <option value="liver-necrosis">Bệnh hoại tử gan tụy cấp (AHPND)</option>
+                    <option value="yellow-spot-disease">Bệnh đầu vàng (Yellow Head Disease)</option>
+                    <option value="ihnv">Bệnh hoại tử cơ quan tạo máu và cơ quan biểu mô (IHHNV)</option>
+                    <option value="bacterial">Bệnh do vi khuẩn (Bacterial Diseases)</option>
+                    <option value="parasitic">Bệnh do ký sinh trùng (Parasitic Diseases)</option>
+                    <option value="fungal">Bệnh do nấm (Fungal Diseases)</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Đăng Tin Tức</button>
+        </form>
+
+        <h2 class="mt-5">Danh sách tin tức đã đăng</h2>
+        <div class="mb-3">
+            <label for="filterDiseaseType" class="form-label">Lọc theo loại bệnh</label>
+            <select class="form-select" id="filterDiseaseType">
+                <option value="">Tất cả</option>
+                <option value="white-spot-disease">Bệnh đốm trắng (White Spot Disease)</option>
+                <option value="liver-necrosis">Bệnh hoại tử gan tụy cấp (AHPND)</option>
+                <option value="yellow-spot-disease">Bệnh đầu vàng (Yellow Head Disease)</option>
+                <option value="ihnv">Bệnh hoại tử cơ quan tạo máu và cơ quan biểu mô (IHHNV)</option>
+                <option value="bacterial">Bệnh do vi khuẩn (Bacterial Diseases)</option>
+                <option value="parasitic">Bệnh do ký sinh trùng (Parasitic Diseases)</option>
+                <option value="fungal">Bệnh do nấm (Fungal Diseases)</option>
+            </select>
+        </div>
+        
+        <div id="newsTableContainer">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Tiêu đề</th>
+                        <th>Link</th>
+                        <th>Ảnh</th>
+                        <th>Nội dung</th>
+                        <th>Ngày đăng</th>
+                        <th>Loại bệnh</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody id="newsTableBody">
+                    <!-- Nội dung bảng sẽ được tạo động ở đây -->
+                </tbody>
+            </table>
+        </div>
+        
+        <nav aria-label="Page navigation example" style="margin-top: 50px;">
+            <ul class="pagination justify-content-center" id="pagination">
+                <li class="page-item">
+                    <a class="page-link" href="#" id="prev-page" aria-disabled="true">Previous</a>
+                </li>
+                <!-- Pagination buttons will be inserted here by JavaScript -->
+                <li class="page-item">
+                    <a class="page-link" href="#" id="next-page">Next</a>
+                </li>
+            </ul>
+        </nav>
+        </nav>
+        </div>
+        
+        <script>
+            const newsPerPage = 15;
+            let currentPage = 1;
+
+            document.getElementById('diseaseNewsForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                // Lấy thông tin từ form
+                const title = document.getElementById('diseaseTitle').value;
+                const link = document.getElementById('diseaseLink').value;
+                const imageInput = document.getElementById('diseaseImage');
+                const content = document.getElementById('diseaseContent').value;
+                const date = document.getElementById('diseaseDate').value;
+                const type = document.getElementById('diseaseType').value;
+
+                // Đọc tệp ảnh và chuyển thành URL base64
+                const reader = new FileReader();
+                reader.onload = function () {
+                    const imageUrl = reader.result;
+
+                    // Lưu thông tin tin tức vào localStorage
+                    let newsList = JSON.parse(localStorage.getItem('diseaseNewsList')) || [];
+                    newsList.push({ title, link, image: imageUrl, content, date, type });
+                    localStorage.setItem('diseaseNewsList', JSON.stringify(newsList));
+
+                    // Cập nhật lại bảng tin tức
+                    updateNewsTable();
+
+                    // Xóa nội dung form
+                    document.getElementById('diseaseNewsForm').reset();
+                    document.getElementById('diseaseImagePreview').style.display = 'none';
+                };
+                reader.readAsDataURL(imageInput.files[0]);
+            });
+
+            // Hiển thị ảnh xem trước khi người dùng chọn tệp
+            document.getElementById('diseaseImage').addEventListener('change', function () {
+                const file = this.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        document.getElementById('diseaseImagePreview').src = e.target.result;
+                        document.getElementById('diseaseImagePreview').style.display = 'block';
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            function updateNewsTable() {
+                let newsList = JSON.parse(localStorage.getItem('diseaseNewsList')) || [];
+                let filterType = document.getElementById('filterDiseaseType').value;
+                let tableBody = document.getElementById('newsTableBody');
+                let pagination = document.getElementById('pagination');
+
+                tableBody.innerHTML = '';
+                pagination.innerHTML = '';
+
+                // Lọc tin tức dựa trên loại bệnh được chọn
+                let filteredNews = newsList.filter(item => filterType === '' || item.type === filterType);
+
+                // Cấu hình phân trang
+                const totalPages = Math.ceil(filteredNews.length / newsPerPage);
+
+                // Hiển thị tin tức cho trang hiện tại
+                const start = (currentPage - 1) * newsPerPage;
+                const end = start + newsPerPage;
+                filteredNews.slice(start, end).forEach((item, index) => {
+                    let row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${item.title}</td>
+                        <td><a href="${item.link}" target="_blank">Xem</a></td>
+                        <td><img src="${item.image}" style="max-width: 100px;"></td>
+                        <td>${item.content}</td>
+                        <td>${item.date}</td>
+                        <td>${item.type}</td>
+                        <td><button class="btn btn-danger btn-sm" onclick="deleteNews(${index + start})">Xoá</button></td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+
+                // Tạo nút phân trang
+                const createPaginationButton = (page, text, isDisabled) => {
+                    let li = document.createElement('li');
+                    li.className = `page-item ${isDisabled ? 'disabled' : ''}`;
+                    li.innerHTML = `<a class="page-link" href="#" data-page="${page}">${text}</a>`;
+                    return li;
+                };
+
+                // Thêm nút Previous
+                pagination.appendChild(createPaginationButton(currentPage - 1, 'Previous', currentPage === 1));
+
+                // Thêm các nút số trang
+                for (let i = 1; i <= totalPages; i++) {
+                    pagination.appendChild(createPaginationButton(i, i, false));
+                }
+
+                // Thêm nút Next
+                pagination.appendChild(createPaginationButton(currentPage + 1, 'Next', currentPage === totalPages));
+
+                // Thêm sự kiện cho các nút phân trang
+                pagination.querySelectorAll('.page-link').forEach(button => {
+                    button.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        if (this.dataset.page) {
+                            currentPage = parseInt(this.dataset.page);
+                            updateNewsTable();
+                        }
+                    });
+                });
+            }
+
+            function deleteNews(index) {
+                let newsList = JSON.parse(localStorage.getItem('diseaseNewsList')) || [];
+                newsList.splice(index, 1);
+                localStorage.setItem('diseaseNewsList', JSON.stringify(newsList));
+                updateNewsTable();
+            }
+
+            document.getElementById('filterDiseaseType').addEventListener('change', updateNewsTable);
+
+            // Cập nhật bảng tin tức ban đầu
+            updateNewsTable();
+        </script>
+        </body>
+        
+        </html>

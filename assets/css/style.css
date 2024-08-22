@@ -1083,6 +1083,14 @@ h6 {
   /* Hiển thị trang hiện tại */
 }
 
+/* CSS cho nút phân loại khi được chọn */
+.btn.selected {
+  background-color: #007bff;
+  /* Màu nền cho nút được chọn */
+  color: white;
+  /* Màu chữ cho nút được chọn */
+}
+
 /*--------------------------------------------------------------
 # F.A.Q Page
 --------------------------------------------------------------*/
