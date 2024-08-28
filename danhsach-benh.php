@@ -1,3 +1,49 @@
+<?php
+// Kết nối cơ sở dữ liệu
+$servername = "localhost";
+$username = "root"; // Thay bằng tên người dùng cơ sở dữ liệu của bạn
+$password = ""; // Thay bằng mật khẩu cơ sở dữ liệu của bạn
+$dbname = "sdb"; // Thay bằng tên cơ sở dữ liệu của bạn
+
+// Tạo kết nối
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Kiểm tra kết nối
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Xác định số lượng kết quả mỗi trang
+$results_per_page = 4; 
+
+// Lấy tổng số kết quả trong cơ sở dữ liệu
+$sql = "SELECT * FROM news";
+$result = $conn->query($sql);
+$number_of_results = $result->num_rows;
+
+// Tính tổng số trang có sẵn
+$number_of_pages = ceil($number_of_results / $results_per_page);
+
+// Xác định số trang hiện tại mà người dùng đang truy cập
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+if ($page < 1) $page = 1; // Đảm bảo trang không nhỏ hơn 1
+if ($page > $number_of_pages) $page = $number_of_pages; // Đảm bảo trang không lớn hơn tổng số trang
+
+// Xác định số bắt đầu cho truy vấn LIMIT để hiển thị kết quả trên trang hiện tại
+$start_limit = ($page - 1) * $results_per_page;
+
+// Lấy kết quả được sắp xếp theo ID từ lớn nhất đến nhỏ nhất
+$sql = "SELECT * FROM news ORDER BY id DESC LIMIT $start_limit, $results_per_page";
+$result = $conn->query($sql);
+// Lấy tin tức có ID lớn nhất
+$sql_featured = "SELECT * FROM news ORDER BY id DESC LIMIT 1";
+$result_featured = $conn->query($sql_featured);
+$featured_news = $result_featured->fetch_assoc();
+
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -41,10 +87,9 @@
 </head>
 
 <body>
-
     <!-- ======= Header ======= -->
     <header id="header" class="header fixed-top d-flex align-items-center">
-
+    
         <div class="d-flex align-items-center justify-content-between">
             <a href="trangchu.html" class="logo d-flex align-items-center">
                 <img src="assets/img/logo.png" alt="">
@@ -52,30 +97,30 @@
             </a>
             <i class="bi bi-list toggle-sidebar-btn"></i>
         </div><!-- End Logo -->
-
+    
         <div class="search-bar">
             <form class="search-form d-flex align-items-center" method="POST" action="#">
                 <input type="text" name="query" placeholder="Tìm kiếm" title="Enter search keyword">
                 <button type="submit" title="Search"><i class="bi bi-search"></i></button>
             </form>
         </div><!-- End Search Bar -->
-
+    
         <nav class="header-nav ms-auto">
             <ul class="d-flex align-items-center">
-
+    
                 <li class="nav-item d-block d-lg-none">
                     <a class="nav-link nav-icon search-bar-toggle " href="#">
                         <i class="bi bi-search"></i>
                     </a>
                 </li><!-- End Search Icon-->
-
+    
                 <li class="nav-item dropdown">
-
+    
                     <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
                         <i class="bi bi-bell"></i>
                         <span class="badge bg-primary badge-number">4</span>
                     </a><!-- End Notification Icon -->
-
+    
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
                         <li class="dropdown-header">
                             Bạn có 4 thông báo
@@ -84,7 +129,7 @@
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-
+    
                         <li class="notification-item">
                             <i class="bi bi-exclamation-circle text-warning"></i>
                             <div>
@@ -93,11 +138,11 @@
                                 <p>30 phút trước</p>
                             </div>
                         </li>
-
+    
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-
+    
                         <li class="notification-item">
                             <i class="bi bi-x-circle text-danger"></i>
                             <div>
@@ -106,11 +151,11 @@
                                 <p>1 giờ trước</p>
                             </div>
                         </li>
-
+    
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-
+    
                         <li class="notification-item">
                             <i class="bi bi-check-circle text-success"></i>
                             <div>
@@ -119,11 +164,11 @@
                                 <p>2 giờ trước</p>
                             </div>
                         </li>
-
+    
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-
+    
                         <li class="notification-item">
                             <i class="bi bi-info-circle text-primary"></i>
                             <div>
@@ -132,25 +177,25 @@
                                 <p>4 giờ trước</p>
                             </div>
                         </li>
-
+    
                         <li>
                             <hr class="dropdown-divider">
                         </li>
                         <li class="dropdown-footer">
                             <a href="#">Hiển thị tất cả tin nhắn</a>
                         </li>
-
+    
                     </ul><!-- End Notification Dropdown Items -->
-
+    
                 </li><!-- End Notification Nav -->
-
+    
                 <li class="nav-item dropdown">
-
+    
                     <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
                         <i class="bi bi-chat-left-text"></i>
                         <span class="badge bg-success badge-number">3</span>
                     </a><!-- End Messages Icon -->
-
+    
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
                         <li class="dropdown-header">
                             Bạn có 3 tin nhắn chưa đọc
@@ -159,7 +204,7 @@
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-
+    
                         <li class="message-item">
                             <a href="#">
                                 <img src="assets/img/logo.png" alt="" class="rounded-circle">
@@ -173,7 +218,7 @@
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-
+    
                         <li class="message-item">
                             <a href="#">
                                 <img src="assets/img/logo.png" alt="" class="rounded-circle">
@@ -187,7 +232,7 @@
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-
+    
                         <li class="message-item">
                             <a href="#">
                                 <img src="assets/img/logo.png" alt="" class="rounded-circle">
@@ -201,22 +246,22 @@
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-
+    
                         <li class="dropdown-footer">
                             <a href="#">Hiển thị tất cả tin nhắn</a>
                         </li>
-
+    
                     </ul><!-- End Messages Dropdown Items -->
-
+    
                 </li><!-- End Messages Nav -->
-
+    
                 <li class="nav-item dropdown pe-3">
-
+    
                     <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
                         <img src="assets/img/logo.png" alt="Profile" class="rounded-circle">
                         <span class="d-none d-md-block dropdown-toggle ps-2">Ngô Tiến Lộc</span>
                     </a><!-- End Profile Iamge Icon -->
-
+    
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                         <li class="dropdown-header">
                             <h6>Ngô Tiến Lộc</h6>
@@ -225,7 +270,7 @@
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-
+    
                         <li>
                             <a class="dropdown-item d-flex align-items-center" href="profile.html">
                                 <i class="bi bi-person"></i>
@@ -235,7 +280,7 @@
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-
+    
                         <li>
                             <a class="dropdown-item d-flex align-items-center" href="profile.html">
                                 <i class="bi bi-gear"></i>
@@ -245,7 +290,7 @@
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-
+    
                         <li>
                             <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
                                 <i class="bi bi-question-circle"></i>
@@ -255,44 +300,45 @@
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-
+    
                         <li>
                             <a class="dropdown-item d-flex align-items-center" href="index.html">
                                 <i class="bi bi-box-arrow-right"></i>
                                 <span>Đăng xuất</span>
                             </a>
                         </li>
-
+    
                     </ul><!-- End Profile Dropdown Items -->
                 </li><!-- End Profile Nav -->
-
+    
             </ul>
-
+    
             </ul>
         </nav><!-- End Icons Navigation -->
-
-
-
+    
+    
+    
     </header><!-- End Header -->
+
     <!-- ======= Sidebar ======= -->
     <aside id="sidebar" class="sidebar">
-
+    
         <ul class="sidebar-nav" id="sidebar-nav">
-
+    
             <li class="nav-item">
                 <a class="nav-link collapsed" href="trangchu.html">
                     <i class="fa-solid fa-house"></i>
                     <span>Trang chủ</span>
                 </a>
             </li><!-- End Trang chủ Nav -->
-
+    
             <li class="nav-item">
                 <a class="nav-link collapsed" href="gioithieu.html">
                     <i class="bi bi-person-lines-fill"></i>
                     <span>Giới thiệu</span>
                 </a>
             </li><!-- End Trang chủ Nav -->
-
+    
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#ketqua-nav" data-bs-toggle="collapse" href="#">
                     <i class="fas fa-vial"></i><span>Kết quả nghiên cứu</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -320,7 +366,7 @@
                     </li>
                 </ul>
             </li><!-- End Kết quả nghiên cứu Nav -->
-
+    
             <li class="nav-item">
                 <a class="nav-link " data-bs-target="#benh-nav" data-bs-toggle="collapse" href="#">
                     <i class="fa-solid fa-virus"></i></i><span>Bệnh thuỷ sản</span><i
@@ -328,7 +374,7 @@
                 </a>
                 <ul id="benh-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="danhsach-benh.html" class="active">
+                        <a href="danhsach-benh.php" class="active">
                             <i class="bi bi-circle"></i><span>Danh sách bệnh</span>
                         </a>
                     </li>
@@ -339,13 +385,12 @@
                     </li>
                 </ul>
             </li><!-- End bệnh thuỷ sản Nav -->
-
+    
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#csdl-nav" data-bs-toggle="collapse" href="#">
-                    <i class="fa-solid fa-database"></i><span>Cơ sở dữ liệu</span><i
-                        class="bi bi-chevron-down ms-auto"></i>
+                    <i class="fa-solid fa-database"></i><span>Cơ sở dữ liệu</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="csdl-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <ul id="csdl-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
                     <li>
                         <a href="dulieu-nuoc.html">
                             <i class="bi bi-circle"></i><span>Dữ liệu chất lượng nước</span>
@@ -357,7 +402,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="dulieu-domtrang.html">
+                        <a href="dulieu-domtrang.html" class="active">
                             <i class="bi bi-circle"></i><span>Dữ liệu bệnh đốm trắng</span>
                         </a>
                     </li>
@@ -368,18 +413,17 @@
                     </li>
                 </ul>
             </li><!-- End Cơ sở dữ liệu Nav -->
-
+    
             <li class="nav-item">
                 <a class="nav-link collapsed" href="trangtrai.html">
                     <i class="fa-solid fa-shrimp"></i>
                     <span>Trang trại</span>
                 </a>
             </li><!-- End trang trại Nav -->
-
+    
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#ungdung-nav" data-bs-toggle="collapse" href="#">
-                    <i class="fa-solid fa-microchip"></i><span>Ứng dụng AI</span><i
-                        class="bi bi-chevron-down ms-auto"></i>
+                    <i class="fa-solid fa-microchip"></i><span>Ứng dụng AI</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
                 <ul id="ungdung-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
@@ -399,32 +443,31 @@
                     </li>
                 </ul>
             </li><!-- End ứng dụng AI Nav -->
-
+    
             <li class="nav-item">
                 <a class="nav-link collapsed" href="lienhe.html">
                     <i class="fa-solid fa-envelope"></i>
                     <span>Liên hệ</span>
                 </a>
             </li><!-- End liên hệ Nav -->
-
+    
             <li class="nav-item">
                 <a class="nav-link collapsed" href="tintuc.html">
                     <i class="fa-solid fa-newspaper"></i>
                     <span>Tin tức</span>
                 </a>
             </li><!-- End tin tức Nav -->
-
+    
             <li class="nav-heading">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</li>
-
+    
             <li class="nav-item">
                 <a class="nav-link collapsed" href="profile.html">
                     <i class="fas fa-user"></i>
                     <span>Hồ sơ</span>
                 </a>
             </li><!-- End Profile Page Nav -->
-
-            <li class="nav-heading">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</li>
             
+            <li class="nav-heading">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</li>
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#dangtin-nav" data-bs-toggle="collapse" href="#">
                     <i class="fa-solid fa-microchip"></i><span>Đăng tin</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -440,54 +483,70 @@
                             <i class="bi bi-circle"></i><span>Đăng danh sách bệnh tôm</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="dangtinbenh.php">
+                            <i class="bi bi-circle"></i><span>DANG TIN bệnh</span>
+                        </a>
+                    </li>                    
                 </ul>
             </li><!-- End đăng tin Nav -->
-
+    
         </ul>
-
+    
     </aside><!-- End Sidebar-->
 
-
     <!-- ======= Main ======= -->
-
     <main id="main" class="main">
-
+    
         <div class="pagetitle">
-            <h1>Danh sách bệnh học</h1>
+            <h1>Tin tức</h1>
             <nav>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item">Danh sách bệnh tôm</li>
+                    <li class="breadcrumb-item">Tin tức</li>
                     <li class="breadcrumb-item"></li>
                 </ol>
             </nav>
         </div><!-- End Page Title -->
-
+    
         <section class="section dashboard">
-            <div class="row">
+            <div class="row align-items-top">
                 <div class="col-lg-8">
-                    <!-- Card with an image on top -->
-                    <div class="card mb-4">
-                        <img src="assets/img/card.jpg" style="height: 350px;" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card with an image on top</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk
-                                of
-                                the card's content.</p>
+                    <!-- Card with an image on left -->
+                    <div class="card mb-3">
+                        <div class="card-header">Tin tức nổi bật</div>
+                        <div class="row g-0">
+                            <?php if ($featured_news): ?>
+                                <div class="col-md-4">
+                                    <img src="uploads/<?php echo htmlspecialchars($featured_news['image']); ?>" class="img-fluid rounded-start" alt="...">
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body">
+                                        <h5 class="card-title"><?php echo htmlspecialchars($featured_news['title']); ?></h5>
+                                        <p class="card-text"><?php echo htmlspecialchars($featured_news['content']); ?></p>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <i class="fa-solid fa-clock"></i> <?php echo date("d - m - Y", strtotime($featured_news['post_date'])); ?>
+                                </div>
+                            <?php else: ?>
+                                <p>Không có tin tức nổi bật để hiển thị.</p>
+                            <?php endif; ?>
                         </div>
-                    </div><!-- End Card with an image on top -->
-
-                    <div class="mt-5">
+                    </div>
+                    <!-- End Card with an image on left -->
+    
+                    <!-- Default Card -->
                     <div class="card">
                         <div class="card-body" style="padding-bottom: 0;">
                             <!-- Guide Section -->
                             <div class="d-flex justify-content-between align-items-center mt-4">
-                                <h3>Cẩm nang bệnh học</h3>
+                                <h3>Tin tức</h3>
                                 <div>
                                     <button class="btn btn-primary" id="scroll-left">‹</button>
                                     <button class="btn btn-primary" id="scroll-right">›</button>
                                 </div>
                             </div>
-                    
+    
                             <div class="position-relative">
                                 <div id="scrolling-container" class="d-flex flex-nowrap overflow-hidden mb-3">
                                     <a href="#" class="btn btn-outline-primary m-1 flex-shrink-0" data-type="white-spot-disease">Bệnh đốm
@@ -506,224 +565,76 @@
                                         Diseases)</a>
                                 </div>
                             </div>
-                    
+                            
+    
                             <!-- News Cards -->
                             <div id="news-container">
-                                <!-- News pages will be inserted here by JavaScript -->
-                            </div>
-                    
-                            <!-- Centered Pagination -->
-                            <nav aria-label="Page navigation example" style="margin-top: 50px;">
-                                <ul class="pagination justify-content-center" id="pagination">
-                                    <li class="page-item">
-                                        <a class="page-link" href="#" id="prev-page" aria-disabled="true">Previous</a>
-                                    </li>
-                                    <!-- Pagination buttons will be inserted here by JavaScript -->
-                                    <li class="page-item">
-                                        <a class="page-link" href="#" id="next-page">Next</a>
-                                    </li>
-                                </ul>
-                            </nav>
-                            <!-- End Centered Pagination -->
-                    
-                        </div>
-                    </div>
-                    </div>
-                    
-                    <script>
-                        document.addEventListener('DOMContentLoaded', function () {
-                                let currentPage = 1;
-                                const newsPerPage = 4;
-                                const maxVisiblePages = 3; // Number of visible page buttons
-                                let newsList = JSON.parse(localStorage.getItem('diseaseNewsList')) || [];
-                                let currentType = ''; // Variable to store current type for filtering
-
-                                function displayNews(type) {
-                                    currentType = type || currentType;
-                                    const filteredNews = currentType ? newsList.filter(news => news.type === currentType) : newsList;
-
-                                    // Sort news by date in descending order
-                                    filteredNews.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-                                    const totalPages = Math.ceil(filteredNews.length / newsPerPage);
-
-                                    // Clear existing news and pagination
-                                    const newsContainer = document.getElementById('news-container');
-                                    const pagination = document.getElementById('pagination');
-                                    newsContainer.innerHTML = '';
-                                    pagination.innerHTML = `
-                                                <li class="page-item">
-                                                    <a class="page-link" href="#" id="prev-page" aria-disabled="true">Previous</a>
-                                                </li>
-                                                <li class="page-item" id="next-page">
-                                                    <a class="page-link" href="#">Next</a>
-                                                </li>
-                                            `;
-
-                                    // Create news pages
-                                    for (let page = 1; page <= totalPages; page++) {
-                                        const pageDiv = document.createElement('div');
-                                        pageDiv.className = 'news-page';
-                                        if (page === 1) pageDiv.classList.add('active');
-
-                                        filteredNews.slice((page - 1) * newsPerPage, page * newsPerPage).forEach(newsItem => {
-                                            const newsCard = document.createElement('div');
-                                            newsCard.className = 'news-item mb-3';
-                                            newsCard.innerHTML = `
-                                                <div class="row g-0">
-                                                    <div class="col-md-4">
-                                                        <img src="${newsItem.image}" class="img-fluid rounded-start" alt="...">
-                                                    </div>
-                                                    <div class="col-md-8">
-                                                        <div class="card-body">
-                                                            <h5 class="card-title"><a href="${newsItem.link}" target="_blank">${newsItem.title}</a></h5>
-                                                            <p class="card-text">${newsItem.content}</p>
-                                                            <p class="card-text"><small class="text-muted">Ngày đăng: ${newsItem.date}</small></p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <hr>
-                                                `;
-                                            pageDiv.appendChild(newsCard);
-                                        });
-                                        newsContainer.appendChild(pageDiv);
-
-                                        // Add pagination buttons
-                                        const pageItem = document.createElement('li');
-                                        pageItem.className = 'page-item page-number';
-                                        pageItem.dataset.page = page;
-                                        pageItem.innerHTML = `<a class="page-link" href="#">${page}</a>`;
-                                        pagination.insertBefore(pageItem, pagination.querySelector('#next-page'));
-                                    }
-
-                                    updatePagination(totalPages);
-                                }
-
-                                function updatePagination(totalPages) {
-                                    // Hide all news pages
-                                    document.querySelectorAll('.news-page').forEach(page => {
-                                        page.style.display = 'none';
-                                    });
-
-                                    // Show the current news page
-                                    const newsPages = document.querySelectorAll('.news-page');
-                                    newsPages.forEach((page, index) => {
-                                        if (index === currentPage - 1) {
-                                            page.style.display = 'block';
-                                        }
-                                    });
-
-                                    // Update pagination buttons
-                                    const pageNumbers = document.querySelectorAll('.page-number');
-                                    pageNumbers.forEach(page => {
-                                        const pageNum = parseInt(page.getAttribute('data-page'));
-
-                                        // Calculate range of pages to display
-                                        let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
-                                        let endPage = Math.min(totalPages, currentPage + Math.floor(maxVisiblePages / 2));
-
-                                        // Adjust start and end pages if the range is smaller than maxVisiblePages
-                                        if (endPage - startPage + 1 < maxVisiblePages) {
-                                            if (startPage === 1) {
-                                                endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
-                                            } else if (endPage === totalPages) {
-                                                startPage = Math.max(1, endPage - maxVisiblePages + 1);
+                                <!-- News Cards -->
+                                <div id="news-container">
+                                    <!-- Hiển thị danh sách tin tức -->
+                                    <?php
+                                        if ($result && $result->num_rows > 0) {
+                                            while ($row = $result->fetch_assoc()) {
+                                                $imagePath = 'uploads/' . htmlspecialchars($row["image"]);
+                                                $newsLink = htmlspecialchars($row["link"]);
+                                                echo '<div class="row mb-3">';
+                                                echo '<div class="col-md-4">';
+                                                echo '<img src="' . $imagePath . '" class="img-fluid rounded-start" alt="Ảnh tin tức">';
+                                                echo '</div>';
+                                                echo '<div class="col-md-8">';
+                                                echo '<div class="card-body">';
+                                                echo '<h5 class="card-title"><a href="' . $newsLink . '" target="_blank">' . htmlspecialchars($row["title"]) . '</a></h5>';
+                                                echo '<p class="card-text">' . htmlspecialchars($row["content"]) . '</p>';
+                                                echo '</div>';
+                                                echo '</div>';
+                                                echo '</div>';
+                                                echo '<hr>';
                                             }
-                                        }
-
-                                        // Show pages around the current page
-                                        if (pageNum >= startPage && pageNum <= endPage) {
-                                            page.style.display = '';
                                         } else {
-                                            page.style.display = 'none';
+                                            echo '<p>Không có tin tức nào để hiển thị.</p>';
                                         }
-                                    });
+                                        ?>
 
-                                    // Set active class on current page
-                                    pageNumbers.forEach(page => {
-                                        const pageNum = parseInt(page.getAttribute('data-page'));
-                                        if (pageNum === currentPage) {
-                                            page.classList.add('active');
-                                        } else {
-                                            page.classList.remove('active');
-                                        }
-                                    });
+                                    </div>
 
-                                    // Disable Previous button if on the first page
-                                    document.getElementById('prev-page').parentElement.classList.toggle('disabled', currentPage === 1);
+                                    <!-- Centered Pagination -->
+                                    <nav aria-label="Page navigation example" style="margin-top: 50px;">
+                                        <ul class="pagination justify-content-center" id="pagination">
+                                            <!-- Previous Page Link -->
+                                            <li class="page-item <?php if ($page <= 1) echo 'disabled'; ?>">
+                                                <a class="page-link" href="?page=<?php echo ($page - 1); ?>">Previous</a>
+                                            </li>
+                                            
+                                            <!-- Page Numbers -->
+                                            <?php for ($i = 1; $i <= $number_of_pages; $i++): ?>
+                                                <li class="page-item <?php if ($i == $page) echo 'active'; ?>">
+                                                    <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                                                </li>
+                                            <?php endfor; ?>
+                                            
+                                            <!-- Next Page Link -->
+                                            <li class="page-item <?php if ($page >= $number_of_pages) echo 'disabled'; ?>">
+                                                <a class="page-link" href="?page=<?php echo ($page + 1); ?>">Next</a>
+                                            </li>
+                                        </ul>
+                                    </nav>
 
-                                    // Disable Next button if on the last page
-                                    document.getElementById('next-page').parentElement.classList.toggle('disabled', currentPage === totalPages);
-                                }
-
-                                function handlePageChange(pageNumber) {
-                                    currentPage = pageNumber;
-                                    const totalPages = document.querySelectorAll('.news-page').length;
-                                    updatePagination(totalPages);
-                                }
-
-                                // Event listener for Next button
-                                document.getElementById('next-page').addEventListener('click', function (e) {
-                                    e.preventDefault();
-                                    const totalPages = document.querySelectorAll('.news-page').length;
-                                    if (currentPage < totalPages) {
-                                        handlePageChange(currentPage + 1);
-                                    }
-                                });
-
-                                // Event listener for Previous button
-                                document.getElementById('prev-page').addEventListener('click', function (e) {
-                                    e.preventDefault();
-                                    if (currentPage > 1) {
-                                        handlePageChange(currentPage - 1);
-                                    }
-                                });
-
-                                // Event listeners for page number buttons
-                                document.querySelectorAll('.page-number a').forEach(page => {
-                                    page.addEventListener('click', function (e) {
-                                        e.preventDefault();
-                                        handlePageChange(parseInt(this.parentElement.getAttribute('data-page')));
-                                    });
-                                });
-
-                                // Event listeners for filter buttons
-                                document.querySelectorAll('#scrolling-container .btn').forEach(button => {
-                                    button.addEventListener('click', function (e) {
-                                        e.preventDefault();
-                                        const type = this.dataset.type;
-
-                                        // Remove 'selected' class from all filter buttons
-                                        document.querySelectorAll('#scrolling-container .btn').forEach(btn => {
-                                            btn.classList.remove('selected');
-                                        });
-
-                                        // Add 'selected' class to the clicked button
-                                        this.classList.add('selected');
-
-                                        // Update the displayed news
-                                        currentPage = 1; // Reset to first page when changing type
-                                        displayNews(type);
-                                    });
-                                });
-
-                                // Initialize pagination
-                                displayNews();
-                            });
-                    </script>
+                                <!-- End Centered Pagination -->
+                            </div>
+                        </div><!-- End Default Card -->
+                    </div>
                 </div>
-
+    
+    
                 <div class="col-lg-4">
-
-
                     <!-- Giá tôm -->
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Giá tôm <span>/Hôm nay</span></h5>
-
+    
                             <!-- Line Chart -->
                             <div id="reportsChart"></div>
-
+    
                             <script>
                                 document.addEventListener("DOMContentLoaded", () => {
                                     new ApexCharts(document.querySelector("#reportsChart"), {
@@ -780,13 +691,14 @@
                             <!-- End Line Chart -->
                         </div>
                     </div><!-- End Giá tôm -->
-
+    
+                    <!--thời tiết-->
                     <div class="card" style="height: 300px;">
-                        <iframe width="100%" height="100%" src="https://thoitiet.app/widget/embed/" id="widgeturl" scrolling="no"
-                            frameborder="0" allowtransparency="true" style="border:none; overflow:hidden;">
+                        <iframe width="100%" height="100%" src="https://thoitiet.app/widget/embed/" id="widgeturl"
+                            scrolling="no" frameborder="0" allowtransparency="true" style="border:none; overflow:hidden;">
                         </iframe>
                     </div>
-
+    
                     <!-- News & Updates Traffic -->
                     <div class="card">
                         <div class="filter">
@@ -795,54 +707,57 @@
                                 <li class="dropdown-header text-start">
                                     <h6>Bộ lọc</h6>
                                 </li>
+    
                                 <li><a class="dropdown-item" href="#">Hôm nay</a></li>
                                 <li><a class="dropdown-item" href="#">Tháng này</a></li>
                                 <li><a class="dropdown-item" href="#">Năm này</a></li>
                             </ul>
                         </div>
-                    
+    
                         <div class="card-body pb-0" style="margin: 10px 0 20px 0">
                             <h5 class="card-title">Tin tức &amp; Cập nhật <span>| Hôm nay</span></h5>
-                    
-                            <div id="newsContainer" class="news"></div>
-                    
+    
+                            <div class="news">
+                                <div class="post-item clearfix">
+                                    <img src="assets/img/news-1.jpg" alt="">
+                                    <h4><a href="#">Công nghệ AI phát hiện bệnh tôm</a></h4>
+                                    <p>Thông tin tóm gọn về tin tức mới sẽ hiện ở đây...</p>
+                                </div>
+    
+                                <div class="post-item clearfix">
+                                    <img src="assets/img/news-2.jpg" alt="">
+                                    <h4><a href="#">Công nghệ AI phát hiện bệnh tôm</a></h4>
+                                    <p>Thông tin tóm gọn về tin tức mới sẽ hiện ở đây....</p>
+                                </div>
+    
+                                <div class="post-item clearfix">
+                                    <img src="assets/img/news-3.jpg" alt="">
+                                    <h4><a href="#">Công nghệ AI phát hiện bệnh tôm</a></h4>
+                                    <p>Thông tin tóm gọn về tin tức mới sẽ hiện ở đây...</p>
+                                </div>
+    
+                                <div class="post-item clearfix">
+                                    <img src="assets/img/news-4.jpg" alt="">
+                                    <h4><a href="#">Công nghệ AI phát hiện bệnh tôm</a></h4>
+                                    <p>Thông tin tóm gọn về tin tức mới sẽ hiện ở đây...</p>
+                                </div>
+    
+                                <div class="post-item clearfix">
+                                    <img src="assets/img/news-5.jpg" alt="">
+                                    <h4><a href="#">Công nghệ AI phát hiện bệnh tôm</a></h4>
+                                    <p>Thông tin tóm gọn về tin tức mới sẽ hiện ở đây...</p>
+                                </div>
+    
+                            </div><!-- End sidebar recent posts-->
+    
                         </div>
-                    </div>
-                    
-                    <script>
-                        function loadNews() {
-                            let newsList = JSON.parse(localStorage.getItem('newsList')) || [];
-                            let newsContainer = document.getElementById('newsContainer');
-
-                            newsList.forEach(function (newsItem) {
-                                let postItem = document.createElement('div');
-                                postItem.className = 'post-item clearfix';
-
-                                postItem.innerHTML = `
-                                                                            <a href="${newsItem.link}" target="_blank" class="news-link">
-                                                                                <img src="${newsItem.image}" alt="">
-                                                                                <h4>${newsItem.title}</h4>
-                                                                                <p>${newsItem.content}</p>
-                                                                            </a>
-                                                                        `;
-
-                                newsContainer.appendChild(postItem);
-                            });
-                        }
-
-                        document.addEventListener('DOMContentLoaded', loadNews);
-                    </script><!-- End News & Updates -->
-
-
+                    </div><!-- End News & Updates -->
+    
+    
                 </div>
             </div>
-
-
-
-        </section><!-- End Section Dashboard -->
-
+        </section>                   
     </main><!-- End #main -->
-
     <!-- ======= Footer ======= -->
     <footer id="footer" class="footer">
         <div class="footer-content">
@@ -888,11 +803,10 @@
     </footer>
     <!-- End Footer -->
 
-
     <!-- ======= JS ======= -->
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
             class="bi bi-arrow-up-short"></i></a>
-
+    
     <!-- Vendor JS Files -->
     <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
     <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -902,7 +816,7 @@
     <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
     <script src="assets/vendor/tinymce/tinymce.min.js"></script>
     <script src="assets/vendor/php-email-form/validate.js"></script>
-
+    
     <!-- Template Main JS File -->
     <script src="assets/js/main.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -910,6 +824,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="assets/js/script.js"></script>
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    
 </body>
-
+    
 </html>

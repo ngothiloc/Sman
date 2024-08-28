@@ -66,6 +66,13 @@ h6 {
   font-weight: 600;
   color: #012970;
 }
+.is-invalid {
+  display: none;
+  width: 100%;
+  margin-top: 0.25rem;
+  font-size: 0.875em;
+  color: var(--bs-form-invalid-color);
+}
 
 /*--------------------------------------------------------------
 # Back to top button
