@@ -1,10 +1,11 @@
 <?php
-// Kết nối tới cơ sở dữ liệu
+// Kết nối đến cơ sở dữ liệu
 $servername = "localhost";
-$username = "root"; // Thay đổi nếu bạn có user khác
-$password = ""; // Thay đổi nếu bạn có password khác
+$username = "root"; // Tài khoản MySQL
+$password = ""; // Mật khẩu MySQL
 $dbname = "sdb";
 
+// Tạo kết nối
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 // Kiểm tra kết nối
@@ -12,34 +13,46 @@ if ($conn->connect_error) {
     die("Kết nối thất bại: " . $conn->connect_error);
 }
 
-// Xử lý dữ liệu khi người dùng nhấn nút "Tạo tài khoản"
+// Xử lý dữ liệu gửi lên
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+    $name = trim($_POST["name"]);
+    $email = trim($_POST["email"]);
+    $username = trim($_POST["username"]);
+    $password = trim($_POST["password"]);
+    $terms = isset($_POST["terms"]);
 
-    // Kiểm tra ràng buộc tên đăng nhập
-    if (!preg_match("/^[a-zA-Z][a-zA-Z0-9]*$/", $username)) {
-        die("Tên đăng nhập phải bắt đầu bằng chữ cái và chỉ bao gồm chữ cái và số.");
+    // Kiểm tra các ràng buộc
+    if (empty($name) || empty($email) || empty($username) || empty($password) || !$terms) {
+        echo "Vui lòng điền đầy đủ thông tin và đồng ý với điều khoản.";
+        exit;
     }
 
-    // Kiểm tra ràng buộc mật khẩu
+    if (!preg_match("/^[A-Z]/", $name)) {
+        echo "Họ và tên phải bắt đầu bằng chữ cái viết hoa.";
+        exit;
+    }
+
+    if (!preg_match("/^[A-Za-z][A-Za-z0-9]*$/", $username)) {
+        echo "Tên đăng nhập phải bắt đầu bằng chữ cái và không chứa số.";
+        exit;
+    }
+
     if (!preg_match("/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/", $password)) {
-        die("Mật khẩu phải có tối thiểu 8 ký tự, bao gồm chữ cái in thường, chữ cái in hoa, và số.");
+        echo "Mật khẩu phải có tối thiểu 8 ký tự, bao gồm chữ cái in thường, chữ cái in hoa, và số.";
+        exit;
     }
 
-    // Mã hóa mật khẩu
+    // Băm mật khẩu trước khi lưu
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-    // Chuẩn bị câu lệnh SQL để chèn dữ liệu
-    $sql = "INSERT INTO user (name, email, username, password) VALUES (?, ?, ?, ?)";
+    // Chuẩn bị câu lệnh SQL để chèn dữ liệu vào bảng
+    $sql = "INSERT INTO users (name, email, username, password) VALUES (?, ?, ?, ?)";
+
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("ssss", $name, $email, $username, $hashed_password);
 
-    // Thực thi câu lệnh và kiểm tra kết quả
     if ($stmt->execute()) {
-        echo "Đăng ký tài khoản thành công!";
+        echo "Tạo tài khoản thành công!";
     } else {
         echo "Lỗi: " . $stmt->error;
     }
@@ -49,7 +62,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 $conn->close();
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -119,11 +131,18 @@ $conn->close();
                                         <p class="text-center small">Nhập thông tin của bạn để tạo tài khoản</p>
                                     </div>
 
-                                    <form action="register.php" method="post" class="row g-3 needs-validation" novalidate>
+
+
+                                    <form action="dangky.php" method="post" class="row g-3 needs-validation" novalidate>
                                         <div class="col-12">
                                             <label for="yourName" class="form-label">Họ và tên</label>
                                             <input type="text" name="name" class="form-control" id="yourName" required>
-                                            <div class="invalid-feedback">Vui lòng nhập họ và tên của bạn!</div>
+                                            <div id="name-feedback" class="invalid-feedback">
+                                                Vui lòng nhập họ và tên của bạn!
+                                            </div>
+                                            <div id="name-requirements" class="invalid-feedback">
+                                                Hãy nhập đúng tên của bạn!
+                                            </div>
                                         </div>
 
                                         <div class="col-12">
@@ -137,15 +156,24 @@ $conn->close();
                                             <div class="input-group has-validation">
                                                 <span class="input-group-text" id="inputGroupPrepend">@</span>
                                                 <input type="text" name="username" class="form-control" id="yourUsername" required>
-                                                <div class="invalid-feedback">Tên đăng nhập phải bắt đầu bằng chữ cái và chỉ bao gồm chữ cái và số.</div>
+                                                <div id="username-feedback" class="invalid-feedback">
+                                                    Vui lòng nhập tên đăng nhập!
+                                                </div>
+                                                <div id="username-requirements" class="invalid-feedback">
+                                                    Tên đăng nhập phải bắt đầu bằng chữ cái.
+                                                </div>
                                             </div>
                                         </div>
 
                                         <div class="col-12">
-                                            <label for="yourPassword" class="form-label">Mật khẩu</label>
-                                            <input type="password" name="password" class="form-control" id="yourPassword" required>
-                                            <!-- Sử dụng cùng lớp invalid-feedback cho thông báo mật khẩu -->
-                                            <div class="invalid-feedback">Mật khẩu phải có tối thiểu 8 ký tự, bao gồm chữ cái in thường, chữ cái in hoa, và số.</div>
+                                            <label for="yourPassword" class="form-label">Password</label>
+                                            <input type="password" name="password" class="form-control" id="yourPassword" aria-describedby="inputGroupPrepend" required>
+                                            <div id="invalid-feedback" class="invalid-feedback">
+                                                Vui lòng nhập mật khẩu!
+                                            </div>
+                                            <div id="password-requirements" class="invalid-feedback">
+                                                Mật khẩu phải có tối thiểu 8 ký tự, bao gồm chữ cái in thường, chữ cái in hoa, và số.
+                                            </div>
                                         </div>
 
                                         <div class="col-12">
@@ -191,42 +219,106 @@ $conn->close();
         </div>
     </main><!-- End #main -->
 
-    <!--Ràng buộc mật khẩu -->
-    <script>
-        document.querySelector('form').addEventListener('submit', function(event) {
-            const username = document.getElementById('yourUsername').value;
-            const password = document.getElementById('yourPassword').value;
-            const usernameInput = document.getElementById('yourUsername');
-            const passwordInput = document.getElementById('yourPassword');
+    
+<script>
+    document.getElementById("yourPassword").addEventListener("input", function () {
+        var inputField = this;
+        var invalidFeedback = document.getElementById("invalid-feedback");
+        var passwordRequirements = document.getElementById("password-requirements");
+        var value = inputField.value;
 
-            let isValid = true;
+        // Kiểm tra mật khẩu
+        var hasLowercase = /[a-z]/.test(value);
+        var hasUppercase = /[A-Z]/.test(value);
+        var hasNumber = /[0-9]/.test(value);
+        var isValidLength = value.length >= 8;
 
-            // Kiểm tra tên đăng nhập
-            const usernameRegex = /^[a-zA-Z][a-zA-Z0-9]*$/;
-            if (!usernameRegex.test(username)) {
-                usernameInput.classList.add('is-invalid');
-                isValid = false;
-            } else {
-                usernameInput.classList.remove('is-invalid');
-            }
+        if (value === '') {
+            // Trường trống
+            invalidFeedback.textContent = "Vui lòng nhập mật khẩu!";
+            passwordRequirements.style.display = 'none';
+            inputField.setCustomValidity("Vui lòng nhập mật khẩu!");
+        } else if (!isValidLength || !hasLowercase || !hasUppercase || !hasNumber) {
+            // Mật khẩu không hợp lệ
+            invalidFeedback.textContent = "";
+            passwordRequirements.style.display = 'block';
+            inputField.setCustomValidity("Mật khẩu không hợp lệ!");
+        } else {
+            // Mật khẩu hợp lệ
+            invalidFeedback.textContent = "";
+            passwordRequirements.style.display = 'none';
+            inputField.setCustomValidity("");
+        }
 
-            // Kiểm tra mật khẩu
-            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
-            if (!passwordRegex.test(password)) {
-                passwordInput.classList.add('is-invalid');
-                isValid = false;
-            } else {
-                passwordInput.classList.remove('is-invalid');
-            }
+        inputField.reportValidity(); // Hiển thị thông báo lỗi tùy chỉnh nếu có
+    });
+</script>
 
-            // Ngăn chặn gửi form nếu không hợp lệ
-            if (!isValid) {
-                event.preventDefault();
-            }
-        });
-    </script>
+<script>
+    document.getElementById("yourUsername").addEventListener("input", function () {
+        var inputField = this;
+        var feedback = document.getElementById("username-feedback");
+        var requirements = document.getElementById("username-requirements");
+        var value = inputField.value;
 
+        // Kiểm tra tên đăng nhập
+        var startsWithLetter = /^[a-zA-Z]/.test(value);
 
+        if (value === '') {
+            // Trường trống
+            feedback.textContent = "Vui lòng nhập tên đăng nhập!";
+            requirements.style.display = 'none';
+            inputField.setCustomValidity("Vui lòng nhập tên đăng nhập!");
+        } else if (!startsWithLetter) {
+            // Tên đăng nhập không bắt đầu bằng chữ cái
+            feedback.textContent = "";
+            requirements.style.display = 'block';
+            inputField.setCustomValidity("Tên đăng nhập phải bắt đầu bằng chữ cái.");
+        } else {
+            // Tên đăng nhập hợp lệ
+            feedback.textContent = "";
+            requirements.style.display = 'none';
+            inputField.setCustomValidity("");
+        }
+
+        inputField.reportValidity(); // Hiển thị thông báo lỗi tùy chỉnh nếu có
+    });
+</script>
+
+<script>
+    document.getElementById("yourName").addEventListener("input", function () {
+        var inputField = this;
+        var feedback = document.getElementById("name-feedback");
+        var requirements = document.getElementById("name-requirements");
+        var value = inputField.value;
+
+        // Danh sách các ký tự đặc biệt không được phép
+        var specialChars = /[@#$%^&*()_+={}\[\]:;"'<>,.?/\\|`~]/;
+
+        // Kiểm tra tên
+        var startsWithCapitalLetter = /^[A-Z]/.test(value);
+        var containsNoSpecialChars = !specialChars.test(value); // Đảm bảo không chứa ký tự đặc biệt
+
+        if (value === '') {
+            // Trường trống
+            feedback.textContent = "Vui lòng nhập họ và tên của bạn!";
+            requirements.style.display = 'none';
+            inputField.setCustomValidity("Vui lòng nhập họ và tên của bạn!");
+        } else if (!startsWithCapitalLetter || !containsNoSpecialChars) {
+            // Tên không hợp lệ
+            feedback.textContent = "";
+            requirements.style.display = 'block';
+            inputField.setCustomValidity("Tên của bạn phải bắt đầu bằng chữ cái viết hoa và không được chứa số hoặc các ký tự đặc biệt.");
+        } else {
+            // Tên hợp lệ
+            feedback.textContent = "";
+            requirements.style.display = 'none';
+            inputField.setCustomValidity("");
+        }
+
+        inputField.reportValidity(); // Hiển thị thông báo lỗi tùy chỉnh nếu có
+    });
+</script>
 
 
 
