@@ -21,26 +21,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = trim($_POST["password"]);
     $terms = isset($_POST["terms"]);
 
-    // Kiểm tra các ràng buộc
-    if (empty($name) || empty($email) || empty($username) || empty($password) || !$terms) {
-        echo "Vui lòng điền đầy đủ thông tin và đồng ý với điều khoản.";
+    // Kiểm tra xem email đã tồn tại trong cơ sở dữ liệu chưa
+    $checkEmailSql = "SELECT * FROM users WHERE email = ?";
+    $checkEmailStmt = $conn->prepare($checkEmailSql);
+    $checkEmailStmt->bind_param("s", $email);
+    $checkEmailStmt->execute();
+    $emailResult = $checkEmailStmt->get_result();
+
+    if ($emailResult->num_rows > 0) {
+        echo "Email đã tồn tại. Vui lòng sử dụng email khác.";
+        $checkEmailStmt->close();
+        $conn->close();
         exit;
     }
 
-    if (!preg_match("/^[A-Z]/", $name)) {
-        echo "Họ và tên phải bắt đầu bằng chữ cái viết hoa.";
+    $checkEmailStmt->close();
+
+    // Kiểm tra xem tên đăng nhập đã tồn tại trong cơ sở dữ liệu chưa
+    $checkUsernameSql = "SELECT * FROM users WHERE username = ?";
+    $checkUsernameStmt = $conn->prepare($checkUsernameSql);
+    $checkUsernameStmt->bind_param("s", $username);
+    $checkUsernameStmt->execute();
+    $usernameResult = $checkUsernameStmt->get_result();
+
+    if ($usernameResult->num_rows > 0) {
+        echo "Tên đăng nhập đã tồn tại. Vui lòng chọn tên đăng nhập khác.";
+        $checkUsernameStmt->close();
+        $conn->close();
         exit;
     }
 
-    if (!preg_match("/^[A-Za-z][A-Za-z0-9]*$/", $username)) {
-        echo "Tên đăng nhập phải bắt đầu bằng chữ cái và không chứa số.";
-        exit;
-    }
-
-    if (!preg_match("/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/", $password)) {
-        echo "Mật khẩu phải có tối thiểu 8 ký tự, bao gồm chữ cái in thường, chữ cái in hoa, và số.";
-        exit;
-    }
+    $checkUsernameStmt->close();
 
     // Băm mật khẩu trước khi lưu
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
@@ -52,7 +63,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("ssss", $name, $email, $username, $hashed_password);
 
     if ($stmt->execute()) {
-        echo "Tạo tài khoản thành công!";
+        echo '<div class="alert alert-success alert-dismissible fade show custom-alert" role="alert">
+                <i class="bi bi-check-circle me-1"></i>
+                Tạo tài khoản thành công!
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>';
     } else {
         echo "Lỗi: " . $stmt->error;
     }
@@ -62,6 +77,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 $conn->close();
 ?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -91,6 +109,17 @@ $conn->close();
     <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
     <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
     <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .custom-alert {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1050; /* Đảm bảo thông báo luôn hiển thị trên các phần tử khác */
+            width: auto;
+            max-width: 300px;
+        }
+    </style>
 
     <!-- Template Main CSS File -->
     <link href="assets/css/style.css" rel="stylesheet">
@@ -148,7 +177,12 @@ $conn->close();
                                         <div class="col-12">
                                             <label for="yourEmail" class="form-label">Email</label>
                                             <input type="email" name="email" class="form-control" id="yourEmail" required>
-                                            <div class="invalid-feedback">Vui lòng nhập đúng địa chỉ email!</div>
+                                            <div id="email-feedback" class="invalid-feedback">
+                                                Vui lòng nhập email của bạn!
+                                            </div>
+                                            <div id="email-requirements" class="invalid-feedback">
+                                                Hãy nhập đúng email của bạn!
+                                            </div>
                                         </div>
 
                                         <div class="col-12">
@@ -319,6 +353,39 @@ $conn->close();
         inputField.reportValidity(); // Hiển thị thông báo lỗi tùy chỉnh nếu có
     });
 </script>
+
+<script>
+    document.getElementById("yourEmail").addEventListener("input", function () {
+        var inputField = this;
+        var feedback = document.getElementById("email-feedback");
+        var requirements = document.getElementById("email-requirements");
+        var value = inputField.value;
+
+        // Kiểm tra định dạng email
+        var isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+
+        if (value === '') {
+            // Trường trống
+            feedback.textContent = "Vui lòng nhập email của bạn!";
+            requirements.style.display = 'none';
+            inputField.setCustomValidity("Vui lòng nhập email của bạn!");
+        } else if (!isValidEmail) {
+            // Email không đúng định dạng
+            feedback.textContent = "";
+            requirements.textContent = "Hãy nhập đúng email của bạn!";
+            requirements.style.display = 'block';
+            inputField.setCustomValidity("Hãy nhập đúng email của bạn!");
+        } else {
+            // Email hợp lệ
+            feedback.textContent = "";
+            requirements.style.display = 'none';
+            inputField.setCustomValidity("");
+        }
+
+        inputField.reportValidity(); // Hiển thị thông báo lỗi tùy chỉnh nếu có
+    });
+</script>
+
 
 
 
