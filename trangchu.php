@@ -1,3 +1,29 @@
+<?php
+// Bắt đầu session
+session_start();
+
+// Kết nối đến database
+include 'db.php';
+
+// Kiểm tra xem người dùng đã đăng nhập chưa
+if (!isset($_SESSION['username'])) {
+    // Người dùng chưa đăng nhập, chuyển hướng về trang đăng nhập
+    header("Location: dangnhap.php");
+    exit();
+}
+
+// Lấy tên từ database dựa vào tên đăng nhập từ session
+$username = $_SESSION['username'];
+$sql = "SELECT name FROM users WHERE username = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $username);
+$stmt->execute();
+$stmt->bind_result($name);
+$stmt->fetch();
+$stmt->close();
+
+$conn->close();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -46,7 +72,7 @@
     <header id="header" class="header fixed-top d-flex align-items-center">
 
         <div class="d-flex align-items-center justify-content-between">
-            <a href="trangchu.html" class="logo d-flex align-items-center">
+            <a href="trangchu.php" class="logo d-flex align-items-center">
                 <img src="assets/img/logo.png" alt="">
                 <span class="d-none d-lg-block">Sman</span>
             </a>
@@ -223,12 +249,14 @@
     
                     <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
                         <img src="assets/img/logo.png" alt="Profile" class="rounded-circle">
-                        <span class="d-none d-md-block dropdown-toggle ps-2">Ngô Tiến Lộc</span>
+                        <span class="d-none d-md-block dropdown-toggle ps-2">
+                            <?php echo htmlspecialchars($name); ?>
+                        </span>
                     </a><!-- End Profile Iamge Icon -->
     
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                         <li class="dropdown-header">
-                            <h6>Ngô Tiến Lộc</h6>
+                            <h6><?php echo htmlspecialchars($name); ?></h6>
                             <span>Nghề nghiệp làm gì đó</span>
                         </li>
                         <li>
@@ -236,7 +264,7 @@
                         </li>
     
                         <li>
-                            <a class="dropdown-item d-flex align-items-center" href="profile.html">
+                            <a class="dropdown-item d-flex align-items-center" href="profile.php">
                                 <i class="bi bi-person"></i>
                                 <span>Hồ sơ</span>
                             </a>
@@ -246,7 +274,7 @@
                         </li>
     
                         <li>
-                            <a class="dropdown-item d-flex align-items-center" href="profile.html">
+                            <a class="dropdown-item d-flex align-items-center" href="profile.php">
                                 <i class="bi bi-gear"></i>
                                 <span>Chỉnh sửa thông tin</span>
                             </a>
@@ -256,7 +284,7 @@
                         </li>
     
                         <li>
-                            <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
+                            <a class="dropdown-item d-flex align-items-center" href="lienhe.php">
                                 <i class="bi bi-question-circle"></i>
                                 <span>Bạn cần trợ giúp?</span>
                             </a>
@@ -287,14 +315,14 @@
         <ul class="sidebar-nav" id="sidebar-nav">
 
             <li class="nav-item">
-                <a class="nav-link " href="trangchu.html">
+                <a class="nav-link " href="trangchu.php">
                     <i class="fa-solid fa-house"></i>
                     <span>Trang chủ</span>
                 </a>
             </li><!-- End Trang chủ Nav -->
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="gioithieu.html">
+                <a class="nav-link collapsed" href="gioithieu.php">
                     <i class="bi bi-person-lines-fill"></i>
                     <span>Giới thiệu</span>
                 </a>
@@ -306,22 +334,22 @@
                 </a>
                 <ul id="ketqua-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="baibao-quocte.html">
+                        <a href="baibao-quocte.php">
                             <i class="bi bi-circle"></i><span>Bài báo quốc tế</span>
                         </a>
                     </li>
                     <li>
-                        <a href="baibao-trongnuoc.html">
+                        <a href="baibao-trongnuoc.php">
                             <i class="bi bi-circle"></i><span>Bài báo trong nước</span>
                         </a>
                     </li>
                     <li>
-                        <a href="donggop-dulieu.html">
+                        <a href="donggop-dulieu.php">
                             <i class="bi bi-circle"></i><span>Đóng góp dữ liệu</span>
                         </a>
                     </li>
                     <li>
-                        <a href="lsdonggop-thanhtoan.html">
+                        <a href="lsdonggop-thanhtoan.php">
                             <i class="bi bi-circle"></i><span>Lịch sử đóng góp, thanh toán</span>
                         </a>
                     </li>
@@ -340,7 +368,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="chuandoan.html">
+                        <a href="chuandoan.php">
                             <i class="bi bi-circle"></i><span>Chuẩn đoán bệnh</span>
                         </a>
                     </li>
@@ -354,22 +382,22 @@
                 </a>
                 <ul id="csdl-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="dulieu-nuoc.html">
+                        <a href="dulieu-nuoc.php">
                             <i class="bi bi-circle"></i><span>Dữ liệu chất lượng nước</span>
                         </a>
                     </li>
                     <li>
-                        <a href="dulieu-khihau.html">
+                        <a href="dulieu-khihau.php">
                             <i class="bi bi-circle"></i><span>Dữ liệu vi khí hậu, thời tiết vùng nuôi</span>
                         </a>
                     </li>
                     <li>
-                        <a href="dulieu-domtrang.html">
+                        <a href="dulieu-domtrang.php">
                             <i class="bi bi-circle"></i><span>Dữ liệu bệnh đốm trắng</span>
                         </a>
                     </li>
                     <li>
-                        <a href="dulieu-gan.html">
+                        <a href="dulieu-gan.php">
                             <i class="bi bi-circle"></i><span>Dữ liệu bệnh hoại tử gan tuỵ cấp</span>
                         </a>
                     </li>
@@ -377,7 +405,7 @@
             </li><!-- End Cơ sở dữ liệu Nav -->
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="trangtrai.html">
+                <a class="nav-link collapsed" href="trangtrai.php">
                     <i class="fa-solid fa-shrimp"></i>
                     <span>Trang trại</span>
                 </a>
@@ -390,17 +418,17 @@
                 </a>
                 <ul id="ungdung-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="mohinh-ai.html">
+                        <a href="mohinh-ai.php">
                             <i class="bi bi-circle"></i><span>Mô hình AI</span>
                         </a>
                     </li>
                     <li>
-                        <a href="huongdan-sudung.html">
+                        <a href="huongdan-sudung.php">
                             <i class="bi bi-circle"></i><span>Hướng dẫn sử dụng</span>
                         </a>
                     </li>
                     <li>
-                        <a href="video-huongdan.html">
+                        <a href="video-huongdan.php">
                             <i class="bi bi-circle"></i><span>Video hướng dẫn</span>
                         </a>
                     </li>
@@ -408,14 +436,14 @@
             </li><!-- End ứng dụng AI Nav -->
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="lienhe.html">
+                <a class="nav-link collapsed" href="lienhe.php">
                     <i class="fa-solid fa-envelope"></i>
                     <span>Liên hệ</span>
                 </a>
             </li><!-- End liên hệ Nav -->
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="tintuc.html">
+                <a class="nav-link collapsed" href="tintuc.php">
                     <i class="fa-solid fa-newspaper"></i>
                     <span>Tin tức</span>
                 </a>
@@ -424,7 +452,7 @@
             <li class="nav-heading">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="profile.html">
+                <a class="nav-link collapsed" href="profile.php">
                     <i class="fas fa-user"></i>
                     <span>Hồ sơ</span>
                 </a>
@@ -448,10 +476,20 @@
                         </a>
                     </li>
                     <li>
-                        <a href="dangtinbenh.php">
-                            <i class="bi bi-circle"></i><span>DANG TIN bệnh</span>
+                        <a href="dangtin/dangtin_benh.php">
+                            <i class="bi bi-circle"></i><span>Đăng tin tức bệnh tôm</span>
                         </a>
                     </li>                    
+                    <li>
+                        <a href="dangtin/dangtin_bao_quocte.php" >
+                            <i class="bi bi-circle"></i><span>Đăng tin báo quốc tế</span>
+                        </a>
+                    </li>                    
+                    <li>
+                        <a href="dangtin/dangtin_bao_trongnuoc.php">
+                            <i class="bi bi-circle"></i><span>Đăng tin báo trong nước</span>
+                        </a>
+                    </li>                     
                 </ul>
             </li><!-- End đăng tin Nav -->
 
@@ -598,7 +636,7 @@
                 <div class="col-lg-8">
                     <div class="row">
                         <!-- Chất liệu nước Card -->
-                        <a href="dulieu-nuoc.html" class="hover-card">
+                        <a href="dulieu-nuoc.php" class="hover-card">
                             <div class="col-xxl-12 col-xl-12">
 
                                 <div class="card info-card customers-card">
@@ -629,7 +667,7 @@
                         </a><!-- End Chất liệu nước Card -->
 
                         <!--  Thời tiết Card -->
-                        <a href="dulieu-khihau.html" class="hover-card">
+                        <a href="dulieu-khihau.php" class="hover-card">
                             <div class="col-xxl-12 col-xl-12">
 
                                 <div class="card info-card customers-card">
@@ -662,7 +700,7 @@
                         </a><!-- End thời tiết Card -->
 
                         <!-- Chất bệnh đốm trắng Card -->
-                        <a href="dulieu-domtrang.html" class="hover-card">
+                        <a href="dulieu-domtrang.php" class="hover-card">
                             <div class="col-xxl-12 col-xl-12">
                                 <div class="card info-card customers-card">
                                     <div class="card-body">
@@ -689,7 +727,7 @@
                         <!-- End Chất liệu nước Card -->
 
                         <!-- Gan Card -->
-                        <a href="dulieu-gan.html" class="hover-card">
+                        <a href="dulieu-gan.php" class="hover-card">
                             <div class="col-xxl-12 col-xl-12">
 
                                 <div class="card info-card customers-card">
@@ -722,7 +760,7 @@
                         </a><!-- End Gan Card -->
 
                         <!-- Tong Card -->
-                        <a href="danhsach-benh.html" class="hover-card">
+                        <a href="danhsach-benh.php" class="hover-card">
                             <div class="col-xxl-12 col-xl-12">
 
                                 <div class="card info-card customers-card">

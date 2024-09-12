@@ -1,3 +1,39 @@
+<?php
+// Bắt đầu session
+session_start();
+
+// Kết nối đến database
+include 'db.php';
+
+// Kiểm tra xem người dùng đã đăng nhập chưa
+if (!isset($_SESSION['username'])) {
+    // Người dùng chưa đăng nhập, chuyển hướng về trang đăng nhập
+    header("Location: dangnhap.php");
+    exit();
+}
+
+// Giả sử các biến đã được lấy từ cơ sở dữ liệu như sau
+$name = $name ?? 'NULL';
+$job = $job ?? 'NULL';
+$country = $country ?? 'NULL';
+$address = $address ?? 'NULL';
+$phone = $phone ?? 'NULL';
+$email = $email ?? 'NULL';
+$company = $company ?? 'NULL';
+
+// Lấy thông tin từ database dựa vào tên đăng nhập từ session
+$username = $_SESSION['username'];
+$sql = "SELECT name, job, country, address, phone, email, company FROM users WHERE username = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $username);
+$stmt->execute();
+$stmt->bind_result($name, $job, $country, $address, $phone, $email, $company);
+$stmt->fetch();
+$stmt->close();
+
+$conn->close();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -46,7 +82,7 @@
 <header id="header" class="header fixed-top d-flex align-items-center">
 
     <div class="d-flex align-items-center justify-content-between">
-        <a href="trangchu.html" class="logo d-flex align-items-center">
+        <a href="trangchu.php" class="logo d-flex align-items-center">
             <img src="assets/img/logo.png" alt="">
             <span class="d-none d-lg-block">Sman</span>
         </a>
@@ -214,12 +250,14 @@
 
                 <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
                     <img src="assets/img/logo.png" alt="Profile" class="rounded-circle">
-                    <span class="d-none d-md-block dropdown-toggle ps-2">Ngô Tiến Lộc</span>
+                    <span class="d-none d-md-block dropdown-toggle ps-2">
+                            <?php echo htmlspecialchars($name); ?>
+                        </span>
                 </a><!-- End Profile Iamge Icon -->
 
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                     <li class="dropdown-header">
-                        <h6>Ngô Tiến Lộc</h6>
+                        <h6><?php echo htmlspecialchars($name); ?></h6>
                         <span>Nghề nghiệp làm gì đó</span>
                     </li>
                     <li>
@@ -227,7 +265,7 @@
                     </li>
 
                     <li>
-                        <a class="dropdown-item d-flex align-items-center" href="profile.html">
+                        <a class="dropdown-item d-flex align-items-center" href="profile.php">
                             <i class="bi bi-person"></i>
                             <span>Hồ sơ</span>
                         </a>
@@ -237,7 +275,7 @@
                     </li>
 
                     <li>
-                        <a class="dropdown-item d-flex align-items-center" href="profile.html">
+                        <a class="dropdown-item d-flex align-items-center" href="profile.php">
                             <i class="bi bi-gear"></i>
                             <span>Chỉnh sửa thông tin</span>
                         </a>
@@ -247,7 +285,7 @@
                     </li>
 
                     <li>
-                        <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
+                        <a class="dropdown-item d-flex align-items-center" href="lienhe.php">
                             <i class="bi bi-question-circle"></i>
                             <span>Bạn cần trợ giúp?</span>
                         </a>
@@ -281,14 +319,14 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="trangchu.html">
+            <a class="nav-link collapsed" href="trangchu.php">
                 <i class="fa-solid fa-house"></i>
                 <span>Trang chủ</span>
             </a>
         </li><!-- End Trang chủ Nav -->
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="gioithieu.html">
+            <a class="nav-link collapsed" href="gioithieu.php">
                 <i class="bi bi-person-lines-fill"></i>
                 <span>Giới thiệu</span>
             </a>
@@ -300,22 +338,22 @@
             </a>
             <ul id="ketqua-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
-                    <a href="baibao-quocte.html">
+                    <a href="baibao-quocte.php">
                         <i class="bi bi-circle"></i><span>Bài báo quốc tế</span>
                     </a>
                 </li>
                 <li>
-                    <a href="baibao-trongnuoc.html">
+                    <a href="baibao-trongnuoc.php">
                         <i class="bi bi-circle"></i><span>Bài báo trong nước</span>
                     </a>
                 </li>
                 <li>
-                    <a href="donggop-dulieu.html">
+                    <a href="donggop-dulieu.php">
                         <i class="bi bi-circle"></i><span>Đóng góp dữ liệu</span>
                     </a>
                 </li>
                 <li>
-                    <a href="lsdonggop-thanhtoan.html">
+                    <a href="lsdonggop-thanhtoan.php">
                         <i class="bi bi-circle"></i><span>Lịch sử đóng góp, thanh toán</span>
                     </a>
                 </li>
@@ -334,7 +372,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="chuandoan.html">
+                    <a href="chuandoan.php">
                         <i class="bi bi-circle"></i><span>Chuẩn đoán bệnh</span>
                     </a>
                 </li>
@@ -347,22 +385,22 @@
             </a>
             <ul id="csdl-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
-                    <a href="dulieu-nuoc.html">
+                    <a href="dulieu-nuoc.php">
                         <i class="bi bi-circle"></i><span>Dữ liệu chất lượng nước</span>
                     </a>
                 </li>
                 <li>
-                    <a href="dulieu-khihau.html">
+                    <a href="dulieu-khihau.php">
                         <i class="bi bi-circle"></i><span>Dữ liệu vi khí hậu, thời tiết vùng nuôi</span>
                     </a>
                 </li>
                 <li>
-                    <a href="dulieu-domtrang.html">
+                    <a href="dulieu-domtrang.php">
                         <i class="bi bi-circle"></i><span>Dữ liệu bệnh đốm trắng</span>
                     </a>
                 </li>
                 <li>
-                    <a href="dulieu-gan.html">
+                    <a href="dulieu-gan.php">
                         <i class="bi bi-circle"></i><span>Dữ liệu bệnh hoại tử gan tuỵ cấp</span>
                     </a>
                 </li>
@@ -370,7 +408,7 @@
         </li><!-- End Cơ sở dữ liệu Nav -->
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="trangtrai.html">
+            <a class="nav-link collapsed" href="trangtrai.php">
                 <i class="fa-solid fa-shrimp"></i>
                 <span>Trang trại</span>
             </a>
@@ -382,17 +420,17 @@
             </a>
             <ul id="ungdung-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
-                    <a href="mohinh-ai.html">
+                    <a href="mohinh-ai.php">
                         <i class="bi bi-circle"></i><span>Mô hình AI</span>
                     </a>
                 </li>
                 <li>
-                    <a href="huongdan-sudung.html">
+                    <a href="huongdan-sudung.php">
                         <i class="bi bi-circle"></i><span>Hướng dẫn sử dụng</span>
                     </a>
                 </li>
                 <li>
-                    <a href="video-huongdan.html">
+                    <a href="video-huongdan.php">
                         <i class="bi bi-circle"></i><span>Video hướng dẫn</span>
                     </a>
                 </li>
@@ -400,14 +438,14 @@
         </li><!-- End ứng dụng AI Nav -->
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="lienhe.html">
+            <a class="nav-link collapsed" href="lienhe.php">
                 <i class="fa-solid fa-envelope"></i>
                 <span>Liên hệ</span>
             </a>
         </li><!-- End liên hệ Nav -->
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="tintuc.html">
+            <a class="nav-link collapsed" href="tintuc.php">
                 <i class="fa-solid fa-newspaper"></i>
                 <span>Tin tức</span>
             </a>
@@ -416,7 +454,7 @@
         <li class="nav-heading">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</li>
 
         <li class="nav-item">
-            <a class="nav-link" href="profile.html">
+            <a class="nav-link" href="profile.php">
                 <i class="fas fa-user"></i>
                 <span>Hồ sơ</span>
             </a>
@@ -440,10 +478,20 @@
                     </a>
                 </li>
                 <li>
-                    <a href="dangtinbenh.php">
-                        <i class="bi bi-circle"></i><span>DANG TIN bệnh</span>
-                    </a>
-                </li>                    
+                        <a href="dangtin/dangtin_benh.php">
+                            <i class="bi bi-circle"></i><span>Đăng tin tức bệnh tôm</span>
+                        </a>
+                    </li>                    
+                    <li>
+                        <a href="dangtin/dangtin_bao_quocte.php" >
+                            <i class="bi bi-circle"></i><span>Đăng tin báo quốc tế</span>
+                        </a>
+                    </li>                    
+                    <li>
+                        <a href="dangtin/dangtin_bao_trongnuoc.php">
+                            <i class="bi bi-circle"></i><span>Đăng tin báo trong nước</span>
+                        </a>
+                    </li>                     
             </ul>
         </li><!-- End đăng tin Nav -->
 
@@ -473,7 +521,7 @@
                         <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
     
                             <img src="assets/img/logo.png" alt="Profile" class="rounded-circle">
-                            <h2>Ngô Tiến Lộc</h2>
+                            <h2> <?php echo htmlspecialchars($name); ?></h2>
                             
                         </div>
                     </div>
@@ -515,37 +563,37 @@
     
                                     <div class="row">
                                         <div class="col-lg-3 col-md-4 label ">Họ và tên</div>
-                                        <div class="col-lg-9 col-md-8">Ngô Tiến Lộc</div>
+                                        <div class="col-lg-9 col-md-8"> <?php echo htmlspecialchars($name); ?></div>
                                     </div>
     
                                     <div class="row">
                                         <div class="col-lg-3 col-md-4 label">Công ty</div>
-                                        <div class="col-lg-9 col-md-8">Lueilwitz, Wisoky and Leuschke</div>
+                                        <div class="col-lg-9 col-md-8"><?php echo htmlspecialchars($company ? $company : 'NULL'); ?></div>
                                     </div>
     
                                     <div class="row">
                                         <div class="col-lg-3 col-md-4 label">Nghề nghiệp</div>
-                                        <div class="col-lg-9 col-md-8">Làm gì đó</div>
+                                        <div class="col-lg-9 col-md-8"><?php echo htmlspecialchars($job ? $job : 'NULL'); ?></div>
                                     </div>
     
                                     <div class="row">
                                         <div class="col-lg-3 col-md-4 label">Quốc gia</div>
-                                        <div class="col-lg-9 col-md-8">Việt Nam</div>
+                                        <div class="col-lg-9 col-md-8"><?php echo htmlspecialchars($country ? $country : 'NULL'); ?></div>
                                     </div>
     
                                     <div class="row">
                                         <div class="col-lg-3 col-md-4 label">Địa chỉ</div>
-                                        <div class="col-lg-9 col-md-8">Gia Lâm, Hà Nội, Việt Nam</div>
+                                        <div class="col-lg-9 col-md-8"><?php echo htmlspecialchars($address ? $address : 'NULL'); ?></div>
                                     </div>
     
                                     <div class="row">
                                         <div class="col-lg-3 col-md-4 label">Số điện thoại</div>
-                                        <div class="col-lg-9 col-md-8">(84) 1234 5678 90</div>
+                                        <div class="col-lg-9 col-md-8"><?php echo htmlspecialchars($phone ? $phone : 'NULL'); ?></div>
                                     </div>
     
                                     <div class="row">
                                         <div class="col-lg-3 col-md-4 label">Email</div>
-                                        <div class="col-lg-9 col-md-8">loc@example.com</div>
+                                        <div class="col-lg-9 col-md-8"><?php echo htmlspecialchars($email ? $email : 'NULL'); ?></div>
                                     </div>
     
                                 </div>
@@ -553,74 +601,67 @@
                                 <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
     
                                     <!-- Sửa Thông tin Form -->
-                                    <form>
+                                    <form method="POST" action="update_profile.php">
                                         <div class="row mb-3">
                                             <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Ảnh hồ sơ</label>
                                             <div class="col-md-8 col-lg-9">
                                                 <img src="assets/img/logo.png" alt="Profile">
                                             </div>
                                         </div>
-    
+
                                         <div class="row mb-3">
                                             <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Họ và tên</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <input name="fullName" type="text" class="form-control" id="fullName"
-                                                    value="Ngô Tiến Lộc ">
+                                                <input name="fullName" type="text" class="form-control" id="fullName" value="<?php echo htmlspecialchars($name); ?>">
                                             </div>
                                         </div>
-    
+
                                         <div class="row mb-3">
                                             <label for="company" class="col-md-4 col-lg-3 col-form-label">Công ty</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <input name="company" type="text" class="form-control" id="company"
-                                                    value="        <!-- ======= Footer ======= -->">
+                                                <input name="company" type="text" class="form-control" id="company" value="<?php echo htmlspecialchars(isset($company) ? $company : 'NULL'); ?>">
                                             </div>
                                         </div>
-    
+
                                         <div class="row mb-3">
                                             <label for="Job" class="col-md-4 col-lg-3 col-form-label">Nghề nghiệp</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <input name="job" type="text" class="form-control" id="Job"
-                                                    value="Web Designer">
+                                                <input name="job" type="text" class="form-control" id="Job" value="<?php echo htmlspecialchars(isset($job) ? $job : 'NULL'); ?>">
                                             </div>
                                         </div>
-    
+
                                         <div class="row mb-3">
                                             <label for="Country" class="col-md-4 col-lg-3 col-form-label">Quốc gia</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <input name="country" type="text" class="form-control" id="Country"
-                                                    value="Việt Nam">
+                                                <input name="country" type="text" class="form-control" id="Country" value="<?php echo htmlspecialchars(isset($country) ? $country : 'NULL'); ?>">
                                             </div>
                                         </div>
-    
+
                                         <div class="row mb-3">
                                             <label for="Address" class="col-md-4 col-lg-3 col-form-label">Địa chỉ</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <input name="address" type="text" class="form-control" id="Address"
-                                                    value="Gia Lâm, Hà Nội, Việt Nam">
+                                                <input name="address" type="text" class="form-control" id="Address" value="<?php echo htmlspecialchars(isset($address) ? $address : 'NULL'); ?>">
                                             </div>
                                         </div>
-    
+
                                         <div class="row mb-3">
                                             <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Số điện thoại</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <input name="phone" type="text" class="form-control" id="Phone"
-                                                    value="(84) 1234 5678 90">
+                                                <input name="phone" type="text" class="form-control" id="Phone" value="<?php echo htmlspecialchars(isset($phone) ? $phone : 'NULL'); ?>">
                                             </div>
                                         </div>
-    
+
                                         <div class="row mb-3">
                                             <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <input name="email" type="email" class="form-control" id="Email"
-                                                    value="loc@example.com">
+                                                <input name="email" type="email" class="form-control" id="Email" value="<?php echo htmlspecialchars(isset($email) ? $email : 'NULL'); ?>">
                                             </div>
                                         </div>
-    
+
                                         <div class="text-center">
                                             <button type="submit" class="btn btn-primary">Lưu thông tin</button>
                                         </div>
-                                    </form><!-- End Hồ sơ Edit Form -->
+                                    </form>
     
                                 </div>
     
@@ -671,39 +712,45 @@
     
                                 <div class="tab-pane fade pt-3" id="profile-change-password">
                                     <!-- Change Password Form -->
-                                    <form>
-    
+                                    <form id="changePasswordForm">
                                         <div class="row mb-3">
                                             <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Mật khẩu cũ</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <input name="password" type="password" class="form-control"
-                                                    id="currentPassword">
+                                                <input type="password" name="currentPassword" class="form-control" id="currentPassword" required>
+                                                <div id="current-password-error" class="invalid-feedback" style="display: none;">
+                                                    Mật khẩu không đúng!
+                                                </div>
                                             </div>
                                         </div>
-    
+
                                         <div class="row mb-3">
-                                            <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">Mật khẩu cũ</label>
+                                            <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">Mật khẩu mới</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <input name="newpassword" type="password" class="form-control"
-                                                    id="newPassword">
+                                                <input type="password" name="newpassword" class="form-control" id="newpassword" required>
+                                                <div id="invalid-feedback" class="invalid-feedback" style="display: none;">
+                                                    Vui lòng nhập mật khẩu!
+                                                </div>
+                                                <div id="password-requirements" class="invalid-feedback" style="display: none;">
+                                                    Mật khẩu phải có tối thiểu 8 ký tự, bao gồm chữ cái in thường, chữ cái in hoa, và số.
+                                                </div>
                                             </div>
                                         </div>
-    
+
                                         <div class="row mb-3">
                                             <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Nhập lại mật khẩu mới</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <input name="renewpassword" type="password" class="form-control"
-                                                    id="renewPassword">
+                                                <input name="renewpassword" type="password" class="form-control" id="renewPassword" required>
+                                                <div id="renew-password-error" class="text-danger" style="display: none;">Mật khẩu không khớp!</div>
                                             </div>
                                         </div>
-    
+
                                         <div class="text-center">
                                             <button type="submit" class="btn btn-primary">Thay đổi mật khẩu</button>
                                         </div>
-                                    </form><!-- End Change Password Form -->
-    
-                                </div>
-    
+
+                                        <div id="message" class="mt-3 text-center"></div>
+                                    </form>
+                                   
                             </div><!-- End Bordered Tabs -->
     
                         </div>
@@ -712,6 +759,7 @@
                 </div>
             </div>
         </section>
+        
     
     </main><!-- End #main -->
 
@@ -781,6 +829,112 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="assets/js/script.js"></script>
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script>
+    $(document).ready(function() {
+        // Xử lý submit form thay đổi mật khẩu
+        $('#changePasswordForm').on('submit', function(e) {
+            e.preventDefault(); // Ngăn chặn form submit mặc định
+
+            $.ajax({
+                type: 'POST',
+                url: 'change_password.php', // File PHP xử lý cả thay đổi và kiểm tra mật khẩu
+                data: $(this).serialize() + '&action=changePassword', // Thêm action để phân biệt yêu cầu
+                success: function(response) {
+                    $('#message').html(response); // Hiển thị thông báo từ PHP trong div #message
+                },
+                error: function() {
+                    $('#message').html('Có lỗi xảy ra, vui lòng thử lại.'); // Thông báo lỗi khi AJAX thất bại
+                }
+            });
+        });
+
+        // Kiểm tra yêu cầu mật khẩu mới
+        $('#newpassword').on('input', function () {
+            var inputField = $(this);
+            var value = inputField.val();
+            var invalidFeedback = $('#invalid-feedback');
+            var passwordRequirements = $('#password-requirements');
+
+            // Kiểm tra mật khẩu
+            var hasLowercase = /[a-z]/.test(value);
+            var hasUppercase = /[A-Z]/.test(value);
+            var hasNumber = /[0-9]/.test(value);
+            var isValidLength = value.length >= 8;
+
+            if (value === '') {
+                // Trường trống
+                invalidFeedback.show().text("Vui lòng nhập mật khẩu!");
+                passwordRequirements.hide();
+                inputField[0].setCustomValidity("Vui lòng nhập mật khẩu!");
+            } else if (!isValidLength || !hasLowercase || !hasUppercase || !hasNumber) {
+                // Mật khẩu không hợp lệ
+                invalidFeedback.hide();
+                passwordRequirements.show();
+                inputField[0].setCustomValidity("Mật khẩu không hợp lệ!");
+            } else {
+                // Mật khẩu hợp lệ
+                invalidFeedback.hide();
+                passwordRequirements.hide();
+                inputField[0].setCustomValidity("");
+            }
+
+            inputField[0].reportValidity();
+        });
+
+        // Xử lý kiểm tra mật khẩu cũ
+        $('#currentPassword').on('blur', function () {
+            var currentPassword = $(this).val();
+            var errorFeedback = $('#current-password-error');
+
+            if (currentPassword !== '') {
+                // Gửi yêu cầu AJAX để kiểm tra mật khẩu cũ
+                $.ajax({
+                    type: 'POST',
+                    url: 'change_password.php', // Sử dụng cùng file PHP đã gộp
+                    data: { currentPassword: currentPassword, action: 'checkCurrentPassword' }, // Thêm action để phân biệt yêu cầu
+                    success: function(response) {
+                        if (response.trim() === 'invalid') {
+                            // Nếu mật khẩu không đúng, hiển thị thông báo lỗi
+                            errorFeedback.show().text("Mật khẩu không đúng!");
+                            $('#currentPassword')[0].setCustomValidity("Mật khẩu không đúng!");
+                        } else {
+                            // Nếu mật khẩu đúng, ẩn thông báo lỗi
+                            errorFeedback.hide();
+                            $('#currentPassword')[0].setCustomValidity("");
+                        }
+                        $('#currentPassword')[0].reportValidity();
+                    },
+                    error: function() {
+                        errorFeedback.show().text("Có lỗi xảy ra, vui lòng thử lại.");
+                    }
+                });
+            } else {
+                errorFeedback.hide();
+                $('#currentPassword')[0].setCustomValidity("");
+            }
+        });
+
+        // Kiểm tra khớp giữa mật khẩu mới và xác nhận mật khẩu
+        $('#renewPassword').on('input', function () {
+            var newPassword = $('#newpassword').val();
+            var renewPassword = $(this).val();
+            var errorFeedback = $('#renew-password-error');
+
+            if (renewPassword !== newPassword) {
+                // Nếu mật khẩu không khớp
+                errorFeedback.show().text("Mật khẩu không khớp!");
+                $(this)[0].setCustomValidity("Mật khẩu không khớp!");
+            } else {
+                // Nếu mật khẩu khớp
+                errorFeedback.hide();
+                $(this)[0].setCustomValidity("");
+            }
+            $(this)[0].reportValidity();
+        });
+    });
+    </script>
         
     </body>
 

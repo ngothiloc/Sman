@@ -1,17 +1,6 @@
 <?php
-// Database connection
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "sdb";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+// Kết nối đến database
+include 'db.php';
 
 // Get the disease type from the request
 $disease_type = isset($_GET['disease_type']) ? $_GET['disease_type'] : '';

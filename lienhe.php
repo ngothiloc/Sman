@@ -1,3 +1,30 @@
+<?php
+// Bắt đầu session
+session_start();
+
+// Kết nối đến database
+include 'db.php';
+
+// Kiểm tra xem người dùng đã đăng nhập chưa
+if (!isset($_SESSION['username'])) {
+    // Người dùng chưa đăng nhập, chuyển hướng về trang đăng nhập
+    header("Location: dangnhap.php");
+    exit();
+}
+
+// Lấy tên từ database dựa vào tên đăng nhập từ session
+$username = $_SESSION['username'];
+$sql = "SELECT name FROM users WHERE username = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $username);
+$stmt->execute();
+$stmt->bind_result($name);
+$stmt->fetch();
+$stmt->close();
+
+$conn->close();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -46,7 +73,7 @@
     <header id="header" class="header fixed-top d-flex align-items-center">
 
         <div class="d-flex align-items-center justify-content-between">
-            <a href="trangchu.html" class="logo d-flex align-items-center">
+            <a href="trangchu.php" class="logo d-flex align-items-center">
                 <img src="assets/img/logo.png" alt="">
                 <span class="d-none d-lg-block">Sman</span>
             </a>
@@ -214,12 +241,14 @@
 
                     <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
                         <img src="assets/img/logo.png" alt="Profile" class="rounded-circle">
-                        <span class="d-none d-md-block dropdown-toggle ps-2">Ngô Tiến Lộc</span>
+                        <span class="d-none d-md-block dropdown-toggle ps-2">
+                            <?php echo htmlspecialchars($name); ?>
+                        </span>
                     </a><!-- End Profile Iamge Icon -->
 
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                         <li class="dropdown-header">
-                            <h6>Ngô Tiến Lộc</h6>
+                            <h6><?php echo htmlspecialchars($name); ?></h6>
                             <span>Nghề nghiệp làm gì đó</span>
                         </li>
                         <li>
@@ -227,7 +256,7 @@
                         </li>
 
                         <li>
-                            <a class="dropdown-item d-flex align-items-center" href="profile.html">
+                            <a class="dropdown-item d-flex align-items-center" href="profile.php">
                                 <i class="bi bi-person"></i>
                                 <span>Hồ sơ</span>
                             </a>
@@ -237,7 +266,7 @@
                         </li>
 
                         <li>
-                            <a class="dropdown-item d-flex align-items-center" href="profile.html">
+                            <a class="dropdown-item d-flex align-items-center" href="profile.php">
                                 <i class="bi bi-gear"></i>
                                 <span>Chỉnh sửa thông tin</span>
                             </a>
@@ -247,7 +276,7 @@
                         </li>
 
                         <li>
-                            <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
+                            <a class="dropdown-item d-flex align-items-center" href="lienhe.php">
                                 <i class="bi bi-question-circle"></i>
                                 <span>Bạn cần trợ giúp?</span>
                             </a>
@@ -280,41 +309,41 @@
         <ul class="sidebar-nav" id="sidebar-nav">
     
             <li class="nav-item">
-                <a class="nav-link collapsed" href="trangchu.html">
+                <a class="nav-link collapsed" href="trangchu.php">
                     <i class="fa-solid fa-house"></i>
                     <span>Trang chủ</span>
                 </a>
             </li><!-- End Trang chủ Nav -->
     
             <li class="nav-item">
-                <a class="nav-link collapsed" href="gioithieu.html">
+                <a class="nav-link collapsed" href="gioithieu.php">
                     <i class="bi bi-person-lines-fill"></i>
                     <span>Giới thiệu</span>
                 </a>
             </li><!-- End Trang chủ Nav -->
     
             <li class="nav-item">
-                <a class="nav-link" data-bs-target="#ketqua-nav" data-bs-toggle="collapse" href="#">
+                <a class="nav-link collapsed" data-bs-target="#ketqua-nav" data-bs-toggle="collapse" href="#">
                     <i class="fas fa-vial"></i><span>Kết quả nghiên cứu</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="ketqua-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
+                <ul id="ketqua-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="baibao-quocte.html" class="active">
+                        <a href="baibao-quocte.php">
                             <i class="bi bi-circle"></i><span>Bài báo quốc tế</span>
                         </a>
                     </li>
                     <li>
-                        <a href="baibao-trongnuoc.html">
+                        <a href="baibao-trongnuoc.php">
                             <i class="bi bi-circle"></i><span>Bài báo trong nước</span>
                         </a>
                     </li>
                     <li>
-                        <a href="donggop-dulieu.html">
+                        <a href="donggop-dulieu.php">
                             <i class="bi bi-circle"></i><span>Đóng góp dữ liệu</span>
                         </a>
                     </li>
                     <li>
-                        <a href="lsdonggop-thanhtoan.html">
+                        <a href="lsdonggop-thanhtoan.php">
                             <i class="bi bi-circle"></i><span>Lịch sử đóng góp, thanh toán</span>
                         </a>
                     </li>
@@ -333,7 +362,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="chuandoan.html">
+                        <a href="chuandoan.php">
                             <i class="bi bi-circle"></i><span>Chuẩn đoán bệnh</span>
                         </a>
                     </li>
@@ -346,22 +375,22 @@
                 </a>
                 <ul id="csdl-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="dulieu-nuoc.html">
+                        <a href="dulieu-nuoc.php">
                             <i class="bi bi-circle"></i><span>Dữ liệu chất lượng nước</span>
                         </a>
                     </li>
                     <li>
-                        <a href="dulieu-khihau.html">
+                        <a href="dulieu-khihau.php">
                             <i class="bi bi-circle"></i><span>Dữ liệu vi khí hậu, thời tiết vùng nuôi</span>
                         </a>
                     </li>
                     <li>
-                        <a href="dulieu-domtrang.html">
+                        <a href="dulieu-domtrang.php">
                             <i class="bi bi-circle"></i><span>Dữ liệu bệnh đốm trắng</span>
                         </a>
                     </li>
                     <li>
-                        <a href="dulieu-gan.html">
+                        <a href="dulieu-gan.php">
                             <i class="bi bi-circle"></i><span>Dữ liệu bệnh hoại tử gan tuỵ cấp</span>
                         </a>
                     </li>
@@ -369,7 +398,7 @@
             </li><!-- End Cơ sở dữ liệu Nav -->
     
             <li class="nav-item">
-                <a class="nav-link collapsed" href="trangtrai.html">
+                <a class="nav-link collapsed" href="trangtrai.php">
                     <i class="fa-solid fa-shrimp"></i>
                     <span>Trang trại</span>
                 </a>
@@ -381,41 +410,42 @@
                 </a>
                 <ul id="ungdung-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="mohinh-ai.html">
+                        <a href="mohinh-ai.php">
                             <i class="bi bi-circle"></i><span>Mô hình AI</span>
                         </a>
                     </li>
                     <li>
-                        <a href="huongdan-sudung.html">
+                        <a href="huongdan-sudung.php">
                             <i class="bi bi-circle"></i><span>Hướng dẫn sử dụng</span>
                         </a>
                     </li>
                     <li>
-                        <a href="video-huongdan.html">
+                        <a href="video-huongdan.php">
                             <i class="bi bi-circle"></i><span>Video hướng dẫn</span>
                         </a>
                     </li>
                 </ul>
             </li><!-- End ứng dụng AI Nav -->
+
     
             <li class="nav-item">
-                <a class="nav-link collapsed" href="lienhe.html">
+                <a class="nav-link " href="lienhe.php">
                     <i class="fa-solid fa-envelope"></i>
                     <span>Liên hệ</span>
                 </a>
             </li><!-- End liên hệ Nav -->
-    
+
             <li class="nav-item">
-                <a class="nav-link collapsed" href="tintuc.html">
+                <a class="nav-link collapsed" href="tintuc.php">
                     <i class="fa-solid fa-newspaper"></i>
                     <span>Tin tức</span>
                 </a>
             </li><!-- End tin tức Nav -->
     
             <li class="nav-heading">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</li>
-
+    
             <li class="nav-item">
-                <a class="nav-link collapsed" href="profile.html">
+                <a class="nav-link collapsed" href="profile.php">
                     <i class="fas fa-user"></i>
                     <span>Hồ sơ</span>
                 </a>
@@ -439,8 +469,18 @@
                         </a>
                     </li>
                     <li>
-                        <a href="dangtinbenh.php">
-                            <i class="bi bi-circle"></i><span>DANG TIN bệnh</span>
+                        <a href="dangtin/dangtin_benh.php">
+                            <i class="bi bi-circle"></i><span>Đăng tin tức bệnh tôm</span>
+                        </a>
+                    </li>                    
+                    <li>
+                        <a href="dangtin/dangtin_bao_quocte.php" >
+                            <i class="bi bi-circle"></i><span>Đăng tin báo quốc tế</span>
+                        </a>
+                    </li>                    
+                    <li>
+                        <a href="dangtin/dangtin_bao_trongnuoc.php">
+                            <i class="bi bi-circle"></i><span>Đăng tin báo trong nước</span>
                         </a>
                     </li>                    
                 </ul>
@@ -450,287 +490,158 @@
 
     
     </aside><!-- End Sidebar-->
-    
 
 
     <!-- ======= Main ======= -->
 
-    <main id="main" class="main">
+<main id="main" class="main">
 
-        <div class="pagetitle">
-            <h1>Bài báo quốc tế</h1>
-            <nav>
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item">Kết quả nghiên cứu</li>
-                    <li class="breadcrumb-item">Bài báo quốc tế</li>
-                </ol>
-            </nav>
-        </div><!-- End Page Title -->
+    <div class="pagetitle">
+        <h1>Liên hệ</h1>
+        <nav>
+            <ol class="breadcrumb">
+               
+                <li class="breadcrumb-item">Liên hệ</li>
+                <li class="breadcrumb-item"></li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
 
-        <section class="section dashboard">
-            <div class="row align-items-top">
-                <div class="col-lg-8">
+    <section class="section contact">
 
-                    <!-- Card with an image on left -->
-                    <div class="card mb-3">
-                        <div class="card-header">Tin tức nổi bật</div>
-                        <div class="row g-0">
-                            <div class="col-md-4">
-                                <img src="assets/img/new 1.jpg" class="img-fluid rounded-start" alt="...">
-                            </div>
-                            <div class="col-md-8">
-                                <div class="card-body">
-                                    <h5 class="card-title">Công nghệ AI trong xử lý bệnh tôm</h5>
-                                    <p class="card-text">Thông chi tiết về tin tức trên sẽ hiển thị ở đoạn này. Thông
-                                        chi tiết về tin tức trên sẽ hiển thị ở đoạn này.</p>
-                                </div>
-                            </div>
-                            <div class="card-footer"><i class="fa-solid fa-clock"></i>
-                                10 - 8 - 2024
-                            </div>
-                        </div>
-                    </div><!-- End Card with an image on left -->
+        <div class="col gy-4">
 
+            <div class="col-xl-12">
 
-
-                    <div class="row g-0">
-                        <!-- Card with an image on bottom -->
-                        <div class="col-lg-4 col-md-6 col-sm-6">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Công nghệ AI trong xử lý bệnh tôm</h5>
-                                    <p class="card-text">Thông chi tiết về tin tức trên sẽ hiển thị ở đoạn này.Thông chi
-                                        tiết về tin tThông chi tiết về tin
-                                    </p>
-                                </div>
-                                <img src="assets/img/new 1.jpg" class="card-img-bottom" alt="...">
-                            </div>
-                        </div>
-
-                        <!-- Card with an image on bottom -->
-                        <div class="col-lg-4 col-md-6 col-sm-6">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Công nghệ AI trong xử lý bệnh tôm</h5>
-                                    <p class="card-text">Thông chi tiết về tin tức trên sẽ hiển thị ở đoạn này. Thông
-                                        chi tiết về tin tức trên sẽ hiển thị ở </p>
-                                </div>
-                                <img src="assets/img/new 1.jpg" class="card-img-bottom" alt="...">
-                            </div>
-                        </div>
-
-                        <!-- Card with an image on bottom -->
-                        <div class="col-lg-4 col-md-6 col-sm-6">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Công nghệ AI trong xử lý bệnh tôm</h5>
-                                    <p class="card-text">Thông chi tiết về tin tức trên sẽ hiển thị ở đoạn này. Thông
-                                        chi tiết về tin tức trên sẽ hiển thị ở</p>
-                                </div>
-                                <img src="assets/img/new 1.jpg" class="card-img-bottom" alt="...">
-                            </div>
-                        </div>
-
-                        <!-- Card with an image on bottom -->
-                        <div class="col-lg-4 col-md-6 col-sm-6">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Công nghệ AI trong xử lý bệnh tôm</h5>
-                                    <p class="card-text">Thông chi tiết về tin tức trên sẽ hiển thị ở đoạn này. Thông
-                                        chi tiết về tin tức trên sẽ hiển thị ở</p>
-                                </div>
-                                <img src="assets/img/new 1.jpg" class="card-img-bottom" alt="...">
-                            </div>
-                        </div>
-
-                        <!-- Card with an image on bottom -->
-                        <div class="col-lg-4 col-md-6 col-sm-6">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Công nghệ AI trong xử lý bệnh tôm</h5>
-                                    <p class="card-text">Thông chi tiết về tin tức trên sẽ hiển thị ở đoạn này. Thông
-                                        chi tiết về tin tức trên sẽ hiển thị ở</p>
-                                </div>
-                                <img src="assets/img/new 1.jpg" class="card-img-bottom" alt="...">
-                            </div>
-                        </div>
-
-                        <!-- Card with an image on bottom -->
-                        <div class="col-lg-4 col-md-6 col-sm-6">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Công nghệ AI trong xử lý bệnh tôm</h5>
-                                    <p class="card-text">Thông chi tiết về tin tức trên sẽ hiển thị ở đoạn này. Thông
-                                        chi tiết về tin tức trên sẽ hiển thị ở</p>
-                                </div>
-                                <img src="assets/img/new 1.jpg" class="card-img-bottom" alt="...">
-                            </div>
-                        </div>
-
-                        <!-- Card with an image on bottom -->
-                        <div class="col-lg-4 col-md-6 col-sm-6">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Công nghệ AI trong xử lý bệnh tôm</h5>
-                                    <p class="card-text">Thông chi tiết về tin tức trên sẽ hiển thị ở đoạn này. Thông
-                                        chi tiết về tin tức trên sẽ hiển thị ở</p>
-                                </div>
-                                <img src="assets/img/new 1.jpg" class="card-img-bottom" alt="...">
-                            </div>
-                        </div>
-
-                        <!-- Card with an image on bottom -->
-                        <div class="col-lg-4 col-md-6 col-sm-6">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Công nghệ AI trong xử lý bệnh tôm</h5>
-                                    <p class="card-text">Thông chi tiết về tin tức trên sẽ hiển thị ở đoạn này. Thông
-                                        chi tiết về tin tức trên sẽ hiển thị ở</p>
-                                </div>
-                                <img src="assets/img/new 1.jpg" class="card-img-bottom" alt="...">
-                            </div>
-                        </div>
-
-                        <!-- Card with an image on bottom -->
-                        <div class="col-lg-4 col-md-6 col-sm-6">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Công nghệ AI trong xử lý bệnh tôm</h5>
-                                    <p class="card-text">Thông chi tiết về tin tức trên sẽ hiển thị ở đoạn này. Thông
-                                        chi tiết về tin tức trên sẽ hiển thị ở</p>
-                                </div>
-                                <img src="assets/img/new 1.jpg" class="card-img-bottom" alt="...">
-                            </div>
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="info-box card">
+                            <i class="bi bi-geo-alt"></i>
+                            <h3>Địa chỉ</h3>
+                            <p>Nhà A28, Số 18 Hoàng Quốc Việt, Phường Nghĩa Đô, <br>Quận Cầu Giấy, Thành phố Hà Nội</p>
                         </div>
                     </div>
-
+                    <div class="col-lg-4">
+                        <div class="info-box card">
+                            <i class="bi bi-telephone"></i>
+                            <h3>Số điện thoại</h3>
+                            <p>(+84) 24 3756 8422<br>(+84) 91 6661 078</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="info-box card">
+                            <i class="bi bi-envelope"></i>
+                            <h3>Email</h3>
+                            <p>vanthu@creteach.vast.vn<br>namduongthanh@gmail.com</p>
+                        </div>
+                    </div>                    
                 </div>
 
+            </div>
 
-                <div class="col-lg-4">
+            <div class="col-xl-12">
+                <div class="card p-4">
+                    <b style="text-align: center;   color: var(--Midnight-Blue, #012970);font-family:'Open Sans'; font-size: 1.6rem; padding-bottom: 15px;">Nhập thông tin cần hỗ trợ hoặc tư vấn</b>
+                    <div class="row gy-4">
+                        <!-- Form bên trái -->
+                        <div class="col-lg-6">
+                            <form action="forms/contact.php" method="post" class="php-email-form">
+                                <div class="row gy-4">
+            
+                                    <div class="col-md-6">
+                                        <input type="text" name="name" class="form-control" placeholder="Họ tên" required>
+                                    </div>
+            
+                                    <div class="col-md-6">
+                                        <input type="email" class="form-control" name="email" placeholder="Email" required>
+                                    </div>
 
-                    <!--thời tiết-->
-                    <div class="card" style="height: 300px;">
-                        <iframe width="100%" height="100%" src="https://thoitiet.app/widget/embed/" id="widgeturl" scrolling="no"
-                            frameborder="0" allowtransparency="true" style="border:none; overflow:hidden;">
-                        </iframe>
-                    </div>
-
-                    <!-- News & Updates Traffic -->
-                    <div class="card">
-                        <div class="filter">
-                            <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                <li class="dropdown-header text-start">
-                                    <h6>Bộ lọc</h6>
-                                </li>
-                                <li><a class="dropdown-item" href="#">Hôm nay</a></li>
-                                <li><a class="dropdown-item" href="#">Tháng này</a></li>
-                                <li><a class="dropdown-item" href="#">Năm này</a></li>
-                            </ul>
+                                    <div class="col-md-12">
+                                        <input type="text" class="form-control" name="subject" placeholder="Địa chỉ" required>
+                                    </div>
+            
+                                    <div class="col-md-12">
+                                        <input type="text" class="form-control" name="tieude" placeholder="Tiêu đề" required>
+                                    </div>
+            
+                                    <div class="col-md-12">
+                                        <textarea class="form-control" name="message" rows="6" placeholder="Nhập thông tin cần hỗ trợ tư vấn"
+                                            required></textarea>
+                                    </div>
+            
+                                    <div class="col-md-12 text-center">
+                                        <div class="loading">Đang tải</div>
+                                        <div class="error-message"></div>
+                                        <div class="sent-message">Tin nhắn của bạn đã được gửi. Cảm ơn!</div>
+            
+                                        <button type="submit">Gửi</button>
+                                    </div>
+            
+                                </div>
+                            </form>
                         </div>
-                    
-                        <div class="card-body pb-0" style="margin: 10px 0 20px 0">
-                            <h5 class="card-title">Tin tức &amp; Cập nhật <span>| Hôm nay</span></h5>
-                    
-                            <div id="newsContainer" class="news"></div>
-                    
-                        </div>
-                    </div>
-                    
-                    <script>
-                        function loadNews() {
-                            let newsList = JSON.parse(localStorage.getItem('newsList')) || [];
-                            let newsContainer = document.getElementById('newsContainer');
-                            newsContainer.innerHTML = ''; // Xóa nội dung cũ trước khi thêm tin mới
-
-                            // Đảo ngược danh sách tin tức
-                            newsList.reverse().forEach(function (newsItem) {
-                                let postItem = document.createElement('div');
-                                postItem.className = 'post-item clearfix';
-
-                                postItem.innerHTML = `
-                                    <a href="${newsItem.link}" target="_blank" class="news-link">
-                                        <img src="${newsItem.image}" alt="">
-                                        <h4>${newsItem.title}</h4>
-                                        <p>${newsItem.content}</p>
-                                    </a>
-                                `;
-
-                                newsContainer.appendChild(postItem);
-                            });
-                        }
-
-                        document.addEventListener('DOMContentLoaded', loadNews);
-                    </script><!-- End News & Updates -->
-
-                    
-                </div>
-
-
-                <!-- Centered Pagination -->
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-                        </li>
-                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">Next</a>
-                        </li>
-                    </ul>
-                </nav><!-- End Centered Pagination -->
-
-
-
-    </main><!-- End #main -->
-
-            <!-- ======= Footer ======= -->
-            <footer id="footer" class="footer">
-                <div class="footer-content">
-                    <div class="footer-left">
-                        <div class="container-sdt">
-                            <div class="sdt">
-                                Số điện thoại: (+84) 24 3756 8422 / (+84) 91 6661 078
-                            </div>
-                        </div>
-
-                        <div class="container-email">
-                            <div class="email">
-                                Email: vanthu@creteach.vast.vn / namduongthanh@gmail.com
-                            </div>
-                        </div>
-
-                        <div class="container-dc">
-                            <div class="dc">
-                                Địa chỉ: Nhà A28, Toà nhà Ươm tạo công nghệ - Số 18 Hoàng Quốc Việt, Phường Nghĩa Đô,
-                                Quận Cầu Giấy, Thành phố Hà Nội
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="footer-right">
-                        <div class="text-app-container">
-                            <div class="text-app" style="font-size: medium;">
-                                ĐÃ CÓ TRÊN MỌI NỀN TẢNG
-                            </div>
-                            <div class="container-app">
-                                <a href="#"><img src="assets/img/ios.png" alt="App Store"></a>
-                                <a href="#"><img src="assets/img/gg play.png" alt="Google Play"></a>
-                            </div>
+                        <!-- Bản đồ bên phải -->
+                        <div class="col-lg-6">
+                            <iframe
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1861.819509095044!2d105.79928348890634!3d21.047125048419588!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ab23218454d5%3A0x430909ff16559628!2zVG_DoCBuaMOgIMavxqFtIHThuqFvIEPDtG5nIG5naOG7hw!5e0!3m2!1svi!2s!4v1723430083260!5m2!1svi!2s"
+                                width="100%" height="400px" style="border:0;" allowfullscreen="" loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade">
+                            </iframe>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="container-copy">
-                    <div class="copy">
-                        Copyright © 2024 Trung tâm Nghiên cứu và Phát triển công nghệ cao. All rights reserved
+        </div>
+
+    </section>
+
+</main><!-- End #main -->
+
+    <!-- ======= Footer ======= -->
+    <footer id="footer" class="footer">
+        <div class="footer-content">
+            <div class="footer-left">
+                <div class="container-sdt">
+                    <div class="sdt">
+                        Số điện thoại: (+84) 24 3756 8422 / (+84) 91 6661 078
                     </div>
                 </div>
-            </footer>
-            <!-- End Footer -->
+
+                <div class="container-email">
+                    <div class="email">
+                        Email: vanthu@creteach.vast.vn / namduongthanh@gmail.com
+                    </div>
+                </div>
+
+                <div class="container-dc">
+                    <div class="dc">
+                        Địa chỉ: Nhà A28, Toà nhà Ươm tạo công nghệ - Số 18 Hoàng Quốc Việt, Phường Nghĩa Đô,
+                        Quận Cầu Giấy, Thành phố Hà Nội
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-right">
+                <div class="text-app-container">
+                    <div class="text-app" style="font-size: medium;">
+                        ĐÃ CÓ TRÊN MỌI NỀN TẢNG
+                    </div>
+                    <div class="container-app">
+                        <a href="#"><img src="assets/img/ios.png" alt="App Store"></a>
+                        <a href="#"><img src="assets/img/gg play.png" alt="Google Play"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-copy">
+            <div class="copy">
+                Copyright © 2024 Trung tâm Nghiên cứu và Phát triển công nghệ cao. All rights reserved
+            </div>
+        </div>
+    </footer>
+    <!-- End Footer -->
 
 
     <!-- ======= JS ======= -->
@@ -748,16 +659,7 @@
     <script src="assets/vendor/php-email-form/validate.js"></script>
 
     <!-- Template Main JS File -->
-    <!-- Tải jQuery trước -->
-    <script src="assets/js/jquery.min.js"></script>
-    
-    <!-- Tải các tệp JavaScript -->
     <script src="assets/js/main.js"></script>
-    <script src="assets/js/table-functions.js"></script>
-    <script src="assets/js/modal-functions.js"></script>
-    <script src="assets/js/scroll-functions.js"></script>
-    <script src="assets/js/pagination-functions.js"></script>
-    <script src="assets/js/filter-functions.js"></script>
 
 </body>
 

@@ -1,3 +1,82 @@
+<?php
+// Bắt đầu session
+session_start();
+
+// Kết nối đến database
+include '../db.php';
+
+// Kiểm tra xem người dùng đã đăng nhập chưa
+if (!isset($_SESSION['username'])) {
+    // Người dùng chưa đăng nhập, chuyển hướng về trang đăng nhập
+    header("Location: ../dangnhap.php");
+    exit();
+}
+
+// Lấy tên từ database dựa vào tên đăng nhập từ session
+$username = $_SESSION['username'];
+$sql = "SELECT name FROM users WHERE username = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $username);
+$stmt->execute();
+$stmt->bind_result($name);
+$stmt->fetch();
+$stmt->close();
+
+// Xử lý khi form được gửi
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST['add_news_tintuc'])) {
+        $title = $_POST['title'];
+        $content = $_POST['content'];
+        $link = $_POST['link'];
+        $disease_type = $_POST['disease_type'];
+        $post_date = date("Y-m-d H:i:s");
+
+        // Xử lý upload hình ảnh
+        $target_dir = "../uploads/";
+        $target_file = $target_dir . basename($_FILES["image"]["name"]);
+        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+
+        // Kiểm tra kích thước ảnh (nếu cần)
+        /* list($width, $height) = getimagesize($_FILES["image"]["tmp_name"]);
+        if ($width !== 236 || $height !== 236) {
+            echo "<script>alert('Kích thước ảnh phải là 236x236 pixels.');</script>";
+        } */
+
+        // Kiểm tra và di chuyển file upload
+        if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
+            // Thêm tin tức vào cơ sở dữ liệu
+            $sql = "INSERT INTO news_tintuc (title, content, link, image, disease_type, post_date) 
+                    VALUES (?, ?, ?, ?, ?, ?)";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("ssssss", $title, $content, $link, basename($_FILES["image"]["name"]), $disease_type, $post_date);
+            if ($stmt->execute()) {
+                echo "<script>alert('Tin tức đã được thêm thành công!');</script>";
+            } else {
+                echo "<script>alert('Lỗi khi chèn vào cơ sở dữ liệu: " . $stmt->error . "');</script>";
+            }
+            $stmt->close();
+        } else {
+            echo "<script>alert('Lỗi khi tải lên ảnh. Hãy kiểm tra quyền ghi của thư mục \"uploads/\".');</script>";
+        }
+    } elseif (isset($_POST['delete_news_tintuc'])) {
+        $news_id = intval($_POST['news_id']);
+        $delete_sql = "DELETE FROM news_tintuc WHERE id = ?";
+        $stmt = $conn->prepare($delete_sql);
+        $stmt->bind_param("i", $news_id);
+        if ($stmt->execute()) {
+            echo "<script>alert('Tin tức đã được xóa!');</script>";
+        } else {
+            echo "Lỗi: " . $stmt->error;
+        }
+        $stmt->close();
+    }
+}
+// Lấy danh sách tin tức
+$sql = "SELECT * FROM news_tintuc ORDER BY id DESC";
+$result = $conn->query($sql);
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,8 +88,8 @@
     <meta content="" name="keywords">
 
     <!-- Favicons -->
-    <link href="assets/img/favicon.png" rel="icon">
-    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+    <link href="../assets/img/favicon.png" rel="icon">
+    <link href="../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect">
@@ -19,17 +98,17 @@
         rel="stylesheet">
 
     <!-- Vendor CSS Files -->
-    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-    <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-    <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
-    <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
-    <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
-    <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+    <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="../assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="../assets/vendor/quill/quill.snow.css" rel="stylesheet">
+    <link href="../assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+    <link href="../assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+    <link href="../assets/vendor/simple-datatables/style.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
 
     <!-- Template Main CSS File -->
-    <link href="assets/css/style.css" rel="stylesheet">
+    <link href="../assets/css/style.css" rel="stylesheet">
 
     <!-- =======================================================
   * Template Name: NiceAdmin
@@ -38,44 +117,57 @@
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
+    <script>
+        function validateImageSize(input) {
+            const file = input.files[0];
+            if (file) {
+                const img = new Image();
+                img.onload = function () {
+                    if (this.width !== 236 || this.height !== 236) {
+                        alert("Kích thước ảnh phải là 236x236 pixels.");
+                        input.value = ""; // Reset the file input
+                    }
+                };
+                img.src = URL.createObjectURL(file);
+            }
+        }
+    </script>
 </head>
-
 <body>
-
-    <!-- ======= Header ======= -->
-    <header id="header" class="header fixed-top d-flex align-items-center">
+     <!-- ======= Header ======= -->
+     <header id="header" class="header fixed-top d-flex align-items-center">
     
         <div class="d-flex align-items-center justify-content-between">
-            <a href="trangchu.html" class="logo d-flex align-items-center">
-                <img src="assets/img/logo.png" alt="">
+            <a href="../trangchu.php" class="logo d-flex align-items-center">
+                <img src="../assets/img/logo.png" alt="">
                 <span class="d-none d-lg-block">Sman</span>
             </a>
             <i class="bi bi-list toggle-sidebar-btn"></i>
         </div><!-- End Logo -->
-    
+
         <div class="search-bar">
             <form class="search-form d-flex align-items-center" method="POST" action="#">
-                <input type="text" name="query" placeholder="TÌm kiếm" title="Enter search keyword">
+                <input type="text" name="query" placeholder="Tìm kiếm" title="Enter search keyword">
                 <button type="submit" title="Search"><i class="bi bi-search"></i></button>
             </form>
         </div><!-- End Search Bar -->
-    
+
         <nav class="header-nav ms-auto">
             <ul class="d-flex align-items-center">
-    
+
                 <li class="nav-item d-block d-lg-none">
                     <a class="nav-link nav-icon search-bar-toggle " href="#">
                         <i class="bi bi-search"></i>
                     </a>
                 </li><!-- End Search Icon-->
-    
+
                 <li class="nav-item dropdown">
-    
+
                     <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
                         <i class="bi bi-bell"></i>
                         <span class="badge bg-primary badge-number">4</span>
                     </a><!-- End Notification Icon -->
-    
+
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
                         <li class="dropdown-header">
                             Bạn có 4 thông báo
@@ -84,7 +176,7 @@
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-    
+
                         <li class="notification-item">
                             <i class="bi bi-exclamation-circle text-warning"></i>
                             <div>
@@ -93,11 +185,11 @@
                                 <p>30 phút trước</p>
                             </div>
                         </li>
-    
+
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-    
+
                         <li class="notification-item">
                             <i class="bi bi-x-circle text-danger"></i>
                             <div>
@@ -106,11 +198,11 @@
                                 <p>1 giờ trước</p>
                             </div>
                         </li>
-    
+
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-    
+
                         <li class="notification-item">
                             <i class="bi bi-check-circle text-success"></i>
                             <div>
@@ -119,11 +211,11 @@
                                 <p>2 giờ trước</p>
                             </div>
                         </li>
-    
+
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-    
+
                         <li class="notification-item">
                             <i class="bi bi-info-circle text-primary"></i>
                             <div>
@@ -132,25 +224,25 @@
                                 <p>4 giờ trước</p>
                             </div>
                         </li>
-    
+
                         <li>
                             <hr class="dropdown-divider">
                         </li>
                         <li class="dropdown-footer">
                             <a href="#">Hiển thị tất cả tin nhắn</a>
                         </li>
-    
+
                     </ul><!-- End Notification Dropdown Items -->
-    
+
                 </li><!-- End Notification Nav -->
-    
+
                 <li class="nav-item dropdown">
-    
+
                     <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
                         <i class="bi bi-chat-left-text"></i>
                         <span class="badge bg-success badge-number">3</span>
                     </a><!-- End Messages Icon -->
-    
+
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
                         <li class="dropdown-header">
                             Bạn có 3 tin nhắn chưa đọc
@@ -159,10 +251,10 @@
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-    
+
                         <li class="message-item">
                             <a href="#">
-                                <img src="assets/img/logo.png" alt="" class="rounded-circle">
+                                <img src="../assets/img/logo.png" alt="" class="rounded-circle">
                                 <div>
                                     <h4>Nguyễn Thị A</h4>
                                     <p>Tin ngắn sẽ hiển thị ở trong mục này...</p>
@@ -173,10 +265,10 @@
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-    
+
                         <li class="message-item">
                             <a href="#">
-                                <img src="assets/img/logo.png" alt="" class="rounded-circle">
+                                <img src="../assets/img/logo.png" alt="" class="rounded-circle">
                                 <div>
                                     <h4>Nguyễn Văn B</h4>
                                     <p>Tin nhắn sẽ hiển thị ở mục này...</p>
@@ -187,10 +279,10 @@
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-    
+
                         <li class="message-item">
                             <a href="#">
-                                <img src="assets/img/logo.png" alt="" class="rounded-circle">
+                                <img src="../assets/img/logo.png" alt="" class="rounded-circle">
                                 <div>
                                     <h4>Đoàn Văn A</h4>
                                     <p>Tin nhắn sẽ hiển thị ở mục này...</p>
@@ -201,33 +293,35 @@
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-    
+
                         <li class="dropdown-footer">
                             <a href="#">Hiển thị tất cả tin nhắn</a>
                         </li>
-    
+
                     </ul><!-- End Messages Dropdown Items -->
-    
+
                 </li><!-- End Messages Nav -->
-    
+
                 <li class="nav-item dropdown pe-3">
-    
+
                     <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-                        <img src="assets/img/logo.png" alt="Profile" class="rounded-circle">
-                        <span class="d-none d-md-block dropdown-toggle ps-2">Ngô Tiến Lộc</span>
+                        <img src="../assets/img/logo.png" alt="Profile" class="rounded-circle">
+                        <span class="d-none d-md-block dropdown-toggle ps-2">
+                            <?php echo htmlspecialchars($name); ?>
+                        </span>
                     </a><!-- End Profile Iamge Icon -->
-    
+
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                         <li class="dropdown-header">
-                            <h6>Ngô Tiến Lộc</h6>
+                            <h6><?php echo htmlspecialchars($name); ?></h6>
                             <span>Nghề nghiệp làm gì đó</span>
                         </li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-    
+
                         <li>
-                            <a class="dropdown-item d-flex align-items-center" href="profile.html">
+                            <a class="dropdown-item d-flex align-items-center" href="../profile.php">
                                 <i class="bi bi-person"></i>
                                 <span>Hồ sơ</span>
                             </a>
@@ -235,9 +329,9 @@
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-    
+
                         <li>
-                            <a class="dropdown-item d-flex align-items-center" href="profile.html">
+                            <a class="dropdown-item d-flex align-items-center" href="../profile.php">
                                 <i class="bi bi-gear"></i>
                                 <span>Chỉnh sửa thông tin</span>
                             </a>
@@ -245,9 +339,9 @@
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-    
+
                         <li>
-                            <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
+                            <a class="dropdown-item d-flex align-items-center" href="../lienhe.php">
                                 <i class="bi bi-question-circle"></i>
                                 <span>Bạn cần trợ giúp?</span>
                             </a>
@@ -255,168 +349,168 @@
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-    
+
                         <li>
-                            <a class="dropdown-item d-flex align-items-center" href="index.html">
+                            <a class="dropdown-item d-flex align-items-center" href="../index.html">
                                 <i class="bi bi-box-arrow-right"></i>
                                 <span>Đăng xuất</span>
                             </a>
                         </li>
-    
+
                     </ul><!-- End Profile Dropdown Items -->
                 </li><!-- End Profile Nav -->
-    
+
             </ul>
-    
+
             </ul>
         </nav><!-- End Icons Navigation -->
-    
-    
-    
+
+
+
     </header><!-- End Header -->
 
     <!-- ======= Sidebar ======= -->
     <aside id="sidebar" class="sidebar">
-    
+
         <ul class="sidebar-nav" id="sidebar-nav">
-    
+
             <li class="nav-item">
-                <a class="nav-link collapsed" href="trangchu.html">
+                <a class="nav-link collapsed" href="../trangchu.php">
                     <i class="fa-solid fa-house"></i>
                     <span>Trang chủ</span>
                 </a>
             </li><!-- End Trang chủ Nav -->
-    
+
             <li class="nav-item">
-                <a class="nav-link collapsed" href="gioithieu.html">
+                <a class="nav-link collapsed" href="../gioithieu.php">
                     <i class="bi bi-person-lines-fill"></i>
                     <span>Giới thiệu</span>
                 </a>
             </li><!-- End Trang chủ Nav -->
-    
+
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#ketqua-nav" data-bs-toggle="collapse" href="#">
                     <i class="fas fa-vial"></i><span>Kết quả nghiên cứu</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
                 <ul id="ketqua-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="baibao-quocte.html">
+                        <a href="../baibao-quocte.php">
                             <i class="bi bi-circle"></i><span>Bài báo quốc tế</span>
                         </a>
                     </li>
                     <li>
-                        <a href="baibao-trongnuoc.html">
+                        <a href="../baibao-trongnuoc.php">
                             <i class="bi bi-circle"></i><span>Bài báo trong nước</span>
                         </a>
                     </li>
                     <li>
-                        <a href="donggop-dulieu.html">
+                        <a href="../donggop-dulieu.php">
                             <i class="bi bi-circle"></i><span>Đóng góp dữ liệu</span>
                         </a>
                     </li>
                     <li>
-                        <a href="lsdonggop-thanhtoan.html">
+                        <a href="../lsdonggop-thanhtoan.php">
                             <i class="bi bi-circle"></i><span>Lịch sử đóng góp, thanh toán</span>
                         </a>
                     </li>
                 </ul>
             </li><!-- End Kết quả nghiên cứu Nav -->
-    
+
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#benh-nav" data-bs-toggle="collapse" href="#">
                     <i class="fa-solid fa-virus"></i></i><span>Bệnh thuỷ sản</span><i
                         class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="benh-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <ul id="benh-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="danhsach-benh.php">
+                        <a href="../danhsach-benh.php">
                             <i class="bi bi-circle"></i><span>Danh sách bệnh</span>
                         </a>
                     </li>
                     <li>
-                        <a href="chuandoan.html">
+                        <a href="../chuandoan.php">
                             <i class="bi bi-circle"></i><span>Chuẩn đoán bệnh</span>
                         </a>
                     </li>
                 </ul>
             </li><!-- End bệnh thuỷ sản Nav -->
-    
+
             <li class="nav-item">
-                <a class="nav-link " data-bs-target="#csdl-nav" data-bs-toggle="collapse" href="#">
+                <a class="nav-link collapsed" data-bs-target="#csdl-nav" data-bs-toggle="collapse" href="#">
                     <i class="fa-solid fa-database"></i><span>Cơ sở dữ liệu</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="csdl-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
+                <ul id="csdl-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="dulieu-nuoc.html">
+                        <a href="../dulieu-nuoc.php">
                             <i class="bi bi-circle"></i><span>Dữ liệu chất lượng nước</span>
                         </a>
                     </li>
                     <li>
-                        <a href="dulieu-khihau.html">
+                        <a href="../dulieu-khihau.php">
                             <i class="bi bi-circle"></i><span>Dữ liệu vi khí hậu, thời tiết vùng nuôi</span>
                         </a>
                     </li>
                     <li>
-                        <a href="dulieu-domtrang.html">
+                        <a href="../dulieu-domtrang.php" class="active">
                             <i class="bi bi-circle"></i><span>Dữ liệu bệnh đốm trắng</span>
                         </a>
                     </li>
                     <li>
-                        <a href="dulieu-gan.html" class="active">
+                        <a href="../dulieu-gan.php">
                             <i class="bi bi-circle"></i><span>Dữ liệu bệnh hoại tử gan tuỵ cấp</span>
                         </a>
                     </li>
                 </ul>
             </li><!-- End Cơ sở dữ liệu Nav -->
-    
+
             <li class="nav-item">
-                <a class="nav-link collapsed" href="trangtrai.html">
+                <a class="nav-link collapsed" href="../trangtrai.php">
                     <i class="fa-solid fa-shrimp"></i>
                     <span>Trang trại</span>
                 </a>
             </li><!-- End trang trại Nav -->
-    
+
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#ungdung-nav" data-bs-toggle="collapse" href="#">
                     <i class="fa-solid fa-microchip"></i><span>Ứng dụng AI</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
                 <ul id="ungdung-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="mohinh-ai.html">
+                        <a href="../mohinh-ai.php">
                             <i class="bi bi-circle"></i><span>Mô hình AI</span>
                         </a>
                     </li>
                     <li>
-                        <a href="huongdan-sudung.html">
+                        <a href="../huongdan-sudung.php">
                             <i class="bi bi-circle"></i><span>Hướng dẫn sử dụng</span>
                         </a>
                     </li>
                     <li>
-                        <a href="video-huongdan.html">
+                        <a href="../video-huongdan.php">
                             <i class="bi bi-circle"></i><span>Video hướng dẫn</span>
                         </a>
                     </li>
                 </ul>
             </li><!-- End ứng dụng AI Nav -->
-    
+
             <li class="nav-item">
-                <a class="nav-link collapsed" href="lienhe.html">
+                <a class="nav-link collapsed" href="../lienhe.php">
                     <i class="fa-solid fa-envelope"></i>
                     <span>Liên hệ</span>
                 </a>
             </li><!-- End liên hệ Nav -->
-    
+
             <li class="nav-item">
-                <a class="nav-link collapsed" href="tintuc.html">
+                <a class="nav-link collapsed" href="../tintuc.php">
                     <i class="fa-solid fa-newspaper"></i>
                     <span>Tin tức</span>
                 </a>
             </li><!-- End tin tức Nav -->
-    
+
             <li class="nav-heading">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</li>
-    
+
             <li class="nav-item">
-                <a class="nav-link collapsed" href="profile.html">
+                <a class="nav-link collapsed" href="../profile.php">
                     <i class="fas fa-user"></i>
                     <span>Hồ sơ</span>
                 </a>
@@ -424,10 +518,10 @@
             <li class="nav-heading">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#dangtin-nav" data-bs-toggle="collapse" href="#">
+                <a class="nav-link" data-bs-target="#dangtin-nav" data-bs-toggle="collapse" href="#">
                     <i class="fa-solid fa-microchip"></i><span>Đăng tin</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="dangtin-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <ul id="dangtin-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
                     <li>
                         <a href="dangtin-capnhat.html">
                             <i class="bi bi-circle"></i><span>Đăng tin tức & cập nhật</span>
@@ -439,126 +533,132 @@
                         </a>
                     </li>
                     <li>
-                        <a href="dangtinbenh.php">
-                            <i class="bi bi-circle"></i><span>DANG TIN bệnh</span>
+                        <a href="dangtin_benh.php" class="active">
+                            <i class="bi bi-circle"></i><span>Đăng tin tức bệnh tôm</span>
+                        </a>
+                    </li>                    
+                    <li>
+                        <a href="dangtin_bao_quocte.php" >
+                            <i class="bi bi-circle"></i><span>Đăng tin báo quốc tế</span>
+                        </a>
+                    </li>                    
+                    <li>
+                        <a href="dangtin_bao_trongnuoc.php" >
+                            <i class="bi bi-circle"></i><span>Đăng tin báo trong nước</span>
                         </a>
                     </li>                    
                 </ul>
             </li><!-- End đăng tin Nav -->
-    
-    
+
         </ul>
 
     </aside><!-- End Sidebar-->
-    
 
 
-    <!-- ======= Main ======= -->
-    
+<!-- ======= Main ======= -->
     <main id="main" class="main">
-    
         <div class="pagetitle">
-            <h1>Dữ liệu bệnh hoại tử gan tuỵ cấp</h1>
-            <nav>
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item">Cơ sở dữ liệu</li>
-                    <li class="breadcrumb-item">Dữ liệu bệnh hoại tử gan tuỵ cấp</li>
-                </ol>
-            </nav>
+            <h1>Đăng tin bệnh</h1>
         </div><!-- End Page Title -->
-    
-        <section class="section">
+
+        <section class="section dashboard">
             <div class="row">
                 <div class="col-lg-12">
-    
+                    <!-- Form để thêm tin tức -->
                     <div class="card">
+                        <div class="card-header">Thêm tin tức</div>
                         <div class="card-body">
-                            <h5 class="card-title">Bảng báo cáo về Dữ liệu bệnh hoại tử gan tuỵ cấp</h5>
-    
-                            <!-- Table with stripped rows -->
-                            <table class="table datatable table-striped">
+                            <form action="dangtin_benh.php" method="post" enctype="multipart/form-data">
+                                <div class="mb-3">
+                                    <label for="title" class="form-label">Tiêu đề</label>
+                                    <input type="text" class="form-control" id="title" name="title" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="content" class="form-label">Nội dung</label>
+                                    <textarea class="form-control" id="content" name="content" rows="4" required></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="link" class="form-label">Liên kết</label>
+                                    <input type="url" class="form-control" id="link" name="link" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="image" class="form-label">Hình ảnh</label>
+                                    <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="disease_type" class="form-label">Loại bệnh</label>
+                                    <select id="disease_type" name="disease_type" class="form-select" required>
+                                        <option value="white-spot-disease">Bệnh đốm trắng (White Spot Disease)</option>
+                                        <option value="liver-necrosis">Bệnh hoại tử gan tụy cấp (AHPND)</option>
+                                        <option value="yellow-spot-disease">Bệnh đầu vàng (Yellow Head Disease)</option>
+                                        <option value="ihnv">Bệnh hoại tử cơ quan tạo máu và cơ quan biểu mô (IHHNV)</option>
+                                        <option value="bacterial">Bệnh do vi khuẩn (Bacterial Diseases)</option>
+                                        <option value="parasitic">Bệnh do ký sinh trùng (Parasitic Diseases)</option>
+                                        <option value="fungal">Bệnh do nấm (Fungal Diseases)</option>
+                                    </select>
+                                </div>
+                                <button type="submit" name="add_news_tintuc" class="btn btn-primary">Thêm tin tức</button>
+                            </form>
+                        </div>
+                    </div><!-- End Form Card -->
+
+                     <!-- Hiển thị danh sách tin tức -->
+                     <div class="card mt-4">
+                        <div class="card-header">Danh sách tin tức</div>
+                        <div class="card-body">
+                            <table class="table table-bordered">
                                 <thead>
                                     <tr>
-                                        <th>STT</th>
-                                        <th>
-                                            <b>N</b>hiệt Độ
-                                        </th>
-                                        <th>Độ Ẩm</th>
-                                        <th>Tốc Độ Gió</th>
-                                        <th>Hướng Gió</th>
-                                        <th>Bức Xạ Mặt Trời</th>
-                                        <th>Hiển thị</th>
+                                        <th>ID</th>
+                                        <th>Tiêu đề</th>
+                                        <th>Hình ảnh</th>
+                                        <th>Nội dung</th>
+                                        <th>Liên kết</th>
+                                        <th>Loại bệnh</th>
+                                        <th>Ngày đăng</th>
+                                        <th>Hành động</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Unity Pugh</td>
-                                        <td>9958</td>
-                                        <td>Curicó</td>
-                                        <td>2005/02/11</td>
-                                        <td>37%</td>
-                                        <td>
-                                            <button class="btn btn-info btn-sm" data-toggle="modal"
-                                                data-target="#detailsModal" data-stt="1" data-temperature="Unity Pugh"
-                                                data-humidity="9958" data-wind-speed="Curicó"
-                                                data-wind-direction="2005/02/11" data-solar-radiation="37%">Hiển
-                                                Thị</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>Theodore Duran</td>
-                                        <td>8971</td>
-                                        <td>Dhanbad</td>
-                                        <td>1999/04/07</td>
-                                        <td>97%</td>
-                                        <td>
-                                            <button class="btn btn-info btn-sm" data-toggle="modal"
-                                                data-target="#detailsModal" data-stt="2" data-temperature="Theodore Duran"
-                                                data-humidity="8971" data-wind-speed="Dhanbad"
-                                                data-wind-direction="1999/04/07" data-solar-radiation="97%">Hiển
-                                                Thị</button>
-                                        </td>
-                                    </tr>
-                                    <!-- Thêm các hàng khác tương tự với dữ liệu phù hợp -->
+                                    <?php
+                                    if ($result && $result->num_rows > 0) {
+                                        while ($row = $result->fetch_assoc()) {
+                                            $imagePath = '../uploads/' . htmlspecialchars($row["image"]);
+                                            echo '<tr>';
+                                            echo '<td>' . $row["id"] . '</td>';
+                                            echo '<td>' . htmlspecialchars($row["title"]) . '</td>';
+                                            echo '<td><img src="' . $imagePath . '" class="img-fluid" style="max-width: 100px;" alt="Ảnh tin tức"></td>';
+                                            echo '<td>' . htmlspecialchars($row["content"]) . '</td>';
+                                            echo '<td><a href="' . htmlspecialchars($row["link"]) . '" target="_blank">Link</a></td>';
+                                            echo '<td>' . htmlspecialchars($row["disease_type"]) . '</td>';
+                                            echo '<td>' . $row["post_date"] . '</td>';
+                                            echo '<td>
+                                                <form method="post" action="dangtin_benh.php" style="display:inline;" onsubmit="return confirmDelete();">
+                                                    <input type="hidden" name="news_id" value="' . $row["id"] . '">
+                                                    <button type="submit" name="delete_news_tintuc" class="btn btn-danger btn-sm">Xóa</button>
+                                                </form>
+                                            </td>';
+
+                                        
+                                            echo '</tr>';
+                                        }
+                                    } else {
+                                        echo '<tr><td colspan="8">Không có tin tức nào để hiển thị.</td></tr>';
+                                    }
+                                    ?>
                                 </tbody>
                             </table>
-                            <!-- End Table with stripped rows -->
-    
                         </div>
-                    </div>
-    
+                    </div><!-- End News List Card -->
                 </div>
             </div>
         </section>
-    
-        <!-- Modal -->
-        <div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="detailsModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="detailsModalLabel">Chi Tiết</h5>
-    
-                    </div>
-                    <div class="modal-body">
-                        <p><strong>STT:</strong> <span id="modal-stt"></span></p>
-                        <p><strong>Nhiệt Độ:</strong> <span id="modal-temperature"></span></p>
-                        <p><strong>Độ Ẩm:</strong> <span id="modal-humidity"></span></p>
-                        <p><strong>Tốc Độ Gió:</strong> <span id="modal-wind-speed"></span></p>
-                        <p><strong>Hướng Gió:</strong> <span id="modal-wind-direction"></span></p>
-                        <p><strong>Bức Xạ Mặt Trời:</strong> <span id="modal-solar-radiation"></span></p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    
-    </main><!-- End #main -->
-    
+    </main><!--End mainn -->
+    <script>
+        function confirmDelete() {
+            return confirm('Bạn có chắc chắn muốn xóa không?');
+        }
+    </script>
     <!-- ======= Footer ======= -->
     <footer id="footer" class="footer">
         <div class="footer-content">
@@ -589,8 +689,8 @@
                         ĐÃ CÓ TRÊN MỌI NỀN TẢNG
                     </div>
                     <div class="container-app">
-                        <a href="#"><img src="assets/img/ios.png" alt="App Store"></a>
-                        <a href="#"><img src="assets/img/gg play.png" alt="Google Play"></a>
+                        <a href="#"><img src="../assets/img/ios.png" alt="App Store"></a>
+                        <a href="#"><img src="../assets/img/gg play.png" alt="Google Play"></a>
                     </div>
                 </div>
             </div>
@@ -603,28 +703,30 @@
         </div>
     </footer>
     <!-- End Footer -->
-    
+
+    <!-- ======= JS ======= -->
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
             class="bi bi-arrow-up-short"></i></a>
     
     <!-- Vendor JS Files -->
-    <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/vendor/chart.js/chart.umd.js"></script>
-    <script src="assets/vendor/echarts/echarts.min.js"></script>
-    <script src="assets/vendor/quill/quill.js"></script>
-    <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-    <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-    <script src="assets/vendor/php-email-form/validate.js"></script>
+    <script src="../assets/vendor/apexcharts/apexcharts.min.js"></script>
+    <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/vendor/chart.js/chart.umd.js"></script>
+    <script src="../assets/vendor/echarts/echarts.min.js"></script>
+    <script src="../assets/vendor/quill/quill.js"></script>
+    <script src="../assets/vendor/simple-datatables/simple-datatables.js"></script>
+    <script src="../assets/vendor/tinymce/tinymce.min.js"></script>
+    <script src="../assets/vendor/php-email-form/validate.js"></script>
     
     <!-- Template Main JS File -->
-    <script src="assets/js/main.js"></script>
+    <script src="../assets/js/main.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="assets/js/script.js"></script>
+    <script src="../assets/js/script.js"></script>
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     
-    </body>
+</body>
     
-    </html>
+</html>
+

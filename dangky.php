@@ -1,17 +1,6 @@
 <?php
-// Kết nối đến cơ sở dữ liệu
-$servername = "localhost";
-$username = "root"; // Tài khoản MySQL
-$password = ""; // Mật khẩu MySQL
-$dbname = "sdb";
-
-// Tạo kết nối
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Kiểm tra kết nối
-if ($conn->connect_error) {
-    die("Kết nối thất bại: " . $conn->connect_error);
-}
+// Kết nối đến database
+include 'db.php';
 
 // Xử lý dữ liệu gửi lên
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -29,7 +18,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $emailResult = $checkEmailStmt->get_result();
 
     if ($emailResult->num_rows > 0) {
-        echo "Email đã tồn tại. Vui lòng sử dụng email khác.";
+        echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <i class="bi bi-exclamation-triangle me-1"></i>
+                Email đã tồn tại. Vui lòng sử dụng email khác.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>';
         $checkEmailStmt->close();
         $conn->close();
         exit;
@@ -45,7 +38,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $usernameResult = $checkUsernameStmt->get_result();
 
     if ($usernameResult->num_rows > 0) {
-        echo "Tên đăng nhập đã tồn tại. Vui lòng chọn tên đăng nhập khác.";
+        echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <i class="bi bi-exclamation-triangle me-1"></i>
+                Tên đăng nhập đã tồn tại. Vui lòng chọn tên đăng nhập khác.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>';
         $checkUsernameStmt->close();
         $conn->close();
         exit;
@@ -222,7 +219,7 @@ $conn->close();
                                             <button class="btn btn-primary w-100" type="submit">Tạo tài khoản</button>
                                         </div>
                                         <div class="col-12">
-                                            <p class="small mb-0">Bạn đã có tài khoản? <a href="dangnhap.html">Đăng nhập</a></p>
+                                            <p class="small mb-0">Bạn đã có tài khoản? <a href="dangnhap.php">Đăng nhập</a></p>
                                         </div>
                                     </form>
 

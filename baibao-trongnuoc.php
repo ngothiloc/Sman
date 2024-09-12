@@ -26,7 +26,7 @@ $stmt->close();
 $results_per_page = 4; 
 
 // Lấy tổng số kết quả trong cơ sở dữ liệu
-$sql = "SELECT COUNT(*) FROM news_tintuc";
+$sql = "SELECT COUNT(*) FROM news_bao_trongnuoc";
 $result = $conn->query($sql);
 $row = $result->fetch_row();
 $number_of_results = $row[0];
@@ -43,16 +43,16 @@ if ($page > $number_of_pages) $page = $number_of_pages; // Đảm bảo trang kh
 $start_limit = ($page - 1) * $results_per_page;
 
 // Lấy kết quả được sắp xếp theo ID từ lớn nhất đến nhỏ nhất
-$sql = "SELECT * FROM news_tintuc ORDER BY id DESC LIMIT ?, ?";
+$sql = "SELECT * FROM news_bao_trongnuoc ORDER BY id DESC LIMIT ?, ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("ii", $start_limit, $results_per_page);
 $stmt->execute();
 $result = $stmt->get_result();
 
 // Lấy tin tức có ID lớn nhất
-$sql_featured = "SELECT * FROM news_tintuc ORDER BY id DESC LIMIT 1";
+$sql_featured = "SELECT * FROM news_bao_trongnuoc ORDER BY id DESC LIMIT 1";
 $result_featured = $conn->query($sql_featured);
-$featured_news_tintuc = $result_featured->fetch_assoc();
+$featured_news_bao_trongnuoc = $result_featured->fetch_assoc();
 $conn->close();
 ?>
 
@@ -99,9 +99,10 @@ $conn->close();
 </head>
 
 <body>
+
     <!-- ======= Header ======= -->
     <header id="header" class="header fixed-top d-flex align-items-center">
-    
+
         <div class="d-flex align-items-center justify-content-between">
             <a href="trangchu.php" class="logo d-flex align-items-center">
                 <img src="assets/img/logo.png" alt="">
@@ -109,30 +110,30 @@ $conn->close();
             </a>
             <i class="bi bi-list toggle-sidebar-btn"></i>
         </div><!-- End Logo -->
-    
+
         <div class="search-bar">
             <form class="search-form d-flex align-items-center" method="POST" action="#">
                 <input type="text" name="query" placeholder="Tìm kiếm" title="Enter search keyword">
                 <button type="submit" title="Search"><i class="bi bi-search"></i></button>
             </form>
         </div><!-- End Search Bar -->
-    
+
         <nav class="header-nav ms-auto">
             <ul class="d-flex align-items-center">
-    
+
                 <li class="nav-item d-block d-lg-none">
                     <a class="nav-link nav-icon search-bar-toggle " href="#">
                         <i class="bi bi-search"></i>
                     </a>
                 </li><!-- End Search Icon-->
-    
+
                 <li class="nav-item dropdown">
-    
+
                     <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
                         <i class="bi bi-bell"></i>
                         <span class="badge bg-primary badge-number">4</span>
                     </a><!-- End Notification Icon -->
-    
+
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
                         <li class="dropdown-header">
                             Bạn có 4 thông báo
@@ -141,7 +142,7 @@ $conn->close();
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-    
+
                         <li class="notification-item">
                             <i class="bi bi-exclamation-circle text-warning"></i>
                             <div>
@@ -150,11 +151,11 @@ $conn->close();
                                 <p>30 phút trước</p>
                             </div>
                         </li>
-    
+
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-    
+
                         <li class="notification-item">
                             <i class="bi bi-x-circle text-danger"></i>
                             <div>
@@ -163,11 +164,11 @@ $conn->close();
                                 <p>1 giờ trước</p>
                             </div>
                         </li>
-    
+
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-    
+
                         <li class="notification-item">
                             <i class="bi bi-check-circle text-success"></i>
                             <div>
@@ -176,11 +177,11 @@ $conn->close();
                                 <p>2 giờ trước</p>
                             </div>
                         </li>
-    
+
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-    
+
                         <li class="notification-item">
                             <i class="bi bi-info-circle text-primary"></i>
                             <div>
@@ -189,25 +190,25 @@ $conn->close();
                                 <p>4 giờ trước</p>
                             </div>
                         </li>
-    
+
                         <li>
                             <hr class="dropdown-divider">
                         </li>
                         <li class="dropdown-footer">
                             <a href="#">Hiển thị tất cả tin nhắn</a>
                         </li>
-    
+
                     </ul><!-- End Notification Dropdown Items -->
-    
+
                 </li><!-- End Notification Nav -->
-    
+
                 <li class="nav-item dropdown">
-    
+
                     <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
                         <i class="bi bi-chat-left-text"></i>
                         <span class="badge bg-success badge-number">3</span>
                     </a><!-- End Messages Icon -->
-    
+
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
                         <li class="dropdown-header">
                             Bạn có 3 tin nhắn chưa đọc
@@ -216,7 +217,7 @@ $conn->close();
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-    
+
                         <li class="message-item">
                             <a href="#">
                                 <img src="assets/img/logo.png" alt="" class="rounded-circle">
@@ -230,7 +231,7 @@ $conn->close();
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-    
+
                         <li class="message-item">
                             <a href="#">
                                 <img src="assets/img/logo.png" alt="" class="rounded-circle">
@@ -244,7 +245,7 @@ $conn->close();
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-    
+
                         <li class="message-item">
                             <a href="#">
                                 <img src="assets/img/logo.png" alt="" class="rounded-circle">
@@ -258,24 +259,24 @@ $conn->close();
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-    
+
                         <li class="dropdown-footer">
                             <a href="#">Hiển thị tất cả tin nhắn</a>
                         </li>
-    
+
                     </ul><!-- End Messages Dropdown Items -->
-    
+
                 </li><!-- End Messages Nav -->
-    
+
                 <li class="nav-item dropdown pe-3">
-    
+
                     <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
                         <img src="assets/img/logo.png" alt="Profile" class="rounded-circle">
-                        <span class="d-none d-md-block dropdown-toggle ps-2">
+                       <span class="d-none d-md-block dropdown-toggle ps-2">
                             <?php echo htmlspecialchars($name); ?>
                         </span>
                     </a><!-- End Profile Iamge Icon -->
-    
+
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                         <li class="dropdown-header">
                             <h6><?php echo htmlspecialchars($name); ?></h6>
@@ -284,7 +285,7 @@ $conn->close();
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-    
+
                         <li>
                             <a class="dropdown-item d-flex align-items-center" href="profile.php">
                                 <i class="bi bi-person"></i>
@@ -294,7 +295,7 @@ $conn->close();
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-    
+
                         <li>
                             <a class="dropdown-item d-flex align-items-center" href="profile.php">
                                 <i class="bi bi-gear"></i>
@@ -304,7 +305,7 @@ $conn->close();
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-    
+
                         <li>
                             <a class="dropdown-item d-flex align-items-center" href="pages-faq.php">
                                 <i class="bi bi-question-circle"></i>
@@ -314,26 +315,25 @@ $conn->close();
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-    
+
                         <li>
                             <a class="dropdown-item d-flex align-items-center" href="index.html">
                                 <i class="bi bi-box-arrow-right"></i>
                                 <span>Đăng xuất</span>
                             </a>
                         </li>
-    
+
                     </ul><!-- End Profile Dropdown Items -->
                 </li><!-- End Profile Nav -->
-    
+
             </ul>
-    
+
             </ul>
         </nav><!-- End Icons Navigation -->
-    
-    
-    
-    </header><!-- End Header -->
 
+
+
+    </header><!-- End Header -->
     <!-- ======= Sidebar ======= -->
     <aside id="sidebar" class="sidebar">
     
@@ -354,17 +354,17 @@ $conn->close();
             </li><!-- End Trang chủ Nav -->
     
             <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#ketqua-nav" data-bs-toggle="collapse" href="#">
+                <a class="nav-link" data-bs-target="#ketqua-nav" data-bs-toggle="collapse" href="#">
                     <i class="fas fa-vial"></i><span>Kết quả nghiên cứu</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="ketqua-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <ul id="ketqua-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
                     <li>
                         <a href="baibao-quocte.php">
                             <i class="bi bi-circle"></i><span>Bài báo quốc tế</span>
                         </a>
                     </li>
                     <li>
-                        <a href="baibao-trongnuoc.php">
+                        <a href="baibao-trongnuoc.php" class="active">
                             <i class="bi bi-circle"></i><span>Bài báo trong nước</span>
                         </a>
                     </li>
@@ -382,13 +382,13 @@ $conn->close();
             </li><!-- End Kết quả nghiên cứu Nav -->
     
             <li class="nav-item">
-                <a class="nav-link " data-bs-target="#benh-nav" data-bs-toggle="collapse" href="#">
+                <a class="nav-link collapsed" data-bs-target="#benh-nav" data-bs-toggle="collapse" href="#">
                     <i class="fa-solid fa-virus"></i></i><span>Bệnh thuỷ sản</span><i
                         class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="benh-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
+                <ul id="benh-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="danhsach-benh.php" class="active">
+                        <a href="danhsach-benh.php">
                             <i class="bi bi-circle"></i><span>Danh sách bệnh</span>
                         </a>
                     </li>
@@ -404,7 +404,7 @@ $conn->close();
                 <a class="nav-link collapsed" data-bs-target="#csdl-nav" data-bs-toggle="collapse" href="#">
                     <i class="fa-solid fa-database"></i><span>Cơ sở dữ liệu</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="csdl-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+                <ul id="csdl-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
                         <a href="dulieu-nuoc.php">
                             <i class="bi bi-circle"></i><span>Dữ liệu chất lượng nước</span>
@@ -416,7 +416,7 @@ $conn->close();
                         </a>
                     </li>
                     <li>
-                        <a href="dulieu-domtrang.php" class="active">
+                        <a href="dulieu-domtrang.php">
                             <i class="bi bi-circle"></i><span>Dữ liệu bệnh đốm trắng</span>
                         </a>
                     </li>
@@ -473,15 +473,16 @@ $conn->close();
             </li><!-- End tin tức Nav -->
     
             <li class="nav-heading">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</li>
-    
+
             <li class="nav-item">
                 <a class="nav-link collapsed" href="profile.php">
                     <i class="fas fa-user"></i>
                     <span>Hồ sơ</span>
                 </a>
             </li><!-- End Profile Page Nav -->
-            
+
             <li class="nav-heading">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</li>
+
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#dangtin-nav" data-bs-toggle="collapse" href="#">
                     <i class="fa-solid fa-microchip"></i><span>Đăng tin</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -511,47 +512,51 @@ $conn->close();
                         <a href="dangtin/dangtin_bao_trongnuoc.php">
                             <i class="bi bi-circle"></i><span>Đăng tin báo trong nước</span>
                         </a>
-                    </li>                   
+                    </li>                    
                 </ul>
             </li><!-- End đăng tin Nav -->
     
         </ul>
+
     
     </aside><!-- End Sidebar-->
+    
+
 
     <!-- ======= Main ======= -->
+
     <main id="main" class="main">
-    
+
         <div class="pagetitle">
-            <h1>Tin tức bệnh học</h1>
+            <h1>Bài báo trong nước</h1>
             <nav>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item">Tin tức bệnh học</li>
-                    <li class="breadcrumb-item"></li>
+                    <li class="breadcrumb-item">Kết quả nghiên cứu</li>
+                    <li class="breadcrumb-item">Bài báo trong nước</li>
                 </ol>
             </nav>
         </div><!-- End Page Title -->
-    
+
         <section class="section dashboard">
             <div class="row align-items-top">
                 <div class="col-lg-8">
-                    
-                    <!-- Tin noi bat -->
+
+                    <!-- tin noi bat -->
                     <div class="card mb-3">
-                        <div class="card-header">Tin tức nổi bật</div>
+                        <div class="card-header">Bài báo trong nước nổi bật</div>
                         <div class="row g-0">
-                            <?php if ($featured_news_tintuc): ?>
+                            <?php if ($featured_news_bao_trongnuoc): ?>
                                 <div class="col-md-4">
-                                    <img src="uploads/<?php echo htmlspecialchars($featured_news_tintuc['image']); ?>" class="img-fluid rounded-start" alt="...">
+                                    <img src="uploads/<?php echo htmlspecialchars($featured_news_bao_trongnuoc['image']); ?>" class="img-fluid rounded-start" alt="...">
                                 </div>
                                 <div class="col-md-8">
                                     <div class="card-body">
-                                        <h5 class="card-title"><?php echo htmlspecialchars($featured_news_tintuc['title']); ?></h5>
-                                        <p class="card-text"><?php echo htmlspecialchars($featured_news_tintuc['content']); ?></p>
+                                        <h5 class="card-title"><?php echo htmlspecialchars($featured_news_bao_trongnuoc['title']); ?></h5>
+                                        <p class="card-text"><?php echo htmlspecialchars($featured_news_bao_trongnuoc['content']); ?></p>
                                     </div>
                                 </div>
                                 <div class="card-footer">
-                                    <i class="fa-solid fa-clock"></i> <?php echo date("d - m - Y", strtotime($featured_news_tintuc['post_date'])); ?>
+                                    <i class="fa-solid fa-clock"></i> <?php echo date("d - m - Y", strtotime($featured_news_bao_trongnuoc['post_date'])); ?>
                                 </div>
                             <?php else: ?>
                                 <p style="padding-left: 20px; padding-top: 20px;">Không có tin tức nổi bật để hiển thị.</p>
@@ -559,43 +564,22 @@ $conn->close();
                         </div>
                     </div>
                     <!-- End tin noi bat -->
-    
+
+
+
                     <!-- tin tuc -->
                     <div class="card">
                         <div class="card-body" style="padding-bottom: 0;">
                             <!-- Guide Section -->
                             <div class="d-flex justify-content-between align-items-center mt-4">
-                                <h3>Tin tức bệnh học</h3>
-                                <div>
-                                    <button class="btn btn-primary" id="scroll-left">‹</button>
-                                    <button class="btn btn-primary" id="scroll-right">›</button>
-                                </div>
+                                <h3>Bài báo trong nước</h3>                               
                             </div>
-    
-                            <div class="position-relative">
-                                <div id="scrolling-container" class="d-flex flex-nowrap overflow-hidden mb-3">
-                                    <a href="#" class="btn btn-outline-primary m-1 flex-shrink-0" data-type="white-spot-disease">Bệnh đốm
-                                        trắng (White Spot Disease)</a>
-                                    <a href="#" class="btn btn-outline-primary m-1 flex-shrink-0" data-type="liver-necrosis">Bệnh hoại tử
-                                        gan tụy cấp (AHPND)</a>
-                                    <a href="#" class="btn btn-outline-primary m-1 flex-shrink-0" data-type="yellow-spot-disease">Bệnh đầu
-                                        vàng (Yellow Head Disease)</a>
-                                    <a href="#" class="btn btn-outline-primary m-1 flex-shrink-0" data-type="ihnv">Bệnh hoại tử cơ quan tạo
-                                        máu và cơ quan biểu mô (IHHNV)</a>
-                                    <a href="#" class="btn btn-outline-primary m-1 flex-shrink-0" data-type="bacterial">Bệnh do vi khuẩn
-                                        (Bacterial Diseases)</a>
-                                    <a href="#" class="btn btn-outline-primary m-1 flex-shrink-0" data-type="parasitic">Bệnh do ký sinh
-                                        trùng (Parasitic Diseases)</a>
-                                    <a href="#" class="btn btn-outline-primary m-1 flex-shrink-0" data-type="fungal">Bệnh do nấm (Fungal
-                                        Diseases)</a>
-                                </div>
-                            </div>
-                            
-    
+
                             <!-- News Cards -->
                             <div id="news-container">
                                 <!-- News Cards -->
                                 <div id="news-container">
+                                    <hr>
                                     <!-- Hiển thị danh sách tin tức -->
                                     <?php
                                         if ($result && $result->num_rows > 0) {
@@ -650,8 +634,7 @@ $conn->close();
                     </div><!-- End tin tuc -->
 
                 </div>
-    
-    
+
                 <div class="col-lg-4">
                     <!-- Giá tôm -->
                     <div class="card">
@@ -717,14 +700,15 @@ $conn->close();
                             <!-- End Line Chart -->
                         </div>
                     </div><!-- End Giá tôm -->
-    
+
+
                     <!--thời tiết-->
                     <div class="card" style="height: 300px;">
-                        <iframe width="100%" height="100%" src="https://thoitiet.app/widget/embed/" id="widgeturl"
-                            scrolling="no" frameborder="0" allowtransparency="true" style="border:none; overflow:hidden;">
+                        <iframe width="100%" height="100%" src="https://thoitiet.app/widget/embed/" id="widgeturl" scrolling="no"
+                            frameborder="0" allowtransparency="true" style="border:none; overflow:hidden;">
                         </iframe>
                     </div>
-    
+
                     <!-- News & Updates Traffic -->
                     <div class="card">
                         <div class="filter">
@@ -733,106 +717,103 @@ $conn->close();
                                 <li class="dropdown-header text-start">
                                     <h6>Bộ lọc</h6>
                                 </li>
-    
                                 <li><a class="dropdown-item" href="#">Hôm nay</a></li>
                                 <li><a class="dropdown-item" href="#">Tháng này</a></li>
                                 <li><a class="dropdown-item" href="#">Năm này</a></li>
                             </ul>
                         </div>
-    
+                    
                         <div class="card-body pb-0" style="margin: 10px 0 20px 0">
                             <h5 class="card-title">Tin tức &amp; Cập nhật <span>| Hôm nay</span></h5>
-    
-                            <div class="news">
-                                <div class="post-item clearfix">
-                                    <img src="assets/img/news-1.jpg" alt="">
-                                    <h4><a href="#">Công nghệ AI phát hiện bệnh tôm</a></h4>
-                                    <p>Thông tin tóm gọn về tin tức mới sẽ hiện ở đây...</p>
-                                </div>
-    
-                                <div class="post-item clearfix">
-                                    <img src="assets/img/news-2.jpg" alt="">
-                                    <h4><a href="#">Công nghệ AI phát hiện bệnh tôm</a></h4>
-                                    <p>Thông tin tóm gọn về tin tức mới sẽ hiện ở đây....</p>
-                                </div>
-    
-                                <div class="post-item clearfix">
-                                    <img src="assets/img/news-3.jpg" alt="">
-                                    <h4><a href="#">Công nghệ AI phát hiện bệnh tôm</a></h4>
-                                    <p>Thông tin tóm gọn về tin tức mới sẽ hiện ở đây...</p>
-                                </div>
-    
-                                <div class="post-item clearfix">
-                                    <img src="assets/img/news-4.jpg" alt="">
-                                    <h4><a href="#">Công nghệ AI phát hiện bệnh tôm</a></h4>
-                                    <p>Thông tin tóm gọn về tin tức mới sẽ hiện ở đây...</p>
-                                </div>
-    
-                                <div class="post-item clearfix">
-                                    <img src="assets/img/news-5.jpg" alt="">
-                                    <h4><a href="#">Công nghệ AI phát hiện bệnh tôm</a></h4>
-                                    <p>Thông tin tóm gọn về tin tức mới sẽ hiện ở đây...</p>
-                                </div>
-    
-                            </div><!-- End sidebar recent posts-->
-    
+                    
+                            <div id="newsContainer" class="news"></div>
+                    
                         </div>
-                    </div><!-- End News & Updates -->
-    
-    
+                    </div>
+                    
+                    <script>
+                        function loadNews() {
+                            let newsList = JSON.parse(localStorage.getItem('newsList')) || [];
+                            let newsContainer = document.getElementById('newsContainer');
+                            newsContainer.innerHTML = ''; // Xóa nội dung cũ trước khi thêm tin mới
+
+                            // Đảo ngược danh sách tin tức
+                            newsList.reverse().forEach(function (newsItem) {
+                                let postItem = document.createElement('div');
+                                postItem.className = 'post-item clearfix';
+
+                                postItem.innerHTML = `
+                                    <a href="${newsItem.link}" target="_blank" class="news-link">
+                                        <img src="${newsItem.image}" alt="">
+                                        <h4>${newsItem.title}</h4>
+                                        <p>${newsItem.content}</p>
+                                    </a>
+                                `;
+
+                                newsContainer.appendChild(postItem);
+                            });
+                        }
+
+                        document.addEventListener('DOMContentLoaded', loadNews);
+                    </script><!-- End News & Updates -->
+
+                    
                 </div>
-            </div>
-        </section>                   
+
+
+
     </main><!-- End #main -->
-    <!-- ======= Footer ======= -->
-    <footer id="footer" class="footer">
-        <div class="footer-content">
-            <div class="footer-left">
-                <div class="container-sdt">
-                    <div class="sdt">
-                        Số điện thoại: (+84) 24 3756 8422 / (+84) 91 6661 078
+
+            <!-- ======= Footer ======= -->
+            <footer id="footer" class="footer">
+                <div class="footer-content">
+                    <div class="footer-left">
+                        <div class="container-sdt">
+                            <div class="sdt">
+                                Số điện thoại: (+84) 24 3756 8422 / (+84) 91 6661 078
+                            </div>
+                        </div>
+
+                        <div class="container-email">
+                            <div class="email">
+                                Email: vanthu@creteach.vast.vn / namduongthanh@gmail.com
+                            </div>
+                        </div>
+
+                        <div class="container-dc">
+                            <div class="dc">
+                                Địa chỉ: Nhà A28, Toà nhà Ươm tạo công nghệ - Số 18 Hoàng Quốc Việt, Phường Nghĩa Đô,
+                                Quận Cầu Giấy, Thành phố Hà Nội
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="footer-right">
+                        <div class="text-app-container">
+                            <div class="text-app" style="font-size: medium;">
+                                ĐÃ CÓ TRÊN MỌI NỀN TẢNG
+                            </div>
+                            <div class="container-app">
+                                <a href="#"><img src="assets/img/ios.png" alt="App Store"></a>
+                                <a href="#"><img src="assets/img/gg play.png" alt="Google Play"></a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-    
-                <div class="container-email">
-                    <div class="email">
-                        Email: vanthu@creteach.vast.vn / namduongthanh@gmail.com
+
+                <div class="container-copy">
+                    <div class="copy">
+                        Copyright © 2024 Trung tâm Nghiên cứu và Phát triển công nghệ cao. All rights reserved
                     </div>
                 </div>
-    
-                <div class="container-dc">
-                    <div class="dc">
-                        Địa chỉ: Nhà A28, Toà nhà Ươm tạo công nghệ - Số 18 Hoàng Quốc Việt, Phường Nghĩa Đô,
-                        Quận Cầu Giấy, Thành phố Hà Nội
-                    </div>
-                </div>
-            </div>
-    
-            <div class="footer-right">
-                <div class="text-app-container">
-                    <div class="text-app" style="font-size: medium;">
-                        ĐÃ CÓ TRÊN MỌI NỀN TẢNG
-                    </div>
-                    <div class="container-app">
-                        <a href="#"><img src="assets/img/ios.png" alt="App Store"></a>
-                        <a href="#"><img src="assets/img/gg play.png" alt="Google Play"></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    
-        <div class="container-copy">
-            <div class="copy">
-                Copyright © 2024 Trung tâm Nghiên cứu và Phát triển công nghệ cao. All rights reserved
-            </div>
-        </div>
-    </footer>
-    <!-- End Footer -->
+            </footer>
+            <!-- End Footer -->
+
 
     <!-- ======= JS ======= -->
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
             class="bi bi-arrow-up-short"></i></a>
-    
+
     <!-- Vendor JS Files -->
     <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
     <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -842,15 +823,19 @@ $conn->close();
     <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
     <script src="assets/vendor/tinymce/tinymce.min.js"></script>
     <script src="assets/vendor/php-email-form/validate.js"></script>
-    
+
     <!-- Template Main JS File -->
+    <!-- Tải jQuery trước -->
+    <script src="assets/js/jquery.min.js"></script>
+    
+    <!-- Tải các tệp JavaScript -->
     <script src="assets/js/main.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="assets/js/script.js"></script>
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    
+    <script src="assets/js/table-functions.js"></script>
+    <script src="assets/js/modal-functions.js"></script>
+    <script src="assets/js/scroll-functions.js"></script>
+    <script src="assets/js/pagination-functions.js"></script>
+    <script src="assets/js/filter-functions.js"></script>
+
 </body>
-    
+
 </html>

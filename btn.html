@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang Nút Đẹp</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #f06, #f79);
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            text-align: center;
+            position: relative;
+        }
+        .btn {
+            display: inline-block;
+            padding: 20px 40px;
+            font-size: 24px;
+            color: #fff;
+            text-decoration: none;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+            background: linear-gradient(45deg, #ff6b6b, #f7d2b7);
+            animation: colorChange 5s linear infinite, pulse 2s infinite;
+        }
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+        }
+        @keyframes colorChange {
+            0% { background: #ff0000; } /* Red */
+            14% { background: #ff7f00; } /* Orange */
+            28% { background: #ffff00; } /* Yellow */
+            42% { background: #00ff00; } /* Green */
+            57% { background: #0000ff; } /* Blue */
+            71% { background: #4b0082; } /* Indigo */
+            85% { background: #9400d3; } /* Violet */
+            100% { background: #ff0000; } /* Red */
+        }
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.6; }
+            100% { opacity: 1; }
+        }
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 80%);
+            z-index: 0;
+            animation: pulse 2s infinite;
+        }
+        .btn-container {
+            position: relative;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="btn-container">
+            <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="btn">Đẹp trai thì ấn vào</a>
+        </div>
+    </div>
+</body>
+</html>

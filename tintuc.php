@@ -22,40 +22,8 @@ $stmt->bind_result($name);
 $stmt->fetch();
 $stmt->close();
 
-// Xác định số lượng kết quả mỗi trang
-$results_per_page = 4; 
-
-// Lấy tổng số kết quả trong cơ sở dữ liệu
-$sql = "SELECT COUNT(*) FROM news_tintuc";
-$result = $conn->query($sql);
-$row = $result->fetch_row();
-$number_of_results = $row[0];
-
-// Tính tổng số trang có sẵn
-$number_of_pages = ceil($number_of_results / $results_per_page);
-
-// Xác định số trang hiện tại mà người dùng đang truy cập
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-if ($page < 1) $page = 1; // Đảm bảo trang không nhỏ hơn 1
-if ($page > $number_of_pages) $page = $number_of_pages; // Đảm bảo trang không lớn hơn tổng số trang
-
-// Xác định số bắt đầu cho truy vấn LIMIT để hiển thị kết quả trên trang hiện tại
-$start_limit = ($page - 1) * $results_per_page;
-
-// Lấy kết quả được sắp xếp theo ID từ lớn nhất đến nhỏ nhất
-$sql = "SELECT * FROM news_tintuc ORDER BY id DESC LIMIT ?, ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("ii", $start_limit, $results_per_page);
-$stmt->execute();
-$result = $stmt->get_result();
-
-// Lấy tin tức có ID lớn nhất
-$sql_featured = "SELECT * FROM news_tintuc ORDER BY id DESC LIMIT 1";
-$result_featured = $conn->query($sql_featured);
-$featured_news_tintuc = $result_featured->fetch_assoc();
 $conn->close();
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -99,6 +67,7 @@ $conn->close();
 </head>
 
 <body>
+
     <!-- ======= Header ======= -->
     <header id="header" class="header fixed-top d-flex align-items-center">
     
@@ -306,7 +275,7 @@ $conn->close();
                         </li>
     
                         <li>
-                            <a class="dropdown-item d-flex align-items-center" href="pages-faq.php">
+                            <a class="dropdown-item d-flex align-items-center" href="lienhe.php">
                                 <i class="bi bi-question-circle"></i>
                                 <span>Bạn cần trợ giúp?</span>
                             </a>
@@ -333,7 +302,6 @@ $conn->close();
     
     
     </header><!-- End Header -->
-
     <!-- ======= Sidebar ======= -->
     <aside id="sidebar" class="sidebar">
     
@@ -382,13 +350,13 @@ $conn->close();
             </li><!-- End Kết quả nghiên cứu Nav -->
     
             <li class="nav-item">
-                <a class="nav-link " data-bs-target="#benh-nav" data-bs-toggle="collapse" href="#">
+                <a class="nav-link collapsed" data-bs-target="#benh-nav" data-bs-toggle="collapse" href="#">
                     <i class="fa-solid fa-virus"></i></i><span>Bệnh thuỷ sản</span><i
                         class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="benh-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
+                <ul id="benh-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="danhsach-benh.php" class="active">
+                        <a href="danhsach-benh.php">
                             <i class="bi bi-circle"></i><span>Danh sách bệnh</span>
                         </a>
                     </li>
@@ -404,7 +372,7 @@ $conn->close();
                 <a class="nav-link collapsed" data-bs-target="#csdl-nav" data-bs-toggle="collapse" href="#">
                     <i class="fa-solid fa-database"></i><span>Cơ sở dữ liệu</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="csdl-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+                <ul id="csdl-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
                         <a href="dulieu-nuoc.php">
                             <i class="bi bi-circle"></i><span>Dữ liệu chất lượng nước</span>
@@ -416,7 +384,7 @@ $conn->close();
                         </a>
                     </li>
                     <li>
-                        <a href="dulieu-domtrang.php" class="active">
+                        <a href="dulieu-domtrang.php">
                             <i class="bi bi-circle"></i><span>Dữ liệu bệnh đốm trắng</span>
                         </a>
                     </li>
@@ -466,7 +434,7 @@ $conn->close();
             </li><!-- End liên hệ Nav -->
     
             <li class="nav-item">
-                <a class="nav-link collapsed" href="tintuc.php">
+                <a class="nav-link " href="tintuc.php">
                     <i class="fa-solid fa-newspaper"></i>
                     <span>Tin tức</span>
                 </a>
@@ -480,8 +448,9 @@ $conn->close();
                     <span>Hồ sơ</span>
                 </a>
             </li><!-- End Profile Page Nav -->
-            
+
             <li class="nav-heading">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</li>
+
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#dangtin-nav" data-bs-toggle="collapse" href="#">
                     <i class="fa-solid fa-microchip"></i><span>Đăng tin</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -511,156 +480,302 @@ $conn->close();
                         <a href="dangtin/dangtin_bao_trongnuoc.php">
                             <i class="bi bi-circle"></i><span>Đăng tin báo trong nước</span>
                         </a>
-                    </li>                   
+                    </li>                    
                 </ul>
             </li><!-- End đăng tin Nav -->
+
     
         </ul>
     
     </aside><!-- End Sidebar-->
 
+
     <!-- ======= Main ======= -->
+
     <main id="main" class="main">
     
         <div class="pagetitle">
-            <h1>Tin tức bệnh học</h1>
+            <h1>Tin tức</h1>
             <nav>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item">Tin tức bệnh học</li>
+                    <li class="breadcrumb-item">Tin tức</li>
                     <li class="breadcrumb-item"></li>
                 </ol>
             </nav>
         </div><!-- End Page Title -->
-    
-        <section class="section dashboard">
-            <div class="row align-items-top">
-                <div class="col-lg-8">
-                    
-                    <!-- Tin noi bat -->
-                    <div class="card mb-3">
-                        <div class="card-header">Tin tức nổi bật</div>
-                        <div class="row g-0">
-                            <?php if ($featured_news_tintuc): ?>
-                                <div class="col-md-4">
-                                    <img src="uploads/<?php echo htmlspecialchars($featured_news_tintuc['image']); ?>" class="img-fluid rounded-start" alt="...">
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="card-body">
-                                        <h5 class="card-title"><?php echo htmlspecialchars($featured_news_tintuc['title']); ?></h5>
-                                        <p class="card-text"><?php echo htmlspecialchars($featured_news_tintuc['content']); ?></p>
-                                    </div>
-                                </div>
-                                <div class="card-footer">
-                                    <i class="fa-solid fa-clock"></i> <?php echo date("d - m - Y", strtotime($featured_news_tintuc['post_date'])); ?>
-                                </div>
-                            <?php else: ?>
-                                <p style="padding-left: 20px; padding-top: 20px;">Không có tin tức nổi bật để hiển thị.</p>
-                            <?php endif; ?>
+
+    <section class="section dashboard">
+        <div class="row align-items-top">
+            <div class="col-lg-8">
+                <!-- Card with an image on left -->
+                <!-- Tin tức nổi bật -->
+                <div class="card mb-3">
+                    <div class="card-header">Tin tức nổi bật</div>
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img id="newsImage" src="" class="card-img" alt="...">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 id="newsTitle" class="card-title"></h5>
+                                <p id="newsContent" class="card-text"></p>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <i class="fa-solid fa-clock"></i> <span id="newsDate"></span>
                         </div>
                     </div>
-                    <!-- End tin noi bat -->
-    
-                    <!-- tin tuc -->
-                    <div class="card">
-                        <div class="card-body" style="padding-bottom: 0;">
-                            <!-- Guide Section -->
-                            <div class="d-flex justify-content-between align-items-center mt-4">
-                                <h3>Tin tức bệnh học</h3>
-                                <div>
-                                    <button class="btn btn-primary" id="scroll-left">‹</button>
-                                    <button class="btn btn-primary" id="scroll-right">›</button>
-                                </div>
-                            </div>
-    
-                            <div class="position-relative">
-                                <div id="scrolling-container" class="d-flex flex-nowrap overflow-hidden mb-3">
-                                    <a href="#" class="btn btn-outline-primary m-1 flex-shrink-0" data-type="white-spot-disease">Bệnh đốm
-                                        trắng (White Spot Disease)</a>
-                                    <a href="#" class="btn btn-outline-primary m-1 flex-shrink-0" data-type="liver-necrosis">Bệnh hoại tử
-                                        gan tụy cấp (AHPND)</a>
-                                    <a href="#" class="btn btn-outline-primary m-1 flex-shrink-0" data-type="yellow-spot-disease">Bệnh đầu
-                                        vàng (Yellow Head Disease)</a>
-                                    <a href="#" class="btn btn-outline-primary m-1 flex-shrink-0" data-type="ihnv">Bệnh hoại tử cơ quan tạo
-                                        máu và cơ quan biểu mô (IHHNV)</a>
-                                    <a href="#" class="btn btn-outline-primary m-1 flex-shrink-0" data-type="bacterial">Bệnh do vi khuẩn
-                                        (Bacterial Diseases)</a>
-                                    <a href="#" class="btn btn-outline-primary m-1 flex-shrink-0" data-type="parasitic">Bệnh do ký sinh
-                                        trùng (Parasitic Diseases)</a>
-                                    <a href="#" class="btn btn-outline-primary m-1 flex-shrink-0" data-type="fungal">Bệnh do nấm (Fungal
-                                        Diseases)</a>
-                                </div>
-                            </div>
-                            
-    
-                            <!-- News Cards -->
-                            <div id="news-container">
-                                <!-- News Cards -->
-                                <div id="news-container">
-                                    <!-- Hiển thị danh sách tin tức -->
-                                    <?php
-                                        if ($result && $result->num_rows > 0) {
-                                            while ($row = $result->fetch_assoc()) {
-                                                $imagePath = 'uploads/' . htmlspecialchars($row["image"]);
-                                                $newsLink = htmlspecialchars($row["link"]);
-                                                echo '<div class="row mb-3">';
-                                                echo '<div class="col-md-4">';
-                                                echo '<img src="' . $imagePath . '" class="img-fluid rounded-start" alt="Ảnh tin tức">';
-                                                echo '</div>';
-                                                echo '<div class="col-md-8">';
-                                                echo '<div class="card-body">';
-                                                echo '<h5 class="card-title"><a href="' . $newsLink . '" target="_blank">' . htmlspecialchars($row["title"]) . '</a></h5>';
-                                                echo '<p class="card-text">' . htmlspecialchars($row["content"]) . '</p>';
-                                                echo '</div>';
-                                                echo '</div>';
-                                                echo '</div>';
-                                                echo '<hr>';
-                                            }
-                                        } else {
-                                            echo '<p>Không có tin tức nào để hiển thị.</p>';
-                                        }
-                                        ?>
+                </div>
+                
+                <script>
+                    function loadNews() {
+                        let newsList = JSON.parse(localStorage.getItem('newsList')) || [];
+                        if (newsList.length > 0) {
+                            let latestNews = newsList[newsList.length - 1];
 
-                                    </div>
+                            document.getElementById('newsImage').src = latestNews.image;
+                            document.getElementById('newsTitle').textContent = latestNews.title;
+                            document.getElementById('newsContent').textContent = latestNews.content;
+                            document.getElementById('newsDate').textContent = latestNews.date;
+                        }
+                    }
 
-                                    <!-- Centered Pagination -->
-                                    <nav aria-label="Page navigation example" style="margin-top: 50px;">
-                                        <ul class="pagination justify-content-center" id="pagination">
-                                            <!-- Previous Page Link -->
-                                            <li class="page-item <?php if ($page <= 1) echo 'disabled'; ?>">
-                                                <a class="page-link" href="?page=<?php echo ($page - 1); ?>">Previous</a>
-                                            </li>
-                                            
-                                            <!-- Page Numbers -->
-                                            <?php for ($i = 1; $i <= $number_of_pages; $i++): ?>
-                                                <li class="page-item <?php if ($i == $page) echo 'active'; ?>">
-                                                    <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
-                                                </li>
-                                            <?php endfor; ?>
-                                            
-                                            <!-- Next Page Link -->
-                                            <li class="page-item <?php if ($page >= $number_of_pages) echo 'disabled'; ?>">
-                                                <a class="page-link" href="?page=<?php echo ($page + 1); ?>">Next</a>
-                                            </li>
-                                        </ul>
-                                    </nav>
-
-                                <!-- End Centered Pagination -->
+                    document.addEventListener('DOMContentLoaded', loadNews);
+                </script><!-- End Card with an image on left -->
+    
+                <!-- Default Card -->
+                <div class="card">
+                    <div class="card-body" style="padding-bottom: 0;">
+                        <!-- Guide Section -->
+                        <div class="d-flex justify-content-between align-items-center mt-4">
+                            <h3>Tin tức</h3>
+                            <div>
+                                <button class="btn btn-primary" id="scroll-left">‹</button>
+                                <button class="btn btn-primary" id="scroll-right">›</button>
                             </div>
                         </div>
-                    </div><!-- End tin tuc -->
+    
+                        <div class="position-relative">
+                            <div id="scrolling-container" class="d-flex flex-nowrap overflow-hidden mb-3">
+                                <a href="#" class="btn btn-outline-primary m-1 flex-shrink-0">Ngành nuôi tôm</a>
+                                <a href="#" class="btn btn-outline-primary m-1 flex-shrink-0">Công nghệ trí tuệ nhân tạo AI trong thuỷ sản</a>
+                                <a href="#" class="btn btn-outline-primary m-1 flex-shrink-0">Giá tôm</a>
+                                <a href="#" class="btn btn-outline-primary m-1 flex-shrink-0">Bệnh tôm</a>
+                                <a href="#" class="btn btn-outline-primary m-1 flex-shrink-0">Cách phòng ngừa bệnh ở tôm</a>                               
+                            </div>
+                        </div>
+    
+                        <!-- News Cards -->
+                        <div id="news-container">
+                            <!-- Page 1 -->
+                            <div class="news-page">
+                                <div class="row" style="margin-bottom: 10px;">
+                                    <div class="col-md-4">
+                                        <img src="assets/img/card.jpg" class="img-fluid rounded-start" alt="...">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Card with an image on left</h5>
+                                            <p class="card-text">This is a wider card with supporting text below as a
+                                                natural lead-in to additional content. This content is a little bit longer.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr> <!-- Dòng kẻ ngang -->
+    
+                                <div class="row" style="margin-bottom: 10px;">
+                                    <div class="col-md-4">
+                                        <img src="assets/img/card.jpg" class="img-fluid rounded-start" alt="...">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Card with an image on left</h5>
+                                            <p class="card-text">This is a wider card with supporting text below as a
+                                                natural lead-in to additional content. This content is a little bit longer.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr> <!-- Dòng kẻ ngang -->
+    
+                                <div class="row" style="margin-bottom: 10px;">
+                                    <div class="col-md-4">
+                                        <img src="assets/img/card.jpg" class="img-fluid rounded-start" alt="...">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Card with an image on left</h5>
+                                            <p class="card-text">This is a wider card with supporting text below as a
+                                                natural lead-in to additional content. This content is a little bit longer.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr> <!-- Dòng kẻ ngang -->
+                                
+                                <div class="row" style="margin-bottom: 10px;">
+                                    <div class="col-md-4">
+                                        <img src="assets/img/card.jpg" class="img-fluid rounded-start" alt="...">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Card with an image on left</h5>
+                                            <p class="card-text">Thông tin tin tức mới.</p>
+                                        </div>
+                                    </div>
+                                </div>
+    
+                                <!-- More cards for page 1 -->
+                            </div>
 
+                            <!--page 2-->
+                            <div class="news-page">
+                                <div class="row" style="margin-bottom: 10px;">
+                                    <div class="col-md-4">
+                                        <img src="assets/img/card.jpg" class="img-fluid rounded-start" alt="...">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Card with an image on left</h5>
+                                            <p class="card-text">This is a wider card with supporting text below as a
+                                                natural lead-in to additional content. This content is a little bit longer.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr> <!-- Dòng kẻ ngang -->
+    
+                                <div class="row" style="margin-bottom: 10px;">
+                                    <div class="col-md-4">
+                                        <img src="assets/img/card.jpg" class="img-fluid rounded-start" alt="...">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Card with an image on left</h5>
+                                            <p class="card-text">lala.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr> <!-- Dòng kẻ ngang -->
+
+                                <div class="row" style="margin-bottom: 10px;">
+                                    <div class="col-md-4">
+                                        <img src="assets/img/card.jpg" class="img-fluid rounded-start" alt="...">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Card with an image on left</h5>
+                                            <p class="card-text">lala.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr> <!-- Dòng kẻ ngang -->
+                                
+                                <div class="row" style="margin-bottom: 10px;">
+                                    <div class="col-md-4">
+                                        <img src="assets/img/card.jpg" class="img-fluid rounded-start" alt="...">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Card with an image on left</h5>
+                                            <p class="card-text">Thông tin tin tức mới.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- More cards for page 2 -->
+                            </div>
+
+                            <!--page 3-->
+                            <div class="news-page">
+                                <div class="row" style="margin-bottom: 10px;">
+                                    <div class="col-md-4">
+                                        <img src="assets/img/card.jpg" class="img-fluid rounded-start" alt="...">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Card with an image on left</h5>
+                                            <p class="card-text">This is a wider card with supporting text below as a
+                                                natural lead-in to additional content. This content is a little bit longer.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr> <!-- Dòng kẻ ngang -->
+                            
+                                <div class="row" style="margin-bottom: 10px;">
+                                    <div class="col-md-4">
+                                        <img src="assets/img/card.jpg" class="img-fluid rounded-start" alt="...">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Card with an image on left</h5>
+                                            <p class="card-text">lala.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr> <!-- Dòng kẻ ngang -->
+                            
+                                <div class="row" style="margin-bottom: 10px;">
+                                    <div class="col-md-4">
+                                        <img src="assets/img/card.jpg" class="img-fluid rounded-start" alt="...">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Card with an image on left</h5>
+                                            <p class="card-text">Thông tin tin tức mới.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr> <!-- Dòng kẻ ngang -->
+                                
+                                <div class="row" style="margin-bottom: 10px;">
+                                    <div class="col-md-4">
+                                        <img src="assets/img/card.jpg" class="img-fluid rounded-start" alt="...">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Card with an image on left</h5>
+                                            <p class="card-text">Thông tin tin tức mới.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- More cards for page 3 -->
+                            </div>
+    
+                            <!-- Centered Pagination -->
+                            <nav aria-label="Page navigation example" style="margin-top: 50px;">
+                                <ul class="pagination justify-content-center" id="pagination">
+                                    <li class="page-item">
+                                        <a class="page-link" href="#" id="prev-page" aria-disabled="true">Previous</a>
+                                    </li>
+                                    <li class="page-item page-number" data-page="1"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item page-number" data-page="2"><a class="page-link" href="#">2</a></li>
+                                    <li class="page-item page-number" data-page="3"><a class="page-link" href="#">3</a></li>
+                                    <li class="page-item page-number" data-page="4"><a class="page-link" href="#">4</a></li>
+                                    <li class="page-item page-number" data-page="5"><a class="page-link" href="#">5</a></li>
+                                    <li class="page-item page-number" data-page="6"><a class="page-link" href="#">6</a></li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#" id="next-page">Next</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                            <!-- End Centered Pagination -->
+                        </div>
+                    </div><!-- End Default Card -->
                 </div>
-    
-    
-                <div class="col-lg-4">
+            </div>
+            
+
+                <div class="col-lg-4" >
                     <!-- Giá tôm -->
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Giá tôm <span>/Hôm nay</span></h5>
-    
+                    
                             <!-- Line Chart -->
                             <div id="reportsChart"></div>
-    
+                    
                             <script>
                                 document.addEventListener("DOMContentLoaded", () => {
                                     new ApexCharts(document.querySelector("#reportsChart"), {
@@ -717,14 +832,14 @@ $conn->close();
                             <!-- End Line Chart -->
                         </div>
                     </div><!-- End Giá tôm -->
-    
+
                     <!--thời tiết-->
                     <div class="card" style="height: 300px;">
-                        <iframe width="100%" height="100%" src="https://thoitiet.app/widget/embed/" id="widgeturl"
-                            scrolling="no" frameborder="0" allowtransparency="true" style="border:none; overflow:hidden;">
+                        <iframe width="100%" height="100%" src="https://thoitiet.app/widget/embed/" id="widgeturl" scrolling="no"
+                            frameborder="0" allowtransparency="true" style="border:none; overflow:hidden;">
                         </iframe>
                     </div>
-    
+
                     <!-- News & Updates Traffic -->
                     <div class="card">
                         <div class="filter">
@@ -733,57 +848,52 @@ $conn->close();
                                 <li class="dropdown-header text-start">
                                     <h6>Bộ lọc</h6>
                                 </li>
-    
                                 <li><a class="dropdown-item" href="#">Hôm nay</a></li>
                                 <li><a class="dropdown-item" href="#">Tháng này</a></li>
                                 <li><a class="dropdown-item" href="#">Năm này</a></li>
                             </ul>
                         </div>
-    
+                    
                         <div class="card-body pb-0" style="margin: 10px 0 20px 0">
                             <h5 class="card-title">Tin tức &amp; Cập nhật <span>| Hôm nay</span></h5>
-    
-                            <div class="news">
-                                <div class="post-item clearfix">
-                                    <img src="assets/img/news-1.jpg" alt="">
-                                    <h4><a href="#">Công nghệ AI phát hiện bệnh tôm</a></h4>
-                                    <p>Thông tin tóm gọn về tin tức mới sẽ hiện ở đây...</p>
-                                </div>
-    
-                                <div class="post-item clearfix">
-                                    <img src="assets/img/news-2.jpg" alt="">
-                                    <h4><a href="#">Công nghệ AI phát hiện bệnh tôm</a></h4>
-                                    <p>Thông tin tóm gọn về tin tức mới sẽ hiện ở đây....</p>
-                                </div>
-    
-                                <div class="post-item clearfix">
-                                    <img src="assets/img/news-3.jpg" alt="">
-                                    <h4><a href="#">Công nghệ AI phát hiện bệnh tôm</a></h4>
-                                    <p>Thông tin tóm gọn về tin tức mới sẽ hiện ở đây...</p>
-                                </div>
-    
-                                <div class="post-item clearfix">
-                                    <img src="assets/img/news-4.jpg" alt="">
-                                    <h4><a href="#">Công nghệ AI phát hiện bệnh tôm</a></h4>
-                                    <p>Thông tin tóm gọn về tin tức mới sẽ hiện ở đây...</p>
-                                </div>
-    
-                                <div class="post-item clearfix">
-                                    <img src="assets/img/news-5.jpg" alt="">
-                                    <h4><a href="#">Công nghệ AI phát hiện bệnh tôm</a></h4>
-                                    <p>Thông tin tóm gọn về tin tức mới sẽ hiện ở đây...</p>
-                                </div>
-    
-                            </div><!-- End sidebar recent posts-->
-    
+                    
+                            <div id="newsContainer" class="news"></div>
+                    
                         </div>
-                    </div><!-- End News & Updates -->
-    
-    
+                    </div>
+                    
+                    <script>
+                        function loadNews() {
+                            let newsList = JSON.parse(localStorage.getItem('newsList')) || [];
+                            let newsContainer = document.getElementById('newsContainer');
+                            newsContainer.innerHTML = ''; // Xóa nội dung cũ trước khi thêm tin mới
+
+                            // Đảo ngược danh sách tin tức
+                            newsList.reverse().forEach(function (newsItem) {
+                                let postItem = document.createElement('div');
+                                postItem.className = 'post-item clearfix';
+
+                                postItem.innerHTML = `
+                                    <a href="${newsItem.link}" target="_blank" class="news-link">
+                                        <img src="${newsItem.image}" alt="">
+                                        <h4>${newsItem.title}</h4>
+                                        <p>${newsItem.content}</p>
+                                    </a>
+                                `;
+
+                                newsContainer.appendChild(postItem);
+                            });
+                        }
+
+                        document.addEventListener('DOMContentLoaded', loadNews);
+                    </script><!-- End News & Updates -->
+                   
+
                 </div>
-            </div>
-        </section>                   
+
+
     </main><!-- End #main -->
+
     <!-- ======= Footer ======= -->
     <footer id="footer" class="footer">
         <div class="footer-content">
@@ -829,6 +939,7 @@ $conn->close();
     </footer>
     <!-- End Footer -->
 
+
     <!-- ======= JS ======= -->
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
             class="bi bi-arrow-up-short"></i></a>
@@ -851,6 +962,6 @@ $conn->close();
     <script src="assets/js/script.js"></script>
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     
-</body>
+    </body>
     
-</html>
+    </html>

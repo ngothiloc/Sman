@@ -1,3 +1,30 @@
+<?php
+// Bắt đầu session
+session_start();
+
+// Kết nối đến database
+include 'db.php';
+
+// Kiểm tra xem người dùng đã đăng nhập chưa
+if (!isset($_SESSION['username'])) {
+    // Người dùng chưa đăng nhập, chuyển hướng về trang đăng nhập
+    header("Location: dangnhap.php");
+    exit();
+}
+
+// Lấy tên từ database dựa vào tên đăng nhập từ session
+$username = $_SESSION['username'];
+$sql = "SELECT name FROM users WHERE username = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $username);
+$stmt->execute();
+$stmt->bind_result($name);
+$stmt->fetch();
+$stmt->close();
+
+$conn->close();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -44,38 +71,38 @@
 
     <!-- ======= Header ======= -->
     <header id="header" class="header fixed-top d-flex align-items-center">
-
+    
         <div class="d-flex align-items-center justify-content-between">
-            <a href="trangchu.html" class="logo d-flex align-items-center">
+            <a href="trangchu.php" class="logo d-flex align-items-center">
                 <img src="assets/img/logo.png" alt="">
                 <span class="d-none d-lg-block">Sman</span>
             </a>
             <i class="bi bi-list toggle-sidebar-btn"></i>
         </div><!-- End Logo -->
-
+    
         <div class="search-bar">
             <form class="search-form d-flex align-items-center" method="POST" action="#">
                 <input type="text" name="query" placeholder="Tìm kiếm" title="Enter search keyword">
                 <button type="submit" title="Search"><i class="bi bi-search"></i></button>
             </form>
         </div><!-- End Search Bar -->
-
+    
         <nav class="header-nav ms-auto">
             <ul class="d-flex align-items-center">
-
+    
                 <li class="nav-item d-block d-lg-none">
                     <a class="nav-link nav-icon search-bar-toggle " href="#">
                         <i class="bi bi-search"></i>
                     </a>
                 </li><!-- End Search Icon-->
-
+    
                 <li class="nav-item dropdown">
-
+    
                     <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
                         <i class="bi bi-bell"></i>
                         <span class="badge bg-primary badge-number">4</span>
                     </a><!-- End Notification Icon -->
-
+    
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
                         <li class="dropdown-header">
                             Bạn có 4 thông báo
@@ -84,7 +111,7 @@
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-
+    
                         <li class="notification-item">
                             <i class="bi bi-exclamation-circle text-warning"></i>
                             <div>
@@ -93,11 +120,11 @@
                                 <p>30 phút trước</p>
                             </div>
                         </li>
-
+    
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-
+    
                         <li class="notification-item">
                             <i class="bi bi-x-circle text-danger"></i>
                             <div>
@@ -106,11 +133,11 @@
                                 <p>1 giờ trước</p>
                             </div>
                         </li>
-
+    
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-
+    
                         <li class="notification-item">
                             <i class="bi bi-check-circle text-success"></i>
                             <div>
@@ -119,11 +146,11 @@
                                 <p>2 giờ trước</p>
                             </div>
                         </li>
-
+    
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-
+    
                         <li class="notification-item">
                             <i class="bi bi-info-circle text-primary"></i>
                             <div>
@@ -132,25 +159,25 @@
                                 <p>4 giờ trước</p>
                             </div>
                         </li>
-
+    
                         <li>
                             <hr class="dropdown-divider">
                         </li>
                         <li class="dropdown-footer">
                             <a href="#">Hiển thị tất cả tin nhắn</a>
                         </li>
-
+    
                     </ul><!-- End Notification Dropdown Items -->
-
+    
                 </li><!-- End Notification Nav -->
-
+    
                 <li class="nav-item dropdown">
-
+    
                     <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
                         <i class="bi bi-chat-left-text"></i>
                         <span class="badge bg-success badge-number">3</span>
                     </a><!-- End Messages Icon -->
-
+    
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
                         <li class="dropdown-header">
                             Bạn có 3 tin nhắn chưa đọc
@@ -159,7 +186,7 @@
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-
+    
                         <li class="message-item">
                             <a href="#">
                                 <img src="assets/img/logo.png" alt="" class="rounded-circle">
@@ -173,7 +200,7 @@
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-
+    
                         <li class="message-item">
                             <a href="#">
                                 <img src="assets/img/logo.png" alt="" class="rounded-circle">
@@ -187,7 +214,7 @@
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-
+    
                         <li class="message-item">
                             <a href="#">
                                 <img src="assets/img/logo.png" alt="" class="rounded-circle">
@@ -201,33 +228,35 @@
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-
+    
                         <li class="dropdown-footer">
                             <a href="#">Hiển thị tất cả tin nhắn</a>
                         </li>
-
+    
                     </ul><!-- End Messages Dropdown Items -->
-
+    
                 </li><!-- End Messages Nav -->
-
+    
                 <li class="nav-item dropdown pe-3">
-
+    
                     <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
                         <img src="assets/img/logo.png" alt="Profile" class="rounded-circle">
-                        <span class="d-none d-md-block dropdown-toggle ps-2">Ngô Tiến Lộc</span>
+                        <span class="d-none d-md-block dropdown-toggle ps-2">
+                            <?php echo htmlspecialchars($name); ?>
+                        </span>
                     </a><!-- End Profile Iamge Icon -->
-
+    
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                         <li class="dropdown-header">
-                            <h6>Ngô Tiến Lộc</h6>
+                            <h6><?php echo htmlspecialchars($name); ?></h6>
                             <span>Nghề nghiệp làm gì đó</span>
                         </li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-
+    
                         <li>
-                            <a class="dropdown-item d-flex align-items-center" href="profile.html">
+                            <a class="dropdown-item d-flex align-items-center" href="profile.php">
                                 <i class="bi bi-person"></i>
                                 <span>Hồ sơ</span>
                             </a>
@@ -235,9 +264,9 @@
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-
+    
                         <li>
-                            <a class="dropdown-item d-flex align-items-center" href="profile.html">
+                            <a class="dropdown-item d-flex align-items-center" href="profile.php">
                                 <i class="bi bi-gear"></i>
                                 <span>Chỉnh sửa thông tin</span>
                             </a>
@@ -245,9 +274,9 @@
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-
+    
                         <li>
-                            <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
+                            <a class="dropdown-item d-flex align-items-center" href="lienhe.php">
                                 <i class="bi bi-question-circle"></i>
                                 <span>Bạn cần trợ giúp?</span>
                             </a>
@@ -255,73 +284,73 @@
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-
+    
                         <li>
                             <a class="dropdown-item d-flex align-items-center" href="index.html">
                                 <i class="bi bi-box-arrow-right"></i>
                                 <span>Đăng xuất</span>
                             </a>
                         </li>
-
+    
                     </ul><!-- End Profile Dropdown Items -->
                 </li><!-- End Profile Nav -->
-
+    
             </ul>
-
+    
             </ul>
         </nav><!-- End Icons Navigation -->
-
-
-
+    
+    
+    
     </header><!-- End Header -->
 
     <!-- ======= Sidebar ======= -->
     <aside id="sidebar" class="sidebar">
-
+    
         <ul class="sidebar-nav" id="sidebar-nav">
-
+    
             <li class="nav-item">
-                <a class="nav-link collapsed" href="trangchu.html">
+                <a class="nav-link collapsed" href="trangchu.php">
                     <i class="fa-solid fa-house"></i>
                     <span>Trang chủ</span>
                 </a>
             </li><!-- End Trang chủ Nav -->
-
+    
             <li class="nav-item">
-                <a class="nav-link collapsed" href="gioithieu.html">
+                <a class="nav-link collapsed" href="gioithieu.php">
                     <i class="bi bi-person-lines-fill"></i>
                     <span>Giới thiệu</span>
                 </a>
             </li><!-- End Trang chủ Nav -->
-
+    
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#ketqua-nav" data-bs-toggle="collapse" href="#">
                     <i class="fas fa-vial"></i><span>Kết quả nghiên cứu</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
                 <ul id="ketqua-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="baibao-quocte.html">
+                        <a href="baibao-quocte.php">
                             <i class="bi bi-circle"></i><span>Bài báo quốc tế</span>
                         </a>
                     </li>
                     <li>
-                        <a href="baibao-trongnuoc.html">
+                        <a href="baibao-trongnuoc.php">
                             <i class="bi bi-circle"></i><span>Bài báo trong nước</span>
                         </a>
                     </li>
                     <li>
-                        <a href="donggop-dulieu.html">
+                        <a href="donggop-dulieu.php">
                             <i class="bi bi-circle"></i><span>Đóng góp dữ liệu</span>
                         </a>
                     </li>
                     <li>
-                        <a href="lsdonggop-thanhtoan.html">
+                        <a href="lsdonggop-thanhtoan.php">
                             <i class="bi bi-circle"></i><span>Lịch sử đóng góp, thanh toán</span>
                         </a>
                     </li>
                 </ul>
             </li><!-- End Kết quả nghiên cứu Nav -->
-
+    
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#benh-nav" data-bs-toggle="collapse" href="#">
                     <i class="fa-solid fa-virus"></i></i><span>Bệnh thuỷ sản</span><i
@@ -334,90 +363,89 @@
                         </a>
                     </li>
                     <li>
-                        <a href="chuandoan.html">
+                        <a href="chuandoan.php">
                             <i class="bi bi-circle"></i><span>Chuẩn đoán bệnh</span>
                         </a>
                     </li>
                 </ul>
             </li><!-- End bệnh thuỷ sản Nav -->
-
+    
             <li class="nav-item">
-                <a class="nav-link " data-bs-target="#csdl-nav" data-bs-toggle="collapse" href="#">
-                    <i class="fa-solid fa-database"></i><span>Cơ sở dữ liệu</span><i
-                        class="bi bi-chevron-down ms-auto"></i>
+                <a class="nav-link" data-bs-target="#csdl-nav" data-bs-toggle="collapse" href="#">
+                    <i class="fa-solid fa-database"></i><span>Cơ sở dữ liệu</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
                 <ul id="csdl-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="dulieu-nuoc.html" class="active">
+                        <a href="dulieu-nuoc.php">
                             <i class="bi bi-circle"></i><span>Dữ liệu chất lượng nước</span>
                         </a>
                     </li>
                     <li>
-                        <a href="dulieu-khihau.html">
+                        <a href="dulieu-khihau.php">
                             <i class="bi bi-circle"></i><span>Dữ liệu vi khí hậu, thời tiết vùng nuôi</span>
                         </a>
                     </li>
                     <li>
-                        <a href="dulieu-domtrang.html">
+                        <a href="dulieu-domtrang.php" class="active">
                             <i class="bi bi-circle"></i><span>Dữ liệu bệnh đốm trắng</span>
                         </a>
                     </li>
                     <li>
-                        <a href="dulieu-gan.html">
+                        <a href="dulieu-gan.php">
                             <i class="bi bi-circle"></i><span>Dữ liệu bệnh hoại tử gan tuỵ cấp</span>
                         </a>
                     </li>
                 </ul>
             </li><!-- End Cơ sở dữ liệu Nav -->
-
+    
             <li class="nav-item">
-                <a class="nav-link collapsed" href="trangtrai.html">
+                <a class="nav-link collapsed" href="trangtrai.php">
                     <i class="fa-solid fa-shrimp"></i>
                     <span>Trang trại</span>
                 </a>
             </li><!-- End trang trại Nav -->
+    
             <li class="nav-item">
                 <a class="nav-link collapsed" data-bs-target="#ungdung-nav" data-bs-toggle="collapse" href="#">
-                    <i class="fa-solid fa-microchip"></i><span>Ứng dụng AI</span><i
-                        class="bi bi-chevron-down ms-auto"></i>
+                    <i class="fa-solid fa-microchip"></i><span>Ứng dụng AI</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
                 <ul id="ungdung-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="mohinh-ai.html">
+                        <a href="mohinh-ai.php">
                             <i class="bi bi-circle"></i><span>Mô hình AI</span>
                         </a>
                     </li>
                     <li>
-                        <a href="huongdan-sudung.html">
+                        <a href="huongdan-sudung.php">
                             <i class="bi bi-circle"></i><span>Hướng dẫn sử dụng</span>
                         </a>
                     </li>
                     <li>
-                        <a href="video-huongdan.html">
+                        <a href="video-huongdan.php">
                             <i class="bi bi-circle"></i><span>Video hướng dẫn</span>
                         </a>
                     </li>
                 </ul>
             </li><!-- End ứng dụng AI Nav -->
-
+    
             <li class="nav-item">
-                <a class="nav-link collapsed" href="lienhe.html">
+                <a class="nav-link collapsed" href="lienhe.php">
                     <i class="fa-solid fa-envelope"></i>
                     <span>Liên hệ</span>
                 </a>
             </li><!-- End liên hệ Nav -->
-
+    
             <li class="nav-item">
-                <a class="nav-link collapsed" href="tintuc.html">
+                <a class="nav-link collapsed" href="tintuc.php">
                     <i class="fa-solid fa-newspaper"></i>
                     <span>Tin tức</span>
                 </a>
             </li><!-- End tin tức Nav -->
-
+    
             <li class="nav-heading">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</li>
-
+    
             <li class="nav-item">
-                <a class="nav-link collapsed" href="profile.html">
+                <a class="nav-link collapsed" href="profile.phpư">
                     <i class="fas fa-user"></i>
                     <span>Hồ sơ</span>
                 </a>
@@ -440,198 +468,187 @@
                         </a>
                     </li>
                     <li>
-                        <a href="dangtinbenh.php">
-                            <i class="bi bi-circle"></i><span>DANG TIN bệnh</span>
+                        <a href="dangtin/dangtin_benh.php">
+                            <i class="bi bi-circle"></i><span>Đăng tin tức bệnh tôm</span>
                         </a>
                     </li>                    
+                    <li>
+                        <a href="dangtin/dangtin_bao_quocte.php" >
+                            <i class="bi bi-circle"></i><span>Đăng tin báo quốc tế</span>
+                        </a>
+                    </li>                    
+                    <li>
+                        <a href="dangtin/dangtin_bao_trongnuoc.php">
+                            <i class="bi bi-circle"></i><span>Đăng tin báo trong nước</span>
+                        </a>
+                    </li>                     
                 </ul>
             </li><!-- End đăng tin Nav -->
-
         </ul>
 
-
+    
     </aside><!-- End Sidebar-->
+    
 
+<!-- ======= Main ======= -->
 
-    <!-- ======= Main ======= -->
+<main id="main" class="main">
 
-    <main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Dữ liệu bệnh đốm trắng</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">Cơ sở dữ liệu</li>
+                <li class="breadcrumb-item">Dữ liệu bệnh bệnh đốm trắng </li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
 
-        <div class="pagetitle">
-            <h1>Dữ liệu chất lượng nước</h1>
-            <nav>
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item">Cơ sở dữ liệu</li>
-                    <li class="breadcrumb-item">Dữ liệu chất lượng nước</li>
-                </ol>
-            </nav>
-        </div><!-- End Page Title -->
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
 
-        <section class="section">
-            <div class="row">
-                <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Bảng báo cáo về dữ liệu bệnh đốm trắng</h5>
 
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Bảng báo cáo về dữ liệu chất lượng nước</h5>
-                    
-                    
-                            <!-- Table with stripped rows -->
-                            <table class="table datatable table-striped">
-                                <thead>
-                                    <tr style="text-align: center;">
-                                        <th style="text-align: center; vertical-align: middle;">ID</th>
-                                        <th style="text-align: center; vertical-align: middle;" data-type="date" data-format="YYYY/DD/MM">Thời gian</th>
-                                        <th style="text-align: center; vertical-align: middle;">Nhiệt độ nước <br>(°C)</th>
-                                        <th style="text-align: center; vertical-align: middle;">pH</th>
-                                        <th style="text-align: center; vertical-align: middle;">Oxy hoà tan<br>(mg/L)</th>
-                                        <th style="text-align: center; vertical-align: middle;">Độ đục<br>(NTU)</th>
-                                        <th style="text-align: center; vertical-align: middle;">Amonia<br>(mg/L)</th>
-                                        <th style="text-align: center; vertical-align: middle;">Vị trí giám sát</th>
-                                    </tr>
-                                </thead>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>2024-08-15</td>
-                                        <td>28</td>
-                                        <td>7.2</td>
-                                        <td>5</td>
-                                        <td>10</td>
-                                        <td>0.1</td>
-                                        <td>Bắc Ninh</td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>2024-08-16</td>
-                                        <td>30</td>
-                                        <td>7.5</td>
-                                        <td>4.9</td>
-                                        <td>12 </td>
-                                        <td>0.2 </td>
-                                        <td>Hà Nội</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>2024-08-17</td>
-                                        <td>27</td>
-                                        <td>7.1</td>
-                                        <td>5.3</td>
-                                        <td>8</td>
-                                        <td>0.15</td>
-                                        <td>Đà Nẵng</td>
-                                    </tr>
-                                    <tr>
-                                        <td>4</td>
-                                        <td>2024-08-18</td>
-                                        <td>29</td>
-                                        <td>7.4</td>
-                                        <td>5.0</td>
-                                        <td>11</td>
-                                        <td>0.1</td>
-                                        <td>Bắc Ninh</td>
-                                    </tr>
-                                    <tr>
-                                        <td>5</td>
-                                        <td>2024-08-16</td>
-                                        <td>30</td>
-                                        <td>7.5</td>
-                                        <td>4.9</td>
-                                        <td>12</td>
-                                        <td>0.2L</td>
-                                        <td>Hà Nội</td>
-                                    </tr>
-                                    <tr>
-                                        <td>6</td>
-                                        <td>2024-08-17</td>
-                                        <td>27</td>
-                                        <td>7.1</td>
-                                        <td>5.3</td>
-                                        <td>8</td>
-                                        <td>0.15</td>
-                                        <td>Đà Nẵng</td>
-                                    </tr>
-                                    <tr>
-                                        <td>7</td>
-                                        <td>2024-08-18</td>
-                                        <td>29</td>
-                                        <td>7.4</td>
-                                        <td>5.0 </td>
-                                        <td>11 </td>
-                                        <td>0.1 </td>
-                                        <td>Bắc Ninh</td>
-                                    </tr>
-                                    <!-- Thêm dữ liệu khác nếu cần -->
-                                </tbody>
-                            </table>
-                            <!-- End Table with stripped rows -->
-                    
-                        </div>
-                    </div>
-                    
-                    </div>
-                    </div>
-                    </section>
+                        <!-- Table with stripped rows -->
+                        <table class="table table-striped datatable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>
+                                        <b>T</b>ần Suất
+                                    </th>
+                                    <th>Mức Độ Bệnh Đốm Trắng</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>3147</td>
+                                    <td>Unity Pugh</td>
+                                    <td>9958</td>
+                                    
+                                    
+                                </tr>
+                                <tr>
+                                    <td>9958</td>
+                                    <td>Theodore Duran</td>
+                                    <td>8971</td>
+                                   
+                                </tr>
+                                <tr>
+                                    <td>Kylie Bishop</td>
+                                    <td>3147</td>
+                                   
+                                </tr>
+                                <tr>
+                                    <td>Willow Gilliam</td>
+                                    <td>3497</td>
+                                   
+                                </tr>
+                                <tr>
+                                    <td>Blossom Dickerson</td>
+                                    <td>5018</td>
+                                   
+                                </tr>
+                                <tr>
+                                    <td>Elliott Snyder</td>
+                                    <td>3925</td>
+                                   
+                                </tr>
+                                <tr>
+                                    <td>Castor Pugh</td>
+                                    <td>9488</td>
+                                   
+                                </tr>
+                                <tr>
+                                    <td>Pearl Carlson</td>
+                                    <td>6231</td>
+                                    
+                                </tr>
+                                <tr>
+                                    <td>Deirdre Bridges</td>
+                                    <td>1579</td>
+                                   
+                                </tr>
+                                <tr>
+                                    <td>Daniel Baldwin</td>
+                                    <td>6095</td>
+                                  
+                                </tr>
+                                
+                            </tbody>
+                        </table>
+                        <!-- End Table with stripped rows -->
 
-
-    </main><!-- End #main -->
-
-    <!-- ======= Footer ======= -->
-    <footer id="footer" class="footer">
-        <div class="footer-content">
-            <div class="footer-left">
-                <div class="container-sdt">
-                    <div class="sdt">
-                        Số điện thoại: (+84) 24 3756 8422 / (+84) 91 6661 078
                     </div>
                 </div>
-    
-                <div class="container-email">
-                    <div class="email">
-                        Email: vanthu@creteach.vast.vn / namduongthanh@gmail.com
-                    </div>
-                </div>
-    
-                <div class="container-dc">
-                    <div class="dc">
-                        Địa chỉ: Nhà A28, Toà nhà Ươm tạo công nghệ - Số 18 Hoàng Quốc Việt, Phường Nghĩa Đô,
-                        Quận Cầu Giấy, Thành phố Hà Nội
-                    </div>
+
+            </div>
+        </div>
+    </section>
+
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+<footer id="footer" class="footer">
+    <div class="footer-content">
+        <div class="footer-left">
+            <div class="container-sdt">
+                <div class="sdt">
+                    Số điện thoại: (+84) 24 3756 8422 / (+84) 91 6661 078
                 </div>
             </div>
-    
-            <div class="footer-right">
-                <div class="text-app-container">
-                    <div class="text-app" style="font-size: medium;">
-                        ĐÃ CÓ TRÊN MỌI NỀN TẢNG
-                    </div>
-                    <div class="container-app">
-                        <a href="#"><img src="assets/img/ios.png" alt="App Store"></a>
-                        <a href="#"><img src="assets/img/gg play.png" alt="Google Play"></a>
-                    </div>
+
+            <div class="container-email">
+                <div class="email">
+                    Email: vanthu@creteach.vast.vn / namduongthanh@gmail.com
+                </div>
+            </div>
+
+            <div class="container-dc">
+                <div class="dc">
+                    Địa chỉ: Nhà A28, Toà nhà Ươm tạo công nghệ - Số 18 Hoàng Quốc Việt, Phường Nghĩa Đô,
+                    Quận Cầu Giấy, Thành phố Hà Nội
                 </div>
             </div>
         </div>
-    
-        <div class="container-copy">
-            <div class="copy">
-                Copyright © 2024 Trung tâm Nghiên cứu và Phát triển công nghệ cao. All rights reserved
+
+        <div class="footer-right">
+            <div class="text-app-container">
+                <div class="text-app" style="font-size: medium;">
+                    ĐÃ CÓ TRÊN MỌI NỀN TẢNG
+                </div>
+                <div class="container-app">
+                    <a href="#"><img src="assets/img/ios.png" alt="App Store"></a>
+                    <a href="#"><img src="assets/img/gg play.png" alt="Google Play"></a>
+                </div>
             </div>
         </div>
-    </footer>
-    <!-- End Footer -->
+    </div>
 
-    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
-            class="bi bi-arrow-up-short"></i></a>
+    <div class="container-copy">
+        <div class="copy">
+            Copyright © 2024 Trung tâm Nghiên cứu và Phát triển công nghệ cao. All rights reserved
+        </div>
+    </div>
+</footer>
+<!-- End Footer -->
 
-    <!-- Vendor JS Files -->
-    <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/vendor/chart.js/chart.umd.js"></script>
-    <script src="assets/vendor/echarts/echarts.min.js"></script>
-    <script src="assets/vendor/quill/quill.js"></script>
-    <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-    <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-    <script src="assets/vendor/php-email-form/validate.js"></script>
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+        class="bi bi-arrow-up-short"></i></a>
+
+<!-- Vendor JS Files -->
+<script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="assets/vendor/chart.js/chart.umd.js"></script>
+<script src="assets/vendor/echarts/echarts.min.js"></script>
+<script src="assets/vendor/quill/quill.js"></script>
+<script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+<script src="assets/vendor/tinymce/tinymce.min.js"></script>
+<script src="assets/vendor/php-email-form/validate.js"></script>
+
     <!-- Template Main JS File -->
     <script src="assets/js/main.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
